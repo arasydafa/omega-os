@@ -17,6 +17,8 @@ export default {
           600: '#162C4A',
           700: '#101F33',
           DEFAULT: '#1E3A5F',
+          bg: 'var(--ot-navy-bg)',
+          text: 'var(--ot-navy-text)',
         },
         maroon: {
           50: '#FAEDEF',
@@ -25,6 +27,7 @@ export default {
           600: '#5F151D',
           700: '#471016',
           DEFAULT: '#7B1E26',
+          bg: 'var(--ot-maroon-bg)',
         },
         // Functional status — theme-aware via CSS vars (info=blue, warning=yellow, success=green, danger=maroon)
         info: { DEFAULT: 'var(--ot-info)', bg: 'var(--ot-info-bg)' },
@@ -48,8 +51,17 @@ export default {
         'ot-xl': '20px',
       },
       boxShadow: {
-        'ot-sm': '0 1px 2px rgb(11 13 16 / 0.06)',
-        'ot-md': '0 4px 12px rgb(11 13 16 / 0.08)',
+        'ot-sm': 'var(--ot-shadow-sm)',
+        'ot-md': 'var(--ot-shadow-md)',
+        'ot-lg': 'var(--ot-shadow-lg)',
+      },
+      spacing: {
+        'ot-1': 'var(--ot-space-1)',
+        'ot-2': 'var(--ot-space-2)',
+        'ot-3': 'var(--ot-space-3)',
+        'ot-4': 'var(--ot-space-4)',
+        'ot-6': 'var(--ot-space-6)',
+        'ot-8': 'var(--ot-space-8)',
       },
     },
   },

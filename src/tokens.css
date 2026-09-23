@@ -46,6 +46,19 @@
   --ot-text-lg: 18px;
   --ot-text-xl: 20px;
   --ot-text-2xl: 24px;
+
+  /* Spacing */
+  --ot-space-1: 4px;
+  --ot-space-2: 8px;
+  --ot-space-3: 12px;
+  --ot-space-4: 16px;
+  --ot-space-6: 24px;
+  --ot-space-8: 32px;
+
+  /* Shadow */
+  --ot-shadow-sm: 0 1px 2px rgb(11 13 16 / 0.06);
+  --ot-shadow-md: 0 4px 12px rgb(11 13 16 / 0.08);
+  --ot-shadow-lg: 0 8px 24px rgb(11 13 16 / 0.12);
 }
 
 .dark {
