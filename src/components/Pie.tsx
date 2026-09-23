@@ -28,7 +28,6 @@ const PALETTE = [
 ];
 
 const R = 70;
-const C = 2 * Math.PI * R;
 
 function polar(cx: number, cy: number, r: number, deg: number): [number, number] {
   const rad = ((deg - 90) * Math.PI) / 180;
