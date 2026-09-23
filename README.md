@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.11.0 — viewers batch (`FileViewer`, `Image`, photo `Avatar`). 80 tests green. See `CHANGELOG.md`.
+v0.12.0 — charts + graph (`Pie`, `Bar`, `Line`, `Scatter`, `GraphViewer`). 88 tests green. See `CHANGELOG.md`.

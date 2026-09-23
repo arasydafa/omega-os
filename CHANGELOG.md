@@ -5,10 +5,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.12.0] — charts + graph
+
 ### Added
 
 - Charts batch: `Pie` (donut/pie + legend), `Bar`, `Line` (area + dots), `Scatter` — custom SVG, no extra dependency.
 - `GraphViewer`: layered auto-layout, pan/zoom controls, node selection.
+
+### Fixed
+
+- `GraphViewer` traps wheel scroll (non-passive listener) so zooming never scrolls the page.
 
 ## [0.11.0] — viewers batch
 
