@@ -44,7 +44,7 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
   return (
     <nav
       aria-label={label}
-      className={`grid content-start gap-1 overflow-hidden rounded-ot-md border border-ot-border bg-ot-bg p-2.5 font-sans text-sm transition-[width] duration-200 ease-out ${
+      className={`ot-transition grid content-start gap-1 overflow-hidden rounded-ot-md border border-ot-border bg-ot-bg p-2.5 font-sans text-sm ${
         collapsed ? 'w-16' : 'w-60'
       } ${className}`}
     >
@@ -61,7 +61,7 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
                 else pick(item.id, item.onClick);
               }}
               title={collapsed ? String(item.label) : undefined}
-              className={`flex w-full items-center rounded-ot-md py-2.5 transition-all duration-200 ease-out ${
+              className={`flex w-full items-center rounded-ot-md py-2.5 ot-transition ${
                 collapsed ? 'gap-0 px-3.5' : 'gap-2.5 px-3'
               } ${
                 item.active
@@ -73,7 +73,7 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
                 <span className="grid h-4 w-4 shrink-0 place-items-center [&>svg]:block">{item.icon}</span>
               ) : null}
               <span
-                className={`flex min-w-0 flex-1 items-center gap-2 overflow-hidden whitespace-nowrap transition-all duration-200 ${
+                className={`flex min-w-0 flex-1 items-center gap-2 overflow-hidden whitespace-nowrap ot-transition ${
                   collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100'
                 }`}
               >
@@ -92,7 +92,7 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
             {hasKids && !collapsed ? (
               <div
                 data-testid={`submenu-${item.id}`}
-                className={`grid transition-all duration-200 ease-out ${
+                className={`grid ot-transition ${
                   isOpen ? 'grid-rows-[1fr] opacity-100' : 'invisible grid-rows-[0fr] opacity-0'
                 }`}
               >

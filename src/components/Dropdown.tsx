@@ -64,7 +64,7 @@ function ItemRow({
         <div
           role="menu"
           aria-label={`${typeof item.label === 'string' ? item.label : 'Submenu'}`}
-          className="absolute left-full top-[-6px] z-20 grid min-w-[200px] gap-0.5 rounded-ot-md border border-ot-border bg-ot-surface p-1.5 shadow-ot-md"
+          className="absolute left-full top-[-6px] z-ot-dropdown grid min-w-[200px] gap-0.5 rounded-ot-md border border-ot-border bg-ot-surface p-1.5 shadow-ot-md"
         >
           {item.children!.map((sub, i) => (
             <ItemRow key={i} item={sub} onPick={onPick} />
@@ -135,7 +135,7 @@ export function Dropdown({ trigger, items, label }: DropdownProps) {
         <div
           role="menu"
           aria-label={label ?? 'Menu'}
-          className={`absolute left-0 top-[calc(100%+8px)] z-20 grid min-w-[220px] gap-0.5 rounded-ot-md border border-ot-border bg-ot-surface p-1.5 shadow-ot-md ${
+          className={`absolute left-0 top-[calc(100%+8px)] z-ot-dropdown grid min-w-[220px] gap-0.5 rounded-ot-md border border-ot-border bg-ot-surface p-1.5 shadow-ot-md ${
             closing ? 'ot-anim-pop-out' : 'ot-anim-pop-in'
           }`}
         >

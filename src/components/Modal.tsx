@@ -81,7 +81,7 @@ export function Modal({ open, onClose, title, children, footer, icon }: ModalPro
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-[40] flex items-center justify-center p-5 ${
+      className={`fixed inset-0 z-ot-modal flex items-center justify-center p-5 ${
         closing ? 'ot-anim-fade-out' : 'ot-anim-fade-in'
       }`}
       style={{ background: 'rgb(0 0 0 / 0.55)' }}
