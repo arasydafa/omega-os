@@ -81,10 +81,9 @@ export function Modal({ open, onClose, title, children, footer, icon }: ModalPro
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-ot-modal flex items-center justify-center p-5 ${
+      className={`fixed inset-0 z-ot-modal flex items-center justify-center bg-black/50 p-5 backdrop-blur-sm ${
         closing ? 'ot-anim-fade-out' : 'ot-anim-fade-in'
       }`}
-      style={{ background: 'rgb(0 0 0 / 0.55)' }}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

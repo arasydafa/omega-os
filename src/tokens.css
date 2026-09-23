@@ -73,6 +73,7 @@
   /* Motion */
   --ot-duration-fast: 120ms;
   --ot-duration-base: 200ms;
+  --ot-duration-slow: 300ms;
   --ot-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ot-ease-in: cubic-bezier(0.4, 0, 1, 1);
 
@@ -145,6 +146,9 @@ code,
 
 /* Standard transition for interactive elements */
 .ot-transition { transition: all var(--ot-duration-base) var(--ot-ease-out); }
+
+/* Slow transition for large layout motion (sidebar collapse) */
+.ot-transition-slow { transition: all var(--ot-duration-slow) var(--ot-ease-out); }
 
 @media (prefers-reduced-motion: reduce) {
   .ot-anim-fade-in,
