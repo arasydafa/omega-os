@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.3.0 — core components (`Button`, `Badge`, `Alert`, `Input`, `Textarea`, `Select`). See `CHANGELOG.md`.
+v0.4.0 — core components tested (24 Vitest tests) + Vite demo app. See `CHANGELOG.md`.

@@ -5,6 +5,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.4.0] — test + demo infra
+
+### Added
+
+- Vitest + Testing Library + jsdom suite: 24 tests across `Button`, `Badge`, `Alert`, `Input`/`Textarea`/`Select` (`npm test`).
+- `apps/demo` Vite mini-app rendering all components with the Omega preset, including circular-reveal theme toggle.
+- Labels associated to controls via `useId` (`Input`, `Textarea`, `Select`).
+
+### Fixed
+
+- Error border now swaps (`border-danger` + `focus:border-danger`) instead of stacking with `border-ot-border`, so the maroon border actually shows.
+- Documented: consumers must include UI package source in Tailwind `content` or library classes are not generated.
+
 ## [0.3.0] — core components
 
 ### Added
