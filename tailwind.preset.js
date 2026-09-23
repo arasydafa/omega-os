@@ -17,6 +17,8 @@ export default {
           600: '#162C4A',
           700: '#101F33',
           DEFAULT: '#1E3A5F',
+          bg: 'var(--ot-navy-bg)',
+          text: 'var(--ot-navy-text)',
         },
         maroon: {
           50: '#FAEDEF',
@@ -25,6 +27,7 @@ export default {
           600: '#5F151D',
           700: '#471016',
           DEFAULT: '#7B1E26',
+          bg: 'var(--ot-maroon-bg)',
         },
         // Functional status — theme-aware via CSS vars (info=blue, warning=yellow, success=green, danger=maroon)
         info: { DEFAULT: 'var(--ot-info)', bg: 'var(--ot-info-bg)' },
