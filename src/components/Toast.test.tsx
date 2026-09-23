@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ToasterProvider, useToast } from './Toast.js';
 
@@ -29,7 +29,9 @@ describe('Toast', () => {
     await user.click(screen.getByRole('button', { name: 'Fire' }));
     expect(screen.getByText('Saved.')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Dismiss' }));
-    expect(screen.queryByText('Saved.')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('Saved.')).not.toBeInTheDocument();
+    });
   });
 
   it('auto-dismisses after the duration', () => {
@@ -52,6 +54,11 @@ describe('Toast', () => {
       expect(screen.getByText('Hello.')).toBeInTheDocument();
       act(() => {
         vi.advanceTimersByTime(1000);
+      });
+      // Exit animation still playing.
+      expect(screen.getByText('Hello.')).toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(200);
       });
       expect(screen.queryByText('Hello.')).not.toBeInTheDocument();
     } finally {

@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Overlay batch: `Toast` (`ToasterProvider` + `useToast`), `Modal` (portal + focus trap), `Dropdown` (flyout submenu), `Tooltip`.
+- Overlay motion tokens: `ot-anim-*` enter/exit keyframes (fade, pop, slide-right) with `prefers-reduced-motion` guard; Toast/Modal/Dropdown/Tooltip play exit animation via delayed unmount.
 
 ## [0.4.0] — test + demo infra
 

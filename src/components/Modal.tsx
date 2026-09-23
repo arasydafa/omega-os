@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
@@ -26,9 +26,27 @@ export function Modal({ open, onClose, title, children, footer, icon }: ModalPro
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const prevFocus = useRef<Element | null>(null);
+  const [rendered, setRendered] = useState(open);
+  const [closing, setClosing] = useState(false);
+
+  // Delayed unmount so the exit animation can play.
+  useEffect(() => {
+    if (open) {
+      setRendered(true);
+      setClosing(false);
+      return;
+    }
+    if (!rendered) return;
+    setClosing(true);
+    const t = setTimeout(() => {
+      setRendered(false);
+      setClosing(false);
+    }, 130);
+    return () => clearTimeout(t);
+  }, [open, rendered]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!rendered) return;
     prevFocus.current = document.activeElement;
     panelRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
@@ -57,13 +75,15 @@ export function Modal({ open, onClose, title, children, footer, icon }: ModalPro
       document.removeEventListener('keydown', onKey);
       (prevFocus.current as HTMLElement | null)?.focus?.();
     };
-  }, [open, onClose]);
+  }, [rendered, onClose]);
 
-  if (!open) return null;
+  if (!rendered) return null;
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[40] flex items-center justify-center p-5"
+      className={`fixed inset-0 z-[40] flex items-center justify-center p-5 ${
+        closing ? 'ot-anim-fade-out' : 'ot-anim-fade-in'
+      }`}
       style={{ background: 'rgb(0 0 0 / 0.55)' }}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -75,7 +95,9 @@ export function Modal({ open, onClose, title, children, footer, icon }: ModalPro
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="w-full max-w-[420px] overflow-hidden rounded-ot-lg border border-ot-border bg-ot-surface font-sans outline-none shadow-ot-lg"
+        className={`w-full max-w-[420px] overflow-hidden rounded-ot-lg border border-ot-border bg-ot-surface font-sans outline-none shadow-ot-lg ${
+          closing ? 'ot-anim-pop-out' : 'ot-anim-pop-in'
+        }`}
       >
         <div className="flex items-center gap-2 border-b border-ot-border px-4 py-3">
           {icon}

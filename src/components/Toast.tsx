@@ -25,6 +25,7 @@ interface ToastItem {
   message: ReactNode;
   title?: ReactNode;
   duration: number;
+  leaving?: boolean;
 }
 
 export interface ToastApi {
@@ -46,9 +47,21 @@ const MAX_VISIBLE = 4;
 export function ToasterProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([]);
   const idRef = useRef(0);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout);
+    },
+    [],
+  );
 
   const dismiss = useCallback((id: number) => {
-    setItems((prev) => prev.filter((t) => t.id !== id));
+    setItems((prev) => prev.map((t) => (t.id === id ? { ...t, leaving: true } : t)));
+    const timer = setTimeout(() => {
+      setItems((prev) => prev.filter((t) => t.id !== id));
+    }, 180);
+    timers.current.push(timer);
   }, []);
 
   const show = useCallback<ToastApi['show']>((kind, message, opts) => {
@@ -80,7 +93,12 @@ export function ToasterProvider({ children }: { children: ReactNode }) {
         className="fixed bottom-4 right-4 z-[50] grid w-[min(360px,calc(100vw-32px))] gap-2.5"
       >
         {items.map((t) => (
-          <div key={t.id} className="rounded-ot-lg border border-ot-border bg-ot-surface shadow-ot-md">
+          <div
+            key={t.id}
+            className={`rounded-ot-lg border border-ot-border bg-ot-surface shadow-ot-md ${
+              t.leaving ? 'ot-anim-slide-out-right' : 'ot-anim-slide-in-right'
+            }`}
+          >
             <Alert tone={t.kind} title={t.title} onClose={() => dismiss(t.id)}>
               {t.message}
             </Alert>

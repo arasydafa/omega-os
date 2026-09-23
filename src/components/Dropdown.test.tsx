@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Dropdown } from './Dropdown.js';
 
@@ -21,7 +21,9 @@ describe('Dropdown', () => {
     expect(screen.getByRole('menu', { name: 'Actions' })).toBeInTheDocument();
     await user.click(screen.getByText('Rename'));
     expect(ITEMS[0].onSelect).toHaveBeenCalledTimes(1);
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    });
   });
 
   it('opens nested flyout and closes on ESC', async () => {
@@ -31,7 +33,9 @@ describe('Dropdown', () => {
     await user.hover(screen.getByText('More'));
     expect(screen.getByText('Duplicate')).toBeInTheDocument();
     await user.keyboard('{Escape}');
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    });
   });
 
   it('closes on outside click', async () => {
@@ -45,6 +49,8 @@ describe('Dropdown', () => {
     await user.click(screen.getByRole('button', { name: 'Open' }));
     expect(screen.getByRole('menu')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Outside' }));
-    expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    });
   });
 });

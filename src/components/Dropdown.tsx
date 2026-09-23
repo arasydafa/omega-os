@@ -77,8 +77,26 @@ function ItemRow({
 
 export function Dropdown({ trigger, items, label }: DropdownProps) {
   const [open, setOpen] = useState(false);
+  const [rendered, setRendered] = useState(false);
+  const [closing, setClosing] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
+
+  // Delayed unmount so the exit animation can play.
+  useEffect(() => {
+    if (open) {
+      setRendered(true);
+      setClosing(false);
+      return;
+    }
+    if (!rendered) return;
+    setClosing(true);
+    const t = setTimeout(() => {
+      setRendered(false);
+      setClosing(false);
+    }, 130);
+    return () => clearTimeout(t);
+  }, [open, rendered]);
 
   useEffect(() => {
     if (!open) return;
@@ -113,11 +131,13 @@ export function Dropdown({ trigger, items, label }: DropdownProps) {
       >
         {trigger}
       </div>
-      {open ? (
+      {rendered ? (
         <div
           role="menu"
           aria-label={label ?? 'Menu'}
-          className="absolute left-0 top-[calc(100%+8px)] z-20 grid min-w-[220px] gap-0.5 rounded-ot-md border border-ot-border bg-ot-surface p-1.5 shadow-ot-md"
+          className={`absolute left-0 top-[calc(100%+8px)] z-20 grid min-w-[220px] gap-0.5 rounded-ot-md border border-ot-border bg-ot-surface p-1.5 shadow-ot-md ${
+            closing ? 'ot-anim-pop-out' : 'ot-anim-pop-in'
+          }`}
         >
           {items.map((item, i) => (
             <ItemRow

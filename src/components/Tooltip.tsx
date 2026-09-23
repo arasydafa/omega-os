@@ -21,15 +21,26 @@ const POSITIONS: Record<TooltipPosition, string> = {
 export function Tooltip({ content, children, position = 'top', delay = 200 }: TooltipProps) {
   const tipId = useId();
   const [visible, setVisible] = useState(false);
+  const [hiding, setHiding] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const schedule = () => {
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setVisible(true), delay);
+    timer.current = setTimeout(() => {
+      setVisible(true);
+      setHiding(false);
+    }, delay);
   };
   const hide = () => {
     if (timer.current) clearTimeout(timer.current);
-    setVisible(false);
+    timer.current = null;
+    if (!visible) return;
+    // Delayed unmount so the exit animation can play.
+    setHiding(true);
+    timer.current = setTimeout(() => {
+      setVisible(false);
+      setHiding(false);
+    }, 120);
   };
 
   useEffect(
@@ -55,7 +66,9 @@ export function Tooltip({ content, children, position = 'top', delay = 200 }: To
         <span
           id={tipId}
           role="tooltip"
-          className={`pointer-events-none absolute z-20 whitespace-nowrap rounded-ot-sm border border-ot-border bg-ot-surface px-2 py-1 font-sans text-xs text-ot-text shadow-ot-md ${POSITIONS[position]}`}
+          className={`pointer-events-none absolute z-20 whitespace-nowrap rounded-ot-sm border border-ot-border bg-ot-surface px-2 py-1 font-sans text-xs text-ot-text shadow-ot-md ${POSITIONS[position]} ${
+            hiding ? 'ot-anim-fade-out' : 'ot-anim-fade-in'
+          }`}
         >
           {content}
         </span>

@@ -24,6 +24,11 @@ describe('Tooltip', () => {
     });
     expect(screen.getByRole('tooltip')).toHaveTextContent('Helpful hint');
     fireEvent.mouseLeave(btn);
+    // Exit animation still playing.
+    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    act(() => {
+      vi.advanceTimersByTime(120);
+    });
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
   });
 
@@ -40,6 +45,9 @@ describe('Tooltip', () => {
     });
     expect(screen.getByRole('tooltip')).toBeInTheDocument();
     fireEvent.keyDown(btn, { key: 'Escape' });
+    act(() => {
+      vi.advanceTimersByTime(120);
+    });
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
   });
 });
