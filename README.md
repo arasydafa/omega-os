@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.7.0 — navigation batch (`Breadcrumbs`, `Tabs`, `Navbar`, `Sidebar`). 55 tests green. See `CHANGELOG.md`.
+v0.8.0 — complements (`Card`, `Avatar`, `Spinner`, `Radio`, `Checkbox`, `Switch`) + hardening (tokens, fontsource, eslint, CI). 64 tests green. See `CHANGELOG.md`.
