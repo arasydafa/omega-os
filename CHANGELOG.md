@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.9.1] — smooth theme reveal
+
+### Fixed
+
+- Theme reveal reads duration and easing from tokens (`ot-duration-reveal`, `ot-ease-smooth`) with a gentle-start curve, identical in demo and static preview.
+
 ## [0.9.0] — navigation depth + foundations
 
 ### Added

@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.9.0 — navigation depth + foundations (SearchBar, SubmenuBar, nesting, icons registry, slide indicators). 74 tests green. See `CHANGELOG.md`.
+v0.9.1 — smooth theme reveal (token-driven duration + easing). See `CHANGELOG.md`.
