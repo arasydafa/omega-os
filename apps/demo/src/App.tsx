@@ -14,10 +14,12 @@ import {
   Navbar,
   Pagination,
   Radio,
+  SearchBar,
   Select,
   Sidebar,
   Skeleton,
   Spinner,
+  SubmenuBar,
   Switch,
   Table,
   Tabs,
@@ -127,6 +129,8 @@ export default function App() {
       </header>
 
       <main className="mx-auto grid max-w-5xl gap-4 px-5 py-8">
+        <FoundationsDemo />
+
         <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
           <h2 className="mb-1 text-lg font-bold">Buttons</h2>
           <p className="mb-4 text-sm text-ot-muted">All rounded 12px, lucide icon required.</p>
@@ -189,6 +193,66 @@ export default function App() {
       </main>
     </div>
     </ToasterProvider>
+  );
+}
+
+function FoundationsDemo() {
+  const swatch = (bg: string, name: string, value: string) => (
+    <div className="overflow-hidden rounded-ot-sm border border-ot-border bg-ot-bg">
+      <div className="h-14" style={{ background: bg }} />
+      <div className="px-2.5 py-2 text-xs">
+        <b className="block">{name}</b>
+        <span className="font-mono text-[11px] text-ot-muted">{value}</span>
+      </div>
+    </div>
+  );
+  return (
+    <>
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Typography</h2>
+        <p className="mb-4 text-sm text-ot-muted">Plus Jakarta Sans for UI, JetBrains Mono for code.</p>
+        <div className="divide-y divide-dashed divide-ot-border">
+          <p className="py-2.5 text-3xl font-extrabold tracking-tight">Heading 30 / ExtraBold</p>
+          <p className="py-2.5 text-2xl font-bold">Heading 24 / Bold</p>
+          <p className="py-2.5 text-lg font-semibold">Heading 18 / Semibold</p>
+          <p className="py-2.5 text-base">Body 16 / Regular — for tools, portfolio, and docs.</p>
+          <p className="py-2.5 text-sm text-ot-muted">Muted 14 — descriptions and helper text.</p>
+          <p className="py-2.5 font-mono text-sm">mono 14 — const theme = &quot;light&quot; | &quot;dark&quot;;</p>
+        </div>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Brand</h2>
+          <p className="mb-4 text-sm text-ot-muted">Navy primary, maroon danger-only.</p>
+          <div className="grid gap-3">
+            {swatch('#1E3A5F', 'Navy primary', '#1E3A5F')}
+            {swatch('#7B1E26', 'Maroon danger', '#7B1E26')}
+            {swatch('#2B2F36', 'Dark grey', '#2B2F36')}
+          </div>
+        </div>
+        <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Status</h2>
+          <p className="mb-4 text-sm text-ot-muted">Shared by alerts and toasts.</p>
+          <div className="grid gap-3">
+            {swatch('var(--ot-info)', 'Info blue', 'light #1D4ED8')}
+            {swatch('var(--ot-warning)', 'Warning yellow', 'light #B45309')}
+            {swatch('var(--ot-success)', 'Success green', 'light #15803D')}
+            {swatch('var(--ot-danger)', 'Danger maroon', '#7B1E26')}
+          </div>
+        </div>
+        <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Surfaces</h2>
+          <p className="mb-4 text-sm text-ot-muted">Follow the theme toggle.</p>
+          <div className="grid gap-3">
+            {swatch('var(--ot-bg)', 'bg', 'page')}
+            {swatch('var(--ot-surface)', 'surface', 'card')}
+            {swatch('var(--ot-surface-2)', 'surface-2', 'hover/input')}
+            {swatch('var(--ot-border)', 'border', 'line')}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -413,6 +477,7 @@ function ComplementsDemo() {
 }
 
 function NavigationDemo() {
+  const toast = useToast();
   const [collapsed, setCollapsed] = useState(false);
   const [tab, setTab] = useState('overview');
   return (
@@ -432,6 +497,17 @@ function NavigationDemo() {
           links={[{ label: 'Dashboard', active: true }, { label: 'Tools' }, { label: 'Docs' }]}
           actions={<Button size="sm" icon={<Plus size={16} />}>New</Button>}
         />
+        <SubmenuBar
+          label="Project section"
+          links={[
+            { id: 'code', label: 'Code', active: true, count: 12 },
+            { id: 'issues', label: 'Issues', count: 3 },
+            { id: 'pulls', label: 'Pulls' },
+          ]}
+        />
+        <div className="max-w-sm">
+          <SearchBar shortcut="Ctrl K" onClear={() => toast.show('info', 'Search cleared.')} />
+        </div>
         <Breadcrumbs
           items={[
             { label: 'Home', icon: <Home size={14} /> },

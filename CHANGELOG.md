@@ -5,6 +5,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- `SearchBar` (clear button, shortcut hint, Escape to clear) and `SubmenuBar` (secondary strip with count badges).
+- Foundations showcase in the demo app (typography scale, brand/status/surface swatches).
+- Slow motion token (`ot-duration-slow`, `ot-transition-slow`) used by sidebar collapse.
+
+### Fixed
+
+- Dark-mode toggle hardened against icon-CDN and View Transition failures (class toggles exactly once).
+- Modal backdrop now blurs the page behind it.
+
 ## [0.8.0] — complements + hardening
 
 ### Added
