@@ -340,26 +340,42 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
 <div id="toastStack"></div>
 
 <script>
-lucide.createIcons();
-// Theme toggle — circular reveal flowing from the clicked toggle button
+function refreshIcons() {
+  try {
+    if (window.lucide) refreshIcons();
+  } catch (_) {}
+}
+refreshIcons();
+// Theme toggle — circular reveal flowing from the clicked toggle button.
+// Bound independently of the icon CDN so theming never breaks.
 const themeBtn = document.getElementById('themeBtn');
 themeBtn.onclick = (e) => {
-  const x = e.clientX || innerWidth - 60, y = e.clientY || 40;
+  const x = (e && e.clientX) || innerWidth - 60, y = (e && e.clientY) || 40;
   const apply = () => {
     const dark = document.documentElement.classList.toggle('dark');
     themeBtn.innerHTML = dark ? '<i data-lucide="sun"></i><span>Light</span>' : '<i data-lucide="moon"></i><span>Dark</span>';
-    lucide.createIcons();
+    refreshIcons();
   };
-  if (document.startViewTransition) {
-    const t = document.startViewTransition(apply);
-    t.ready.then(() => {
-      const r = Math.hypot(innerWidth, innerHeight);
-      document.documentElement.animate(
-        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
-        { duration: 550, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
-      );
-    });
-  } else apply();
+  let applied = false;
+  const applyOnce = () => {
+    if (applied) return;
+    applied = true;
+    apply();
+  };
+  try {
+    if (document.startViewTransition) {
+      const t = document.startViewTransition(applyOnce);
+      t.ready.then(() => {
+        const r = Math.hypot(innerWidth, innerHeight);
+        document.documentElement.animate(
+          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 550, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
+        );
+      }).catch(applyOnce);
+      return;
+    }
+  } catch (_) {}
+  applyOnce();
 };
 // Collapse menu + submenus (navbar dropdown, sidebar inline)
 const sideDemo = document.getElementById('sideDemo');
@@ -367,7 +383,7 @@ document.getElementById('collapseBtn').onclick = function () {
   const c = sideDemo.classList.toggle('collapsed');
   sideDemo.style.maxWidth = c ? '64px' : '280px';
   this.innerHTML = c ? '<i data-lucide="panel-left"></i>Expand' : '<i data-lucide="panel-left"></i>Collapse';
-  lucide.createIcons();
+  refreshIcons();
 };
 document.getElementById('sideToolsBtn').onclick = () => {
   const sub = document.getElementById('sideToolsSub');
@@ -397,7 +413,7 @@ function toast(kind, msg) {
   x.onclick = () => el.remove();
   el.appendChild(x);
   document.getElementById('toastStack').appendChild(el);
-  lucide.createIcons();
+  refreshIcons();
   setTimeout(() => el.remove(), 4000);
 }
 document.querySelectorAll('[data-demo]').forEach(b => b.onclick = () => toast('info', b.getAttribute('data-demo')));
@@ -440,7 +456,7 @@ function render() {
   document.getElementById('pageInfo').textContent = 'Page ' + page + ' of 3 — 2 rows per page (demo).';
   document.getElementById('prevPage').disabled = page === 1;
   document.getElementById('nextPage').disabled = page === 3;
-  lucide.createIcons();
+  refreshIcons();
 }
 document.querySelectorAll('#pager .badge').forEach(b => b.onclick = () => { page = Number(b.getAttribute('data-page')); render(); });
 document.getElementById('prevPage').onclick = () => { if (page > 1) { page--; render(); } };
@@ -463,7 +479,7 @@ ICONS.forEach(n => {
   d.innerHTML = '<i data-lucide="' + n + '"></i><code>' + n + '</code>';
   grid.appendChild(d);
 });
-lucide.createIcons();
+refreshIcons();
 </script>
 </body>
 </html>

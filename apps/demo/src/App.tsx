@@ -62,32 +62,43 @@ export default function App() {
       setIcon(next ? 'sun' : 'moon');
       document.documentElement.classList.toggle('dark', next);
     };
+    // Guarded so the class toggles exactly once even if the transition API throws.
+    let applied = false;
+    const applyOnce = () => {
+      if (applied) return;
+      applied = true;
+      apply();
+    };
     const vt = (
       document as Document & {
         startViewTransition?: (cb: () => void) => { ready: Promise<void> };
       }
     ).startViewTransition;
     if (vt) {
-      const t = vt(apply);
-      t.ready.then(() => {
-        const r = Math.hypot(window.innerWidth, window.innerHeight);
-        document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${r}px at ${x}px ${y}px)`,
-            ],
-          },
-          {
-            duration: 550,
-            easing: 'ease-out',
-            pseudoElement: '::view-transition-new(root)',
-          },
-        );
-      });
-    } else {
-      apply();
+      try {
+        const t = vt(applyOnce);
+        t.ready.then(() => {
+          const r = Math.hypot(window.innerWidth, window.innerHeight);
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${r}px at ${x}px ${y}px)`,
+              ],
+            },
+            {
+              duration: 550,
+              easing: 'ease-out',
+              pseudoElement: '::view-transition-new(root)',
+            },
+          );
+        }).catch(() => {});
+        return;
+      } catch {
+        // Fall through to instant toggle below.
+      }
     }
+    applyOnce();
   };
 
   return (
