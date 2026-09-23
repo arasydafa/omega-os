@@ -90,7 +90,7 @@ export function ToasterProvider({ children }: { children: ReactNode }) {
       <div
         role="region"
         aria-label="Notifications"
-        className="fixed bottom-4 right-4 z-[50] grid w-[min(360px,calc(100vw-32px))] gap-2.5"
+        className="fixed bottom-4 right-4 z-ot-toast grid w-[min(360px,calc(100vw-32px))] gap-2.5"
       >
         {items.map((t) => (
           <div

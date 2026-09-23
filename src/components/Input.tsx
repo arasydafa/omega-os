@@ -12,7 +12,7 @@ interface FieldMeta {
 }
 
 const CONTROL =
-  'h-10 w-full rounded-ot-md border bg-ot-bg px-3 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted';
+  'h-10 w-full rounded-ot-md border bg-ot-bg px-3 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted focus:shadow-ot-ring';
 
 function FieldShell({
   fieldId,
@@ -80,7 +80,7 @@ export function Textarea({ label, helper, error, className = '', id, ...rest }: 
       <textarea
         id={controlId}
         rows={3}
-        className={`min-h-[72px] w-full resize-y rounded-ot-md border bg-ot-bg px-3 py-2.5 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted ${
+        className={`min-h-[72px] w-full resize-y rounded-ot-md border bg-ot-bg px-3 py-2.5 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted focus:shadow-ot-ring ${
           error ? 'border-danger focus:border-danger' : 'border-ot-border focus:border-navy'
         } disabled:cursor-not-allowed disabled:opacity-50`}
         aria-invalid={error ? true : undefined}

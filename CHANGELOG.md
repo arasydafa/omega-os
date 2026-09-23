@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Complements batch: `Card`, `Avatar`, `Spinner`, `Radio`, `Checkbox`, `Switch`.
+- Tokens: z-index scale (`ot-z-*`), motion (`ot-duration-*`, `ot-ease-*`, `ot-transition`), focus ring (`ot-ring`).
+- Self-hosted fonts via Fontsource (no more Google Fonts network import).
+- ESLint with local `no-emoji` rule + `lint` script.
+- CI workflow: typecheck, lint, tests, and demo build on `main` and `dev`.
+
 ## [0.7.0] — navigation batch
 
 ### Added

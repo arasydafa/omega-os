@@ -66,7 +66,7 @@ export function Tooltip({ content, children, position = 'top', delay = 200 }: To
         <span
           id={tipId}
           role="tooltip"
-          className={`pointer-events-none absolute z-20 whitespace-nowrap rounded-ot-sm border border-ot-border bg-ot-surface px-2 py-1 font-sans text-xs text-ot-text shadow-ot-md ${POSITIONS[position]} ${
+          className={`pointer-events-none absolute z-ot-dropdown whitespace-nowrap rounded-ot-sm border border-ot-border bg-ot-surface px-2 py-1 font-sans text-xs text-ot-text shadow-ot-md ${POSITIONS[position]} ${
             hiding ? 'ot-anim-fade-out' : 'ot-anim-fade-in'
           }`}
         >
