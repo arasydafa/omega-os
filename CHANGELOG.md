@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Canonical `toggleThemeReveal` theme utility (Circular Reveal from the click point, token-driven, apply-once guarantee) with tests; demo and static preview share the same implementation.
+
 ## [0.9.1] — smooth theme reveal
 
 ### Fixed
