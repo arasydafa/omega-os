@@ -4,9 +4,13 @@ import {
   Badge,
   Button,
   Dropdown,
+  EmptyState,
   Input,
   Modal,
+  Pagination,
   Select,
+  Skeleton,
+  Table,
   Textarea,
   ToasterProvider,
   Tooltip,
@@ -17,8 +21,10 @@ import {
   Bell,
   Check,
   ChevronDown,
+  Copy,
   Crown,
   Moon,
+  Pencil,
   Plus,
   Settings,
   Sun,
@@ -147,6 +153,8 @@ export default function App() {
         </section>
 
         <OverlayDemo />
+
+        <DataDemo />
       </main>
     </div>
     </ToasterProvider>
@@ -219,5 +227,130 @@ function OverlayDemo() {
         This action is permanent and cannot be undone.
       </Modal>
     </>
+  );
+}
+
+interface DemoTool {
+  id: string;
+  name: string;
+  status: 'Active' | 'Draft' | 'Archived';
+}
+
+const DEMO_TOOLS: DemoTool[] = [
+  { id: 'vstack', name: 'VStack', status: 'Active' },
+  { id: 'cicd-lab', name: 'CI-CD Lab', status: 'Active' },
+  { id: 'portfolio', name: 'Portfolio', status: 'Draft' },
+  { id: 'omega-docs', name: 'Omega Docs', status: 'Draft' },
+  { id: 'scanner', name: 'Scanner', status: 'Archived' },
+  { id: 'playground', name: 'Playground', status: 'Draft' },
+  { id: 'monitor', name: 'Monitor', status: 'Active' },
+  { id: 'deployer', name: 'Deployer', status: 'Draft' },
+  { id: 'vault', name: 'Vault', status: 'Archived' },
+  { id: 'linter', name: 'Linter', status: 'Active' },
+  { id: 'backup', name: 'Backup', status: 'Draft' },
+  { id: 'proxy', name: 'Proxy', status: 'Archived' },
+];
+
+const PAGE_SIZE = 5;
+
+function statusBadge(status: DemoTool['status']) {
+  if (status === 'Active') return <Badge tone="success" icon={<Check size={12} />}>Active</Badge>;
+  if (status === 'Archived') return <Badge tone="grey">Archived</Badge>;
+  return <Badge tone="grey">Draft</Badge>;
+}
+
+function DataDemo() {
+  const toast = useToast();
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState<string | null>(null);
+  const totalPages = Math.ceil(DEMO_TOOLS.length / PAGE_SIZE);
+  const rows = DEMO_TOOLS.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  return (
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Data</h2>
+      <p className="mb-4 text-sm text-ot-muted">Click a row to select. Toggle loading for skeletons.</p>
+      <div className="mb-3 flex flex-wrap gap-2.5">
+        <Button variant="secondary" size="sm" onClick={() => setLoading((v) => !v)}>
+          {loading ? 'Stop loading' : 'Show skeletons'}
+        </Button>
+      </div>
+      <Table<DemoTool>
+        columns={[
+          { key: 'name', header: 'Tool', render: (r) => <span className="font-semibold">{r.name}</span> },
+          { key: 'status', header: 'Status', render: (r) => statusBadge(r.status) },
+          {
+            key: 'actions',
+            header: 'Actions',
+            align: 'right',
+            render: (r) => (
+              <span className="flex justify-end gap-3">
+                <button
+                  type="button"
+                  title={`Rename ${r.name}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast.show('info', `Rename "${r.name}" (demo).`);
+                  }}
+                  className="text-ot-muted transition-colors hover:text-ot-text"
+                >
+                  <Pencil size={15} />
+                </button>
+                <button
+                  type="button"
+                  title={`Duplicate ${r.name}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast.show('info', `Duplicated "${r.name}" (demo).`);
+                  }}
+                  className="text-ot-muted transition-colors hover:text-ot-text"
+                >
+                  <Copy size={15} />
+                </button>
+                <button
+                  type="button"
+                  title={`Delete ${r.name}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toast.show('danger', `Delete "${r.name}" is destructive (demo).`);
+                  }}
+                  className="text-ot-muted transition-colors hover:text-danger"
+                >
+                  <Trash2 size={15} />
+                </button>
+              </span>
+            ),
+          },
+        ]}
+        rows={rows}
+        keyOf={(r) => r.id}
+        selectedKey={selected}
+        onRowClick={(r) => setSelected(r.id)}
+        loading={loading}
+        emptyTitle="No tools yet"
+        emptyDescription="Create one to get started."
+      />
+      <div className="mt-3">
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onChange={setPage}
+          note={`${DEMO_TOOLS.length} tools, ${PAGE_SIZE} per page`}
+        />
+      </div>
+      <div className="mt-4 grid gap-2.5 rounded-ot-md border border-ot-border bg-ot-bg p-4">
+        <p className="text-sm font-semibold">Standalone states</p>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-5 w-20" />
+        </div>
+        <EmptyState
+          title="Nothing here"
+          description="This is the standalone empty state."
+          action={<Button size="sm">Create new</Button>}
+        />
+      </div>
+    </section>
   );
 }

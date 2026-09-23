@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Data batch: `Table` (typed columns, selection, skeleton loading, empty fallback), `Pagination` (ellipsis window), `EmptyState`, `Skeleton`.
+
 ## [0.5.0] — overlay batch
 
 ### Added
