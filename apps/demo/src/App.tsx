@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import {
   Alert,
+  Avatar,
   Badge,
   Breadcrumbs,
   Button,
+  Card,
+  Checkbox,
   Dropdown,
   EmptyState,
   Input,
   Modal,
   Navbar,
   Pagination,
+  Radio,
   Select,
   Sidebar,
   Skeleton,
+  Spinner,
+  Switch,
   Table,
   Tabs,
   Textarea,
@@ -165,6 +171,8 @@ export default function App() {
         <OverlayDemo />
 
         <DataDemo />
+
+        <ComplementsDemo />
 
         <NavigationDemo />
       </main>
@@ -362,6 +370,32 @@ function DataDemo() {
           description="This is the standalone empty state."
           action={<Button size="sm">Create new</Button>}
         />
+      </div>
+    </section>
+  );
+}
+
+function ComplementsDemo() {
+  const [notify, setNotify] = useState(false);
+  return (
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Complements</h2>
+      <p className="mb-4 text-sm text-ot-muted">Card, avatar, spinner, and labeled controls.</p>
+      <div className="grid gap-4">
+        <Card padding="lg">
+          <div className="flex items-center gap-3">
+            <Avatar name="Omega Throne" />
+            <Avatar name="Vstack" size="sm" />
+            <Spinner />
+            <span className="text-sm text-ot-muted">Card wraps any content.</span>
+          </div>
+        </Card>
+        <div className="grid gap-2.5">
+          <Radio name="demo-theme" label="Light" description="Default theme." defaultChecked />
+          <Radio name="demo-theme" label="Dark" description="Optional theme." />
+          <Checkbox label="Icons only" description="No emoji in UI." defaultChecked />
+          <Switch checked={notify} onChange={setNotify} label="Enable notifications" />
+        </div>
       </div>
     </section>
   );
