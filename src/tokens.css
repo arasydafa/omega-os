@@ -74,8 +74,10 @@
   --ot-duration-fast: 120ms;
   --ot-duration-base: 200ms;
   --ot-duration-slow: 300ms;
+  --ot-duration-reveal: 650ms;
   --ot-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ot-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ot-ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* Layering */
   --ot-z-dropdown: 20;

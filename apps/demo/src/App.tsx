@@ -84,6 +84,10 @@ export default function App() {
       try {
         const t = vt(applyOnce);
         t.ready.then(() => {
+          const cs = getComputedStyle(document.documentElement);
+          const rawMs = parseFloat(cs.getPropertyValue('--ot-duration-reveal'));
+          const duration = Number.isFinite(rawMs) && rawMs > 0 ? rawMs : 650;
+          const easing = cs.getPropertyValue('--ot-ease-smooth').trim() || 'cubic-bezier(0.65, 0, 0.35, 1)';
           const r = Math.hypot(window.innerWidth, window.innerHeight);
           document.documentElement.animate(
             {
@@ -93,8 +97,8 @@ export default function App() {
               ],
             },
             {
-              duration: 550,
-              easing: 'ease-out',
+              duration,
+              easing,
               pseudoElement: '::view-transition-new(root)',
             },
           );

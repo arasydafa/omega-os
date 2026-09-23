@@ -366,10 +366,14 @@ themeBtn.onclick = (e) => {
     if (document.startViewTransition) {
       const t = document.startViewTransition(applyOnce);
       t.ready.then(() => {
+        const cs = getComputedStyle(document.documentElement);
+        const rawMs = parseFloat(cs.getPropertyValue('--ot-duration-reveal'));
+        const duration = isFinite(rawMs) && rawMs > 0 ? rawMs : 650;
+        const easing = (cs.getPropertyValue('--ot-ease-smooth') || '').trim() || 'cubic-bezier(0.65, 0, 0.35, 1)';
         const r = Math.hypot(innerWidth, innerHeight);
         document.documentElement.animate(
           { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
-          { duration: 550, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
+          { duration: duration, easing: easing, pseudoElement: '::view-transition-new(root)' }
         );
       }).catch(applyOnce);
       return;
