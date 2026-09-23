@@ -16,6 +16,25 @@ const ITEMS = [
   { id: 'docs', label: 'Docs' },
 ];
 
+const ITEMS3 = [
+  { id: 'dash', label: 'Dashboard', active: true },
+  {
+    id: 'tools',
+    label: 'Tools',
+    children: [
+      {
+        id: 'vstack',
+        label: 'VStack',
+        children: [
+          { id: 'overview', label: 'Overview' },
+          { id: 'playground', label: 'Playground' },
+        ],
+      },
+      { id: 'lab', label: 'CI-CD lab' },
+    ],
+  },
+];
+
 describe('Sidebar', () => {
   it('expands submenu and selects a child', async () => {
     const user = userEvent.setup();
@@ -26,6 +45,16 @@ describe('Sidebar', () => {
     expect(screen.getByTestId('submenu-tools')).not.toHaveClass('invisible');
     await user.click(screen.getByRole('button', { name: 'VStack' }));
     expect(onSelect).toHaveBeenCalledWith('vstack');
+  });
+
+  it('expands submenus down to level three and selects a grandchild', async () => {
+    const user = userEvent.setup();
+    const onSelect = vi.fn();
+    render(<Sidebar items={ITEMS3} onSelect={onSelect} />);
+    await user.click(screen.getByRole('button', { name: 'Tools' }));
+    await user.click(screen.getByRole('button', { name: 'VStack' }));
+    await user.click(screen.getByRole('button', { name: 'Playground' }));
+    expect(onSelect).toHaveBeenCalledWith('playground');
   });
 
   it('hides labels and submenus when collapsed', async () => {

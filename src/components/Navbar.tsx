@@ -1,4 +1,7 @@
 import type { ReactNode } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { Dropdown } from './Dropdown.js';
+import type { DropdownItemDef } from './Dropdown.js';
 
 export interface NavbarLink {
   label: ReactNode;
@@ -6,6 +9,8 @@ export interface NavbarLink {
   onClick?: () => void;
   /** Leading icon (15px). Use lucide-react, never emoji. */
   icon?: ReactNode;
+  /** Renders the link as a dropdown trigger. Up to three nested levels. */
+  children?: DropdownItemDef[];
 }
 
 export interface NavbarProps {
@@ -24,22 +29,36 @@ export function Navbar({ brand, links, actions, className = '' }: NavbarProps) {
     >
       <div className="flex items-center gap-2">{brand}</div>
       <nav aria-label="Primary" className="flex flex-wrap items-center gap-1 text-sm">
-        {links.map((link, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={link.onClick}
-            aria-current={link.active ? 'page' : undefined}
-            className={`flex items-center gap-2 rounded-ot-sm px-3 py-1.5 transition-colors ${
-              link.active
-                ? 'bg-navy-bg font-semibold text-navy-text'
-                : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
-            }`}
-          >
-            {link.icon}
-            {link.label}
-          </button>
-        ))}
+        {links.map((link, i) => {
+          const btn = (
+            <button
+              type="button"
+              onClick={link.children ? undefined : link.onClick}
+              aria-current={link.active ? 'page' : undefined}
+              className={`flex items-center gap-2 rounded-ot-sm px-3 py-1.5 transition-colors ${
+                link.active
+                  ? 'bg-navy-bg font-semibold text-navy-text'
+                  : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
+              }`}
+            >
+              {link.icon}
+              {link.label}
+              {link.children ? <ChevronDown size={14} aria-hidden className="text-ot-muted" /> : null}
+            </button>
+          );
+          return link.children ? (
+            <Dropdown
+              key={i}
+              trigger={btn}
+              items={link.children}
+              label={typeof link.label === 'string' ? link.label : 'Menu'}
+            />
+          ) : (
+            <span key={i} className="inline-flex">
+              {btn}
+            </span>
+          );
+        })}
       </nav>
       {actions ? <div className="ml-auto flex flex-wrap items-center gap-2">{actions}</div> : null}
     </div>

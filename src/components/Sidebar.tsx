@@ -7,6 +7,8 @@ export interface SidebarChild {
   label: ReactNode;
   active?: boolean;
   onClick?: () => void;
+  /** One deeper level (max three nesting levels total). */
+  children?: SidebarChild[];
 }
 
 export interface SidebarItemDef {
@@ -29,8 +31,12 @@ export interface SidebarProps {
 }
 
 export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar', className = '' }: SidebarProps) {
+  const hasActiveBelow = (kids?: SidebarChild[]): boolean =>
+    !!kids?.some((c) => c.active || hasActiveBelow(c.children));
+  const collectOpen = (kids?: SidebarChild[]): string[] =>
+    (kids ?? []).flatMap((k) => (hasActiveBelow([k]) ? [k.id, ...collectOpen(k.children)] : []));
   const [expanded, setExpanded] = useState<string[]>(() =>
-    items.filter((i) => i.children?.some((c) => c.active)).map((i) => i.id),
+    items.flatMap((i) => (hasActiveBelow(i.children) ? [i.id, ...collectOpen(i.children)] : [])),
   );
 
   const toggle = (id: string) =>
@@ -40,6 +46,55 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
     cb?.();
     onSelect?.(id);
   };
+
+  const renderChildren = (kids: SidebarChild[], open: boolean, testId: string, depth: number) => (
+    <div
+      data-testid={testId}
+      className={`grid ot-transition-slow ${
+        open ? 'grid-rows-[1fr] opacity-100' : 'invisible grid-rows-[0fr] opacity-0'
+      }`}
+    >
+      <div className="min-h-0 overflow-hidden">
+        <div className={`mt-1 grid gap-0.5 ${depth === 0 ? 'ml-[26px]' : 'ml-3 border-l border-ot-border pl-2'}`}>
+          {kids.map((child) => {
+            const hasGrandkids = !!child.children?.length;
+            const childOpen = expanded.includes(child.id);
+            return (
+              <div key={child.id}>
+                <button
+                  type="button"
+                  aria-expanded={hasGrandkids ? childOpen : undefined}
+                  onClick={() => {
+                    if (hasGrandkids) toggle(child.id);
+                    else pick(child.id, child.onClick);
+                  }}
+                  className={`flex w-full items-center gap-1.5 rounded-ot-sm px-2.5 py-2 text-left text-[13px] transition-colors ${
+                    child.active
+                      ? 'bg-navy-bg font-semibold text-navy-text'
+                      : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
+                  }`}
+                >
+                  <span className="min-w-0 flex-1 truncate">{child.label}</span>
+                  {hasGrandkids ? (
+                    <ChevronDown
+                      size={13}
+                      aria-hidden
+                      className={`shrink-0 text-ot-muted transition-transform duration-200 ${
+                        childOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  ) : null}
+                </button>
+                {hasGrandkids
+                  ? renderChildren(child.children!, childOpen, `submenu-${child.id}`, depth + 1)
+                  : null}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <nav
@@ -89,33 +144,7 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
                 ) : null}
               </span>
             </button>
-            {hasKids && !collapsed ? (
-              <div
-                data-testid={`submenu-${item.id}`}
-                className={`grid ot-transition-slow ${
-                  isOpen ? 'grid-rows-[1fr] opacity-100' : 'invisible grid-rows-[0fr] opacity-0'
-                }`}
-              >
-                <div className="min-h-0 overflow-hidden">
-                  <div className="ml-[26px] mt-1 grid gap-0.5">
-                    {item.children!.map((child) => (
-                      <button
-                        key={child.id}
-                        type="button"
-                        onClick={() => pick(child.id, child.onClick)}
-                        className={`rounded-ot-sm px-2.5 py-2 text-left text-[13px] transition-colors ${
-                          child.active
-                            ? 'bg-navy-bg font-semibold text-navy-text'
-                            : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
-                        }`}
-                      >
-                        {child.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : null}
+            {hasKids && !collapsed ? renderChildren(item.children!, isOpen, `submenu-${item.id}`, 0) : null}
           </div>
         );
       })}
