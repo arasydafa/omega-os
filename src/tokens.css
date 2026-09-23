@@ -161,6 +161,17 @@ code,
   }
 }
 
+/* View-transition theme reveal: the circular wipe is driven from JS,
+   these rules kill the default crossfade so only the wipe plays. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
 /* Thin scrollbar that follows the theme */
 * {
   scrollbar-width: thin;

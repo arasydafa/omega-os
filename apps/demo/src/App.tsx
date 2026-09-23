@@ -206,18 +206,53 @@ function FoundationsDemo() {
       </div>
     </div>
   );
+  const typeRow = (sample: React.ReactNode, example: React.ReactNode) => (
+    <div className="py-2.5">
+      <p>{sample}</p>
+      <p className="mt-1 text-sm text-ot-muted">{example}</p>
+    </div>
+  );
   return (
     <>
       <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Typography</h2>
         <p className="mb-4 text-sm text-ot-muted">Plus Jakarta Sans for UI, JetBrains Mono for code.</p>
         <div className="divide-y divide-dashed divide-ot-border">
-          <p className="py-2.5 text-3xl font-extrabold tracking-tight">Heading 30 / ExtraBold</p>
-          <p className="py-2.5 text-2xl font-bold">Heading 24 / Bold</p>
-          <p className="py-2.5 text-lg font-semibold">Heading 18 / Semibold</p>
-          <p className="py-2.5 text-base">Body 16 / Regular — for tools, portfolio, and docs.</p>
-          <p className="py-2.5 text-sm text-ot-muted">Muted 14 — descriptions and helper text.</p>
-          <p className="py-2.5 font-mono text-sm">mono 14 — const theme = &quot;light&quot; | &quot;dark&quot;;</p>
+          {typeRow(
+            <span className="text-3xl font-extrabold tracking-tight">Heading 30 / ExtraBold</span>,
+            'VStack visualizes your ROP chain before you run it.',
+          )}
+          {typeRow(
+            <span className="text-2xl font-bold">Heading 24 / Bold</span>,
+            'CI-CD Lab walks through pipelines step by step.',
+          )}
+          {typeRow(
+            <span className="text-lg font-semibold">Heading 18 / Semibold</span>,
+            'Every tool ships with a guided workspace.',
+          )}
+          {typeRow(
+            <span className="text-base">Body 16 / Regular</span>,
+            'Modern minimalist interfaces for tools, portfolio, and docs.',
+          )}
+          {typeRow(
+            <span className="text-sm text-ot-muted">Muted 14</span>,
+            'Helper text stays quiet so primary actions stand out.',
+          )}
+          {typeRow(
+            <span className="font-mono text-sm">mono 14 — const theme = &quot;light&quot; | &quot;dark&quot;;</span>,
+            'Code, addresses, and log output always use the mono face.',
+          )}
+          <div className="py-2.5 text-sm">
+            <p className="mb-1 text-[13px] font-semibold">Rich text</p>
+            <p>
+              Run <code className="rounded-ot-sm bg-ot-surface-2 px-1.5 py-0.5 font-mono text-[13px]">npm test</code>{' '}
+              before pushing, read the <strong>release checklist</strong>, and follow the{' '}
+              <a href="#typography" className="text-info underline">
+                theming guide
+              </a>{' '}
+              for details.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -227,8 +262,14 @@ function FoundationsDemo() {
           <p className="mb-4 text-sm text-ot-muted">Navy primary, maroon danger-only.</p>
           <div className="grid gap-3">
             {swatch('#1E3A5F', 'Navy primary', '#1E3A5F')}
+            {swatch('#162C4A', 'Navy hover', '#162C4A')}
+            {swatch('var(--ot-navy-bg)', 'Navy bg tint', 'theme-aware')}
             {swatch('#7B1E26', 'Maroon danger', '#7B1E26')}
+            {swatch('#5F151D', 'Maroon hover', '#5F151D')}
+            {swatch('var(--ot-danger-bg)', 'Maroon bg tint', 'theme-aware')}
             {swatch('#2B2F36', 'Dark grey', '#2B2F36')}
+            {swatch('#0B0D10', 'Black', '#0B0D10')}
+            {swatch('#FFFFFF', 'White', '#FFFFFF')}
           </div>
         </div>
         <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
@@ -249,7 +290,21 @@ function FoundationsDemo() {
             {swatch('var(--ot-surface)', 'surface', 'card')}
             {swatch('var(--ot-surface-2)', 'surface-2', 'hover/input')}
             {swatch('var(--ot-border)', 'border', 'line')}
+            {swatch('var(--ot-text)', 'text', 'foreground')}
+            {swatch('var(--ot-muted)', 'muted', 'secondary text')}
           </div>
+        </div>
+      </section>
+
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Radius</h2>
+        <p className="mb-4 text-sm text-ot-muted">No sharp corners: 8 input, 12 button, 16 card, 20 panel, full pill.</p>
+        <div className="flex flex-wrap gap-3">
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 8 }}>8 input</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 12 }}>12 btn</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 16 }}>16 card</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 20 }}>20 panel</span>
+          <span className="grid h-[72px] w-[140px] place-items-center rounded-full bg-navy text-xs font-bold text-white">full pill</span>
         </div>
       </section>
     </>
@@ -285,7 +340,16 @@ function OverlayDemo() {
               { label: 'Rename', onSelect: () => toast.show('info', 'Rename picked.') },
               {
                 label: 'More',
-                children: [{ label: 'Duplicate', onSelect: () => toast.show('info', 'Duplicate picked.') }],
+                children: [
+                  { label: 'Duplicate', onSelect: () => toast.show('info', 'Duplicate picked.') },
+                  {
+                    label: 'Settings',
+                    children: [
+                      { label: 'Workspace', onSelect: () => toast.show('info', 'Workspace picked.') },
+                      { label: 'Preferences', onSelect: () => toast.show('info', 'Preferences picked.') },
+                    ],
+                  },
+                ],
               },
               { label: 'Delete', danger: true, onSelect: () => toast.show('danger', 'Delete picked.') },
             ]}

@@ -9,7 +9,7 @@ export interface DropdownItemDef {
   /** Maroon text for destructive actions. */
   danger?: boolean;
   onSelect?: () => void;
-  /** One nested flyout level max. */
+  /** Up to three nested flyout levels. Deeper trees hurt usability. */
   children?: DropdownItemDef[];
 }
 
@@ -32,8 +32,15 @@ function ItemRow({
   return (
     <div
       className="relative"
-      onMouseEnter={() => hasSub && setSubOpen(true)}
-      onMouseLeave={() => hasSub && setSubOpen(false)}
+      onMouseOver={() => hasSub && setSubOpen(true)}
+      onMouseOut={(e) => {
+        // Close only when the pointer truly left for another element.
+        // Synthetic events may carry a null relatedTarget — never close on those.
+        const to = e.relatedTarget as Node | null;
+        if (hasSub && to instanceof Node && !e.currentTarget.contains(to)) {
+          setSubOpen(false);
+        }
+      }}
     >
       <div
         role="menuitem"
