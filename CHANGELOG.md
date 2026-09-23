@@ -5,9 +5,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.7.0] — navigation batch
+
 ### Added
 
 - Navigation batch: `Breadcrumbs` (aria-current page), `Tabs` (arrow-key navigation), `Navbar` (brand + active links + actions), `Sidebar` (inline submenu + collapse rail).
+
+### Fixed
+
+- Sidebar collapse animation: animated width/label/submenu height, no icon jump, collapsed icon perfectly centered.
 
 ## [0.6.0] — data batch
 

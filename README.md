@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.6.0 — data batch (`Table`, `Pagination`, `EmptyState`, `Skeleton`). 46 tests green. See `CHANGELOG.md`.
+v0.7.0 — navigation batch (`Breadcrumbs`, `Tabs`, `Navbar`, `Sidebar`). 55 tests green. See `CHANGELOG.md`.
