@@ -5,6 +5,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.9.0] — navigation depth + foundations
+
 ### Added
 
 - `SearchBar` (clear button, shortcut hint, Escape to clear) and `SubmenuBar` (secondary strip with count badges).
@@ -21,6 +23,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Dark-mode toggle hardened against icon-CDN and View Transition failures (class toggles exactly once).
 - Modal backdrop now blurs the page behind it.
 - Demo header transparency via color-mix (invalid opacity modifier removed).
+- Demo dev server serves workspace fonts (fs.allow) instead of falling back to system fonts.
+- Demo subtitle reads the package version dynamically; static preview copy is version-free.
 
 ## [0.8.0] — complements + hardening
 
