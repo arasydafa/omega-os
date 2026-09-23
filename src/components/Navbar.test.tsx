@@ -22,4 +22,31 @@ describe('Navbar', () => {
     expect(onTools).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('button', { name: 'New' })).toBeInTheDocument();
   });
+
+  it('renders navbar dropdown links with nested items', async () => {
+    const user = userEvent.setup();
+    const onPick = vi.fn();
+    render(
+      <Navbar
+        brand={<span>OmegaOS</span>}
+        links={[
+          { label: 'Dashboard', active: true },
+          {
+            label: 'Tools',
+            children: [
+              { label: 'VStack', onSelect: onPick },
+              {
+                label: 'More',
+                children: [{ label: 'Playground', onSelect: onPick }],
+              },
+            ],
+          },
+        ]}
+      />,
+    );
+    await user.click(screen.getByRole('button', { name: /Tools/ }));
+    await user.hover(screen.getByText('More'));
+    await user.click(screen.getByText('Playground'));
+    expect(onPick).toHaveBeenCalledTimes(1);
+  });
 });

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>OmegaOS UI — Preview v0.2</title>
+<title>OmegaOS UI — Preview</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -131,7 +131,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
   <div class="inner">
     <div class="brand">
       <div class="logo"><i data-lucide="crown"></i></div>
-      <div><h1>OmegaOS UI</h1><p class="sub">Design System v0.2 — interactive preview</p></div>
+      <div><h1>OmegaOS UI</h1><p class="sub">Static tokens preview (see the demo app for React components)</p></div>
     </div>
     <button class="toggle" id="themeBtn"><i data-lucide="moon"></i><span>Dark</span></button>
   </div>
@@ -225,7 +225,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
       <h2><i data-lucide="siren"></i>Alerts</h2>
       <p class="desc">Info = blue, warning = yellow, success = green, danger = maroon.</p>
       <div style="display:grid;gap:10px">
-        <div class="alert a-info"><i data-lucide="info"></i><span><b>Info.</b> Tokens v0.2 now include status colors.</span></div>
+<div class="alert a-info"><i data-lucide="info"></i><span><b>Info.</b> Status colors now live in tokens.</span></div>
         <div class="alert a-warning"><i data-lucide="triangle-alert"></i><span><b>Warning.</b> Unsaved changes will be lost.</span></div>
         <div class="alert a-success"><i data-lucide="circle-check"></i><span><b>Success.</b> Design tokens applied.</span></div>
         <div class="alert a-danger"><i data-lucide="octagon-x"></i><span><b>Error.</b> Build failed: tokens not found.</span></div>
@@ -340,26 +340,42 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
 <div id="toastStack"></div>
 
 <script>
-lucide.createIcons();
-// Theme toggle — circular reveal flowing from the clicked toggle button
+function refreshIcons() {
+  try {
+    if (window.lucide) refreshIcons();
+  } catch (_) {}
+}
+refreshIcons();
+// Theme toggle — circular reveal flowing from the clicked toggle button.
+// Bound independently of the icon CDN so theming never breaks.
 const themeBtn = document.getElementById('themeBtn');
 themeBtn.onclick = (e) => {
-  const x = e.clientX || innerWidth - 60, y = e.clientY || 40;
+  const x = (e && e.clientX) || innerWidth - 60, y = (e && e.clientY) || 40;
   const apply = () => {
     const dark = document.documentElement.classList.toggle('dark');
     themeBtn.innerHTML = dark ? '<i data-lucide="sun"></i><span>Light</span>' : '<i data-lucide="moon"></i><span>Dark</span>';
-    lucide.createIcons();
+    refreshIcons();
   };
-  if (document.startViewTransition) {
-    const t = document.startViewTransition(apply);
-    t.ready.then(() => {
-      const r = Math.hypot(innerWidth, innerHeight);
-      document.documentElement.animate(
-        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
-        { duration: 550, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
-      );
-    });
-  } else apply();
+  let applied = false;
+  const applyOnce = () => {
+    if (applied) return;
+    applied = true;
+    apply();
+  };
+  try {
+    if (document.startViewTransition) {
+      const t = document.startViewTransition(applyOnce);
+      t.ready.then(() => {
+        const r = Math.hypot(innerWidth, innerHeight);
+        document.documentElement.animate(
+          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 550, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
+        );
+      }).catch(applyOnce);
+      return;
+    }
+  } catch (_) {}
+  applyOnce();
 };
 // Collapse menu + submenus (navbar dropdown, sidebar inline)
 const sideDemo = document.getElementById('sideDemo');
@@ -367,7 +383,7 @@ document.getElementById('collapseBtn').onclick = function () {
   const c = sideDemo.classList.toggle('collapsed');
   sideDemo.style.maxWidth = c ? '64px' : '280px';
   this.innerHTML = c ? '<i data-lucide="panel-left"></i>Expand' : '<i data-lucide="panel-left"></i>Collapse';
-  lucide.createIcons();
+  refreshIcons();
 };
 document.getElementById('sideToolsBtn').onclick = () => {
   const sub = document.getElementById('sideToolsSub');
@@ -397,7 +413,7 @@ function toast(kind, msg) {
   x.onclick = () => el.remove();
   el.appendChild(x);
   document.getElementById('toastStack').appendChild(el);
-  lucide.createIcons();
+  refreshIcons();
   setTimeout(() => el.remove(), 4000);
 }
 document.querySelectorAll('[data-demo]').forEach(b => b.onclick = () => toast('info', b.getAttribute('data-demo')));
@@ -440,7 +456,7 @@ function render() {
   document.getElementById('pageInfo').textContent = 'Page ' + page + ' of 3 — 2 rows per page (demo).';
   document.getElementById('prevPage').disabled = page === 1;
   document.getElementById('nextPage').disabled = page === 3;
-  lucide.createIcons();
+  refreshIcons();
 }
 document.querySelectorAll('#pager .badge').forEach(b => b.onclick = () => { page = Number(b.getAttribute('data-page')); render(); });
 document.getElementById('prevPage').onclick = () => { if (page > 1) { page--; render(); } };
@@ -463,7 +479,7 @@ ICONS.forEach(n => {
   d.innerHTML = '<i data-lucide="' + n + '"></i><code>' + n + '</code>';
   grid.appendChild(d);
 });
-lucide.createIcons();
+refreshIcons();
 </script>
 </body>
 </html>

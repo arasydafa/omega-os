@@ -2,12 +2,19 @@ import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Dropdown } from './Dropdown.js';
+import type { DropdownItemDef } from './Dropdown.js';
 
-const ITEMS = [
+const ITEMS: DropdownItemDef[] = [
   { label: 'Rename', onSelect: vi.fn() },
   {
     label: 'More',
-    children: [{ label: 'Duplicate', onSelect: vi.fn() }],
+    children: [
+      { label: 'Duplicate', onSelect: vi.fn() },
+      {
+        label: 'Settings',
+        children: [{ label: 'Workspace', onSelect: vi.fn() }],
+      },
+    ],
   },
   { label: 'Delete', danger: true, onSelect: vi.fn() },
 ];
@@ -26,12 +33,15 @@ describe('Dropdown', () => {
     });
   });
 
-  it('opens nested flyout and closes on ESC', async () => {
+  it('opens nested flyouts up to three levels and closes on ESC', async () => {
     const user = userEvent.setup();
     render(<Dropdown trigger={<button type="button">Open</button>} items={ITEMS} />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
     await user.hover(screen.getByText('More'));
     expect(screen.getByText('Duplicate')).toBeInTheDocument();
+    await user.hover(screen.getByText('Settings'));
+    await user.click(screen.getByText('Workspace'));
+    expect(ITEMS[1].children![1].children![0].onSelect).toHaveBeenCalledTimes(1);
     await user.keyboard('{Escape}');
     await waitFor(() => {
       expect(screen.queryByRole('menu')).not.toBeInTheDocument();

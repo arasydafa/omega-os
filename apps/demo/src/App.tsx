@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import uiPkg from '@omega-os/ui/package.json';
 import {
   Alert,
   Avatar,
@@ -12,18 +13,22 @@ import {
   Input,
   Modal,
   Navbar,
+  OMEGA_ICONS,
   Pagination,
   Radio,
+  SearchBar,
   Select,
   Sidebar,
   Skeleton,
   Spinner,
+  SubmenuBar,
   Switch,
   Table,
   Tabs,
   Textarea,
   ToasterProvider,
   Tooltip,
+  iconComponentName,
   useToast,
 } from '@omega-os/ui';
 import type { AlertTone } from '@omega-os/ui';
@@ -46,6 +51,7 @@ import {
   Trash2,
   Wrench,
 } from 'lucide-react';
+import * as lucideSet from 'lucide-react';
 
 const ALERTS: AlertTone[] = ['info', 'warning', 'success', 'danger'];
 
@@ -62,38 +68,52 @@ export default function App() {
       setIcon(next ? 'sun' : 'moon');
       document.documentElement.classList.toggle('dark', next);
     };
+    // Guarded so the class toggles exactly once even if the transition API throws.
+    let applied = false;
+    const applyOnce = () => {
+      if (applied) return;
+      applied = true;
+      apply();
+    };
     const vt = (
       document as Document & {
         startViewTransition?: (cb: () => void) => { ready: Promise<void> };
       }
     ).startViewTransition;
     if (vt) {
-      const t = vt(apply);
-      t.ready.then(() => {
-        const r = Math.hypot(window.innerWidth, window.innerHeight);
-        document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${r}px at ${x}px ${y}px)`,
-            ],
-          },
-          {
-            duration: 550,
-            easing: 'ease-out',
-            pseudoElement: '::view-transition-new(root)',
-          },
-        );
-      });
-    } else {
-      apply();
+      try {
+        const t = vt(applyOnce);
+        t.ready.then(() => {
+          const r = Math.hypot(window.innerWidth, window.innerHeight);
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${r}px at ${x}px ${y}px)`,
+              ],
+            },
+            {
+              duration: 550,
+              easing: 'ease-out',
+              pseudoElement: '::view-transition-new(root)',
+            },
+          );
+        }).catch(() => {});
+        return;
+      } catch {
+        // Fall through to instant toggle below.
+      }
     }
+    applyOnce();
   };
 
   return (
     <ToasterProvider>
     <div className="min-h-screen bg-ot-bg font-sans text-ot-text">
-      <header className="sticky top-0 z-10 border-b border-ot-border bg-ot-bg/85 backdrop-blur">
+      <header
+        className="sticky top-0 z-10 border-b border-ot-border backdrop-blur"
+        style={{ background: 'color-mix(in srgb, var(--ot-bg) 85%, transparent)' }}
+      >
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3.5">
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-ot-md bg-navy text-white">
@@ -101,7 +121,7 @@ export default function App() {
             </span>
             <div>
               <h1 className="text-xl font-extrabold tracking-tight">OmegaOS UI</h1>
-              <p className="text-xs text-ot-muted">React demo — v0.4.0 infra</p>
+              <p className="text-xs text-ot-muted">Component showcase — v{uiPkg.version}</p>
             </div>
           </div>
           <button
@@ -116,6 +136,8 @@ export default function App() {
       </header>
 
       <main className="mx-auto grid max-w-5xl gap-4 px-5 py-8">
+        <FoundationsDemo />
+
         <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
           <h2 className="mb-1 text-lg font-bold">Buttons</h2>
           <p className="mb-4 text-sm text-ot-muted">All rounded 12px, lucide icon required.</p>
@@ -175,9 +197,154 @@ export default function App() {
         <ComplementsDemo />
 
         <NavigationDemo />
+
+        <IconsDemo />
       </main>
     </div>
     </ToasterProvider>
+  );
+}
+
+function FoundationsDemo() {
+  const swatch = (bg: string, name: string, value: string) => (
+    <div className="overflow-hidden rounded-ot-sm border border-ot-border bg-ot-bg">
+      <div className="h-14" style={{ background: bg }} />
+      <div className="px-2.5 py-2 text-xs">
+        <b className="block">{name}</b>
+        <span className="font-mono text-[11px] text-ot-muted">{value}</span>
+      </div>
+    </div>
+  );
+  const typeRow = (sample: React.ReactNode, example: React.ReactNode, use: string) => (
+    <div className="py-2.5">
+      <p>{sample}</p>
+      <p className="mt-1 text-sm text-ot-muted">{example}</p>
+      <p className="mt-0.5 text-xs text-ot-muted">
+        <span className="font-semibold text-ot-text">Use for:</span> {use}
+      </p>
+    </div>
+  );
+  return (
+    <>
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Typography</h2>
+        <p className="mb-4 text-sm text-ot-muted">Plus Jakarta Sans for UI, JetBrains Mono for code.</p>
+        <div className="divide-y divide-dashed divide-ot-border">
+          {typeRow(
+            <span className="text-3xl font-extrabold tracking-tight">Heading 30 / ExtraBold</span>,
+            'VStack visualizes your ROP chain before you run it.',
+            'page titles, hero numbers',
+          )}
+          {typeRow(
+            <span className="text-2xl font-bold">Heading 24 / Bold</span>,
+            'CI-CD Lab walks through pipelines step by step.',
+            'section titles, card titles',
+          )}
+          {typeRow(
+            <span className="text-lg font-semibold">Heading 18 / Semibold</span>,
+            'Every tool ships with a guided workspace.',
+            'subsections, modal titles',
+          )}
+          {typeRow(
+            <span className="text-base">Body 16 / Regular</span>,
+            'Modern minimalist interfaces for tools, portfolio, and docs.',
+            'paragraphs, table cells, menu items',
+          )}
+          {typeRow(
+            <span className="text-sm text-ot-muted">Muted 14</span>,
+            'Helper text stays quiet so primary actions stand out.',
+            'descriptions, helper text, table headers',
+          )}
+          {typeRow(
+            <span className="font-mono text-sm">mono 14 — const theme = &quot;light&quot; | &quot;dark&quot;;</span>,
+            'Code, addresses, and log output always use the mono face.',
+            'code blocks, addresses, logs, badges with IDs',
+          )}
+          <div className="py-2.5 text-sm">
+            <p className="mb-1 text-[13px] font-semibold">Rich text</p>
+            <p>
+              Run <code className="rounded-ot-sm bg-ot-surface-2 px-1.5 py-0.5 font-mono text-[13px]">npm test</code>{' '}
+              before pushing, read the <strong>release checklist</strong>, and follow the{' '}
+              <a href="#typography" className="text-info underline">
+                theming guide
+              </a>{' '}
+              for details.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Brand</h2>
+          <p className="mb-4 text-sm text-ot-muted">Navy primary, maroon danger-only.</p>
+          <div className="grid gap-3">
+            {swatch('#1E3A5F', 'Navy primary', '#1E3A5F')}
+            {swatch('#162C4A', 'Navy hover', '#162C4A')}
+            {swatch('var(--ot-navy-bg)', 'Navy bg tint', 'theme-aware')}
+            {swatch('#7B1E26', 'Maroon danger', '#7B1E26')}
+            {swatch('#5F151D', 'Maroon hover', '#5F151D')}
+            {swatch('var(--ot-danger-bg)', 'Maroon bg tint', 'theme-aware')}
+            {swatch('#2B2F36', 'Dark grey', '#2B2F36')}
+            {swatch('#0B0D10', 'Black', '#0B0D10')}
+            {swatch('#FFFFFF', 'White', '#FFFFFF')}
+          </div>
+          <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
+            <li><b className="text-ot-text">Navy</b> — primary buttons, active nav, links, focus.</li>
+            <li><b className="text-ot-text">Maroon</b> — destructive actions and errors only.</li>
+            <li><b className="text-ot-text">Dark grey</b> — borders, hover fills, secondary surfaces.</li>
+            <li><b className="text-ot-text">Black / white</b> — dark / light page base.</li>
+          </ul>
+        </div>
+        <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Status</h2>
+          <p className="mb-4 text-sm text-ot-muted">Shared by alerts and toasts.</p>
+          <div className="grid gap-3">
+            {swatch('var(--ot-info)', 'Info blue', 'light #1D4ED8')}
+            {swatch('var(--ot-warning)', 'Warning yellow', 'light #B45309')}
+            {swatch('var(--ot-success)', 'Success green', 'light #15803D')}
+            {swatch('var(--ot-danger)', 'Danger maroon', '#7B1E26')}
+          </div>
+          <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
+            <li><b className="text-ot-text">Info</b> — neutral updates, tips, new features.</li>
+            <li><b className="text-ot-text">Warning</b> — caution, unsaved changes, destructive confirmations.</li>
+            <li><b className="text-ot-text">Success</b> — saved, deployed, completed.</li>
+            <li><b className="text-ot-text">Danger</b> — errors, failures, destructive results.</li>
+          </ul>
+        </div>
+        <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Surfaces</h2>
+          <p className="mb-4 text-sm text-ot-muted">Follow the theme toggle.</p>
+          <div className="grid gap-3">
+            {swatch('var(--ot-bg)', 'bg', 'page')}
+            {swatch('var(--ot-surface)', 'surface', 'card')}
+            {swatch('var(--ot-surface-2)', 'surface-2', 'hover/input')}
+            {swatch('var(--ot-border)', 'border', 'line')}
+            {swatch('var(--ot-text)', 'text', 'foreground')}
+            {swatch('var(--ot-muted)', 'muted', 'secondary text')}
+          </div>
+          <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
+            <li><b className="text-ot-text">bg</b> — page background.</li>
+            <li><b className="text-ot-text">surface</b> — cards, panels, table headers.</li>
+            <li><b className="text-ot-text">surface-2</b> — hover fills, input backgrounds, skeletons.</li>
+            <li><b className="text-ot-text">border</b> — dividers, card outlines, thumbs.</li>
+            <li><b className="text-ot-text">text / muted</b> — primary vs secondary copy.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Radius</h2>
+        <p className="mb-4 text-sm text-ot-muted">No sharp corners — each size has one job.</p>
+        <div className="flex flex-wrap gap-3">
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 8 }}>8 · inputs, badges</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 12 }}>12 · buttons, alerts</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 16 }}>16 · cards, modals</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 20 }}>20 · large panels</span>
+          <span className="grid h-[72px] w-[140px] place-items-center rounded-full bg-navy text-xs font-bold text-white">full · pills, avatars</span>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -210,7 +377,16 @@ function OverlayDemo() {
               { label: 'Rename', onSelect: () => toast.show('info', 'Rename picked.') },
               {
                 label: 'More',
-                children: [{ label: 'Duplicate', onSelect: () => toast.show('info', 'Duplicate picked.') }],
+                children: [
+                  { label: 'Duplicate', onSelect: () => toast.show('info', 'Duplicate picked.') },
+                  {
+                    label: 'Settings',
+                    children: [
+                      { label: 'Workspace', onSelect: () => toast.show('info', 'Workspace picked.') },
+                      { label: 'Preferences', onSelect: () => toast.show('info', 'Preferences picked.') },
+                    ],
+                  },
+                ],
               },
               { label: 'Delete', danger: true, onSelect: () => toast.show('danger', 'Delete picked.') },
             ]}
@@ -253,7 +429,7 @@ function OverlayDemo() {
 interface DemoTool {
   id: string;
   name: string;
-  status: 'Active' | 'Draft' | 'Archived';
+  status: 'Active' | 'Draft' | 'Archived' | 'Disabled' | 'Info' | 'Warning' | 'Error';
 }
 
 const DEMO_TOOLS: DemoTool[] = [
@@ -269,6 +445,10 @@ const DEMO_TOOLS: DemoTool[] = [
   { id: 'linter', name: 'Linter', status: 'Active' },
   { id: 'backup', name: 'Backup', status: 'Draft' },
   { id: 'proxy', name: 'Proxy', status: 'Archived' },
+  { id: 'gateway', name: 'Gateway', status: 'Disabled' },
+  { id: 'notifier', name: 'Notifier', status: 'Info' },
+  { id: 'updater', name: 'Updater', status: 'Warning' },
+  { id: 'crasher', name: 'Crasher', status: 'Error' },
 ];
 
 const PAGE_SIZE = 5;
@@ -276,6 +456,10 @@ const PAGE_SIZE = 5;
 function statusBadge(status: DemoTool['status']) {
   if (status === 'Active') return <Badge tone="success" icon={<Check size={12} />}>Active</Badge>;
   if (status === 'Archived') return <Badge tone="grey">Archived</Badge>;
+  if (status === 'Disabled') return <Badge tone="grey">Disabled</Badge>;
+  if (status === 'Info') return <Badge tone="info">Info</Badge>;
+  if (status === 'Warning') return <Badge tone="warning">Warning</Badge>;
+  if (status === 'Error') return <Badge tone="danger">Error</Badge>;
   return <Badge tone="grey">Draft</Badge>;
 }
 
@@ -304,6 +488,13 @@ function DataDemo() {
             key: 'actions',
             header: 'Actions',
             align: 'right',
+            skeleton: (
+              <span className="flex justify-end gap-3">
+                <Skeleton className="h-5 w-5" />
+                <Skeleton className="h-5 w-5" />
+                <Skeleton className="h-5 w-5" />
+              </span>
+            ),
             render: (r) => (
               <span className="flex justify-end gap-3">
                 <button
@@ -401,7 +592,34 @@ function ComplementsDemo() {
   );
 }
 
+function IconsDemo() {
+  const set = lucideSet as unknown as Record<string, React.ComponentType<{ size?: number }>>;
+  return (
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Icons</h2>
+      <p className="mb-4 text-sm text-ot-muted">
+        {OMEGA_ICONS.length} approved lucide icons — same list as preview and docs. No emoji.
+      </p>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2">
+        {OMEGA_ICONS.map((name) => {
+          const Cmp = set[iconComponentName(name)];
+          return (
+            <div
+              key={name}
+              className="grid place-items-center gap-1.5 rounded-ot-sm border border-ot-border bg-ot-bg px-2 py-2.5 text-center"
+            >
+              {Cmp ? <Cmp size={18} /> : <span className="text-xs text-danger">missing</span>}
+              <code className="font-mono text-[10px] text-ot-muted [overflow-wrap:anywhere]">{name}</code>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function NavigationDemo() {
+  const toast = useToast();
   const [collapsed, setCollapsed] = useState(false);
   const [tab, setTab] = useState('overview');
   return (
@@ -421,6 +639,17 @@ function NavigationDemo() {
           links={[{ label: 'Dashboard', active: true }, { label: 'Tools' }, { label: 'Docs' }]}
           actions={<Button size="sm" icon={<Plus size={16} />}>New</Button>}
         />
+        <SubmenuBar
+          label="Project section"
+          links={[
+            { id: 'code', label: 'Code', active: true, count: 12 },
+            { id: 'issues', label: 'Issues', count: 3 },
+            { id: 'pulls', label: 'Pulls' },
+          ]}
+        />
+        <div className="max-w-sm">
+          <SearchBar shortcut="Ctrl K" onClear={() => toast.show('info', 'Search cleared.')} />
+        </div>
         <Breadcrumbs
           items={[
             { label: 'Home', icon: <Home size={14} /> },

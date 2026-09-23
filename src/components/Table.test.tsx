@@ -44,6 +44,15 @@ describe('Table', () => {
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
   });
 
+  it('uses the column skeleton override when provided', () => {
+    const cols = [
+      COLUMNS[0],
+      { ...COLUMNS[1], skeleton: <span data-testid="custom-skeleton" /> },
+    ];
+    render(<Table columns={cols} rows={[]} keyOf={(r: Row) => r.id} loading loadingRows={1} />);
+    expect(screen.getByTestId('custom-skeleton')).toBeInTheDocument();
+  });
+
   it('shows the empty state when there are no rows', () => {
     render(
       <Table

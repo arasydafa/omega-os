@@ -73,6 +73,7 @@
   /* Motion */
   --ot-duration-fast: 120ms;
   --ot-duration-base: 200ms;
+  --ot-duration-slow: 300ms;
   --ot-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ot-ease-in: cubic-bezier(0.4, 0, 1, 1);
 
@@ -146,6 +147,9 @@ code,
 /* Standard transition for interactive elements */
 .ot-transition { transition: all var(--ot-duration-base) var(--ot-ease-out); }
 
+/* Slow transition for large layout motion (sidebar collapse) */
+.ot-transition-slow { transition: all var(--ot-duration-slow) var(--ot-ease-out); }
+
 @media (prefers-reduced-motion: reduce) {
   .ot-anim-fade-in,
   .ot-anim-fade-out,
@@ -155,6 +159,17 @@ code,
   .ot-anim-slide-out-right {
     animation: none;
   }
+}
+
+/* View-transition theme reveal: the circular wipe is driven from JS,
+   these rules kill the default crossfade so only the wipe plays. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 9999;
 }
 
 /* Thin scrollbar that follows the theme */
