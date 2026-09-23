@@ -61,15 +61,17 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
                 else pick(item.id, item.onClick);
               }}
               title={collapsed ? String(item.label) : undefined}
-              className={`flex w-full items-center gap-2.5 rounded-ot-md px-3 py-2.5 transition-colors ${
-                collapsed ? 'justify-center px-0' : ''
+              className={`flex w-full items-center gap-2.5 rounded-ot-md py-2.5 transition-all duration-200 ease-out ${
+                collapsed ? 'px-3.5' : 'px-3'
               } ${
                 item.active
                   ? 'bg-navy-bg font-semibold text-navy-text'
                   : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
               }`}
             >
-              {item.icon}
+              {item.icon ? (
+                <span className="grid h-4 w-4 shrink-0 place-items-center [&>svg]:block">{item.icon}</span>
+              ) : null}
               <span
                 className={`flex min-w-0 flex-1 items-center gap-2 overflow-hidden whitespace-nowrap transition-all duration-200 ${
                   collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100'
