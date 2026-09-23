@@ -29,14 +29,18 @@ describe('GraphViewer', () => {
     expect(onSelect).toHaveBeenCalledWith('auth');
   });
 
-  it('zooms in steps and resets', async () => {
+  it('zooms in steps, traps wheel scroll, and resets', async () => {
     const user = userEvent.setup();
     render(<GraphViewer nodes={NODES} edges={EDGES} />);
     expect(screen.getByText(/100%/)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Zoom in' }));
     expect(screen.getByText(/125%/)).toBeInTheDocument();
-    fireEvent.wheel(screen.getByRole('img', { name: /Graph with 3 nodes/ }), { deltaY: 100 });
+    const svg = screen.getByRole('img', { name: /Graph with 3 nodes/ });
+    fireEvent.wheel(svg, { deltaY: 100 });
     expect(screen.getByText(/115%/)).toBeInTheDocument();
+    // Wheel over the graph must not bubble a scrollable default.
+    const prevented = fireEvent.wheel(svg, { deltaY: -100, cancelable: true });
+    expect(prevented).toBe(false);
     await user.click(screen.getByRole('button', { name: 'Reset view' }));
     expect(screen.getByText(/100%/)).toBeInTheDocument();
   });

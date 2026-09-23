@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Minus, Plus, RotateCcw } from 'lucide-react';
 
 export interface GraphNode {
@@ -80,11 +80,25 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const drag = useRef<{ sx: number; sy: number; px: number; py: number } | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const pos = layout(nodes, edges);
   const maxX = Math.max(PAD * 2 + NW, ...[...pos.values()].map((p) => p.x + NW + PAD));
   const W = Math.max(maxX, 480);
 
   const clampZoom = (z: number) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(z * 100) / 100));
+
+  // Non-passive wheel listener: React's onWheel is passive and cannot
+  // preventDefault, which would scroll the page while zooming the graph.
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      setZoom((z) => clampZoom(z + (e.deltaY < 0 ? 0.1 : -0.1)));
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
 
   return (
     <div className={`overflow-hidden rounded-ot-lg border border-ot-border bg-ot-bg font-sans ${className}`}>
@@ -123,6 +137,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
         </span>
       </div>
       <svg
+        ref={svgRef}
         width="100%"
         viewBox={`0 0 ${W} ${height}`}
         style={{ height }}
@@ -139,7 +154,6 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
         }}
         onPointerUp={() => (drag.current = null)}
         onPointerCancel={() => (drag.current = null)}
-        onWheel={(e) => setZoom((z) => clampZoom(z + (e.deltaY < 0 ? 0.1 : -0.1)))}
       >
         <defs>
           <marker id="ot-edge-arrow" viewBox="0 0 10 10" refX={9} refY={5} markerWidth={7} markerHeight={7} orient="auto-start-reverse">
