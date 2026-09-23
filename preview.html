@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OmegaOS UI — Preview v0.2</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --ot-font-sans:'Plus Jakarta Sans',Inter,system-ui,-apple-system,sans-serif;
+  --ot-font-mono:'JetBrains Mono','Fira Code',monospace;
+  --ot-navy:#1E3A5F; --ot-navy-hover:#162C4A; --ot-navy-bg:#EFF4FA; --ot-navy-text:#1E3A5F;
+  --ot-maroon:#7B1E26; --ot-maroon-hover:#5F151D; --ot-maroon-bg:#FAEDEF;
+  --ot-info:#1D4ED8; --ot-info-bg:#E3EDFD;
+  --ot-warning:#B45309; --ot-warning-bg:#FEF3C7;
+  --ot-success:#15803D; --ot-success-bg:#DCFCE7;
+  --ot-danger:#7B1E26; --ot-danger-bg:#FAEDEF;
+  --ot-bg:#FFFFFF; --ot-surface:#F7F8FA; --ot-surface-2:#F1F3F5;
+  --ot-border:#E2E5EA; --ot-text:#0B0D10; --ot-muted:#5B6470;
+}
+.dark{
+  --ot-bg:#0B0D10; --ot-surface:#15181D; --ot-surface-2:#2B2F36;
+  --ot-border:#2B2F36; --ot-text:#FFFFFF; --ot-muted:#A6AEB9;
+  --ot-navy-bg:#162C4A; --ot-navy-text:#C9DAEF; --ot-maroon-bg:#471016;
+  --ot-info:#93C5FD; --ot-info-bg:#1E3358;
+  --ot-warning:#FCD34D; --ot-warning-bg:#453003;
+  --ot-success:#86EFAC; --ot-success-bg:#123B24;
+  --ot-danger:#FCA5A5; --ot-danger-bg:#471016;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--ot-font-sans);background:var(--ot-bg);color:var(--ot-text);transition:background .25s,color .25s}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 64px}
+header.top{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--ot-bg) 85%,transparent);border-bottom:1px solid var(--ot-border)}
+header.top .inner{max-width:1120px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--ot-navy);color:#fff;display:grid;place-items:center}
+.logo svg{width:22px;height:22px}
+h1{font-size:20px;margin:0;font-weight:800;letter-spacing:-.02em}
+.sub{font-size:12px;color:var(--ot-muted);margin:2px 0 0}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:background .15s;font-family:inherit}
+.btn svg{width:16px;height:16px}
+.btn-primary{background:var(--ot-navy);color:#fff;padding:0 16px;height:40px}
+.btn-primary:hover{background:var(--ot-navy-hover)}
+.btn-secondary{background:transparent;border-color:var(--ot-border);color:var(--ot-text);padding:0 16px;height:40px}
+.btn-secondary:hover{background:var(--ot-surface)}
+.btn-danger{background:var(--ot-maroon);color:#fff;padding:0 16px;height:40px}
+.btn-ghost{background:transparent;color:var(--ot-muted);padding:0 12px;height:36px}
+.btn-sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.btn-lg{height:48px;padding:0 24px;font-size:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+section{margin-top:32px}
+.card{background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:16px;padding:20px}
+.card h2{margin:0 0 4px;font-size:18px;display:flex;align-items:center;gap:8px}
+.card h2 svg{width:18px;height:18px;color:var(--ot-navy)}
+.dark .card h2 svg{color:#9AB8DD}
+.desc{margin:0 0 16px;color:var(--ot-muted);font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.swatch{border:1px solid var(--ot-border);border-radius:12px;overflow:hidden;background:var(--ot-bg)}
+.swatch .c{height:56px}
+.swatch .t{padding:8px 10px;font-size:12px}
+.swatch .t b{display:block}
+.swatch .t span{color:var(--ot-muted);font-family:var(--ot-font-mono);font-size:11px}
+.type-row{padding:10px 0;border-bottom:1px dashed var(--ot-border)}
+.mono{font-family:var(--ot-font-mono)}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:9999px;padding:4px 12px;font-size:12px;font-weight:600;border:1px solid var(--ot-border);cursor:pointer;font-family:inherit;background:transparent;color:var(--ot-text)}
+.badge svg{width:12px;height:12px}
+.badge.active{background:var(--ot-navy);color:#fff;border-color:transparent}
+.b-navy{background:var(--ot-navy-bg);color:var(--ot-navy-text);border-color:transparent}
+.b-grey{background:var(--ot-surface-2);color:var(--ot-muted)}
+.b-info{background:var(--ot-info-bg);color:var(--ot-info);border-color:transparent}
+.b-warning{background:var(--ot-warning-bg);color:var(--ot-warning);border-color:transparent}
+.b-success{background:var(--ot-success-bg);color:var(--ot-success);border-color:transparent}
+.b-danger{background:var(--ot-danger-bg);color:var(--ot-danger);border-color:transparent}
+.input{width:100%;height:40px;border-radius:12px;border:1px solid var(--ot-border);background:var(--ot-bg);color:var(--ot-text);padding:0 12px;font-family:inherit;font-size:14px;outline:none}
+.input:focus{border-color:var(--ot-navy);box-shadow:0 0 0 3px color-mix(in srgb,var(--ot-navy) 20%,transparent)}
+.alert{display:flex;gap:10px;border-radius:12px;padding:12px 14px;font-size:14px;border:1px solid transparent;align-items:flex-start}
+.alert svg{width:18px;height:18px;flex-shrink:0}
+.a-info{background:var(--ot-info-bg);color:var(--ot-info)}
+.a-warning{background:var(--ot-warning-bg);color:var(--ot-warning)}
+.a-success{background:var(--ot-success-bg);color:var(--ot-success)}
+.a-danger{background:var(--ot-danger-bg);color:var(--ot-danger)}
+.a-navy{background:var(--ot-navy-bg);color:var(--ot-navy-text)}
+.radius-demo{display:flex;gap:12px;flex-wrap:wrap}
+.rbox{width:120px;height:72px;background:var(--ot-navy);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ot-border);background:var(--ot-surface);color:var(--ot-text);border-radius:9999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.toggle svg{width:15px;height:15px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+/* Table row actions: fixed spacing */
+.actions{display:flex;gap:12px;justify-content:flex-end;align-items:center}
+.icon-btn{width:32px;height:32px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--ot-muted);display:inline-grid;place-items:center;cursor:pointer}
+.icon-btn svg{width:15px;height:15px}
+.icon-btn:hover{background:var(--ot-surface-2);color:var(--ot-text)}
+.icon-btn.danger:hover{background:var(--ot-danger-bg);color:var(--ot-danger)}
+table.demo{width:100%;border-collapse:collapse;font-size:14px}
+table.demo th{background:var(--ot-surface);text-align:left;font-size:12px;color:var(--ot-muted);text-transform:uppercase;letter-spacing:.04em;padding:10px 12px}
+table.demo td{padding:10px 12px;border-top:1px solid var(--ot-border)}
+table.demo tbody tr{cursor:pointer}
+table.demo tbody tr:hover{background:var(--ot-surface)}
+.icons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.icon-cell{border:1px solid var(--ot-border);border-radius:12px;background:var(--ot-bg);padding:10px 8px;text-align:center;font-size:11px;color:var(--ot-muted)}
+.icon-cell svg{width:18px;height:18px;color:var(--ot-text);display:block;margin:0 auto 6px}
+.icon-cell code{font-family:var(--ot-font-mono);font-size:10px;color:var(--ot-text);word-break:break-all}
+/* View-transition circular reveal for theme toggle */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){z-index:9999}
+/* Sidebar collapse + submenu */
+#sideDemo{transition:max-width .25s}
+#sideDemo .nav-item{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;cursor:pointer}
+#sideDemo.collapsed .nav-label,#sideDemo.collapsed .nav-chevron{display:none}
+#sideDemo.collapsed .nav-item{justify-content:center;padding:10px 0}
+#sideDemo .submenu{display:grid;gap:2px;margin:2px 0 2px 26px}
+#sideDemo.collapsed .submenu{display:none}
+#sideDemo .sub-item{padding:8px 10px;border-radius:8px;font-size:13px;color:var(--ot-muted);cursor:pointer}
+#sideDemo .sub-item:hover{background:var(--ot-surface-2);color:var(--ot-text)}
+/* Navbar dropdown submenu */
+.nav-drop{position:relative}
+.nav-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:220px;background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:12px;padding:6px;display:grid;gap:2px;box-shadow:0 8px 24px rgb(11 13 16/.12);z-index:20}
+.nav-menu .mi{padding:8px 10px;border-radius:8px;display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.nav-menu .mi:hover{background:var(--ot-surface-2)}
+.flyout{position:relative}
+.flyout > .nav-menu{left:100%;top:-6px}
+#toastStack{position:fixed;right:16px;bottom:16px;display:grid;gap:10px;z-index:50;max-width:360px}
+label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="inner">
+    <div class="brand">
+      <div class="logo"><i data-lucide="crown"></i></div>
+      <div><h1>OmegaOS UI</h1><p class="sub">Design System v0.2 — interactive preview</p></div>
+    </div>
+    <button class="toggle" id="themeBtn"><i data-lucide="moon"></i><span>Dark</span></button>
+  </div>
+</header>
+<div class="wrap">
+
+  <section class="card">
+    <h2><i data-lucide="type"></i>Typography</h2>
+    <p class="desc">Plus Jakarta Sans for UI, JetBrains Mono for code.</p>
+    <div class="type-row" style="font-size:30px;font-weight:800;letter-spacing:-.02em">Heading 30 / ExtraBold</div>
+    <div class="type-row" style="font-size:24px;font-weight:700">Heading 24 / Bold</div>
+    <div class="type-row" style="font-size:18px;font-weight:600">Heading 18 / Semibold</div>
+    <div class="type-row" style="font-size:16px">Body 16 / Regular — for tools, portfolio, and docs.</div>
+    <div class="type-row" style="font-size:14px;color:var(--ot-muted)">Muted 14 — descriptions and helper text.</div>
+    <div class="type-row mono" style="font-size:14px">mono 14 — const theme = "light" | "dark";</div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2><i data-lucide="palette"></i>Brand colors</h2>
+      <p class="desc">Navy = primary. Maroon = danger only.</p>
+      <div class="swatches">
+        <div class="swatch"><div class="c" style="background:#1E3A5F"></div><div class="t"><b>Navy primary</b><span>#1E3A5F</span></div></div>
+        <div class="swatch"><div class="c" style="background:#162C4A"></div><div class="t"><b>Navy hover</b><span>#162C4A</span></div></div>
+        <div class="swatch"><div class="c" style="background:#7B1E26"></div><div class="t"><b>Maroon danger</b><span>#7B1E26</span></div></div>
+        <div class="swatch"><div class="c" style="background:#2B2F36"></div><div class="t"><b>Dark grey</b><span>#2B2F36</span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2><i data-lucide="contrast"></i>Status colors</h2>
+      <p class="desc">Info = blue, warning = yellow, success = green, danger = maroon. Used for alerts and toasts.</p>
+      <div class="swatches">
+        <div class="swatch"><div class="c" style="background:var(--ot-info)"></div><div class="t"><b>Info blue</b><span>light #1D4ED8</span></div></div>
+        <div class="swatch"><div class="c" style="background:var(--ot-warning)"></div><div class="t"><b>Warning yellow</b><span>light #B45309</span></div></div>
+        <div class="swatch"><div class="c" style="background:var(--ot-success)"></div><div class="t"><b>Success green</b><span>light #15803D</span></div></div>
+        <div class="swatch"><div class="c" style="background:var(--ot-danger)"></div><div class="t"><b>Danger maroon</b><span>#7B1E26</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><i data-lucide="layers"></i>Surfaces — follow the theme</h2>
+    <p class="desc">Toggle Dark in the header. Light: white/grey. Dark: black/dark-grey.</p>
+    <div class="swatches">
+      <div class="swatch"><div class="c" style="background:var(--ot-bg);border-bottom:1px solid var(--ot-border)"></div><div class="t"><b>bg</b><span>page</span></div></div>
+      <div class="swatch"><div class="c" style="background:var(--ot-surface)"></div><div class="t"><b>surface</b><span>card</span></div></div>
+      <div class="swatch"><div class="c" style="background:var(--ot-surface-2)"></div><div class="t"><b>surface-2</b><span>hover/input</span></div></div>
+      <div class="swatch"><div class="c" style="background:var(--ot-border)"></div><div class="t"><b>border</b><span>line</span></div></div>
+      <div class="swatch"><div class="c" style="background:var(--ot-bg);border-bottom:4px solid var(--ot-text)"></div><div class="t"><b>text</b><span>foreground</span></div></div>
+      <div class="swatch"><div class="c" style="background:var(--ot-muted)"></div><div class="t"><b>muted</b><span>secondary text</span></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><i data-lucide="mouse-pointer-click"></i>Buttons</h2>
+    <p class="desc">All rounded 12px, icon required, no emoji.</p>
+    <div class="row">
+      <button class="btn btn-primary" data-demo="Primary clicked"><i data-lucide="plus"></i>Primary</button>
+      <button class="btn btn-secondary" data-demo="Secondary clicked"><i data-lucide="settings"></i>Secondary</button>
+      <button class="btn btn-danger" data-demo="Danger clicked"><i data-lucide="trash-2"></i>Danger</button>
+      <button class="btn btn-ghost" data-demo="Ghost clicked"><i data-lucide="arrow-right"></i>Ghost</button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn btn-primary btn-sm" data-demo="Small clicked"><i data-lucide="plus"></i>Small</button>
+      <button class="btn btn-primary" data-demo="Medium clicked"><i data-lucide="plus"></i>Medium</button>
+      <button class="btn btn-primary btn-lg" data-demo="Large clicked"><i data-lucide="plus"></i>Large</button>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2><i data-lucide="text-cursor-input"></i>Text field, dropdown, radio</h2>
+      <p class="desc">Fields are 40px tall, 12px radius, navy focus ring.</p>
+      <label class="f-label">Tool name</label>
+      <input class="input" id="toolName" placeholder="e.g. vstack" />
+      <label class="f-label" style="margin-top:14px">Category</label>
+      <div style="position:relative">
+        <select class="input" id="category" style="appearance:none;padding-right:36px"><option>Security tools</option><option>Portfolio</option><option>Opensource</option><option>Docs</option></select>
+        <i data-lucide="chevron-down" style="position:absolute;right:12px;top:12px;width:16px;height:16px;color:var(--ot-muted);pointer-events:none"></i>
+      </div>
+      <label class="f-label" style="margin-top:14px">Description</label>
+      <textarea class="input" style="height:72px;padding:10px 12px;resize:vertical" placeholder="Short description…"></textarea>
+      <div style="margin-top:14px;display:grid;gap:10px;font-size:14px">
+        <label style="display:flex;gap:10px;align-items:center;cursor:pointer"><input type="radio" name="theme" checked style="accent-color:var(--ot-navy);width:16px;height:16px" /> Light as default</label>
+        <label style="display:flex;gap:10px;align-items:center;cursor:pointer"><input type="radio" name="theme" style="accent-color:var(--ot-navy);width:16px;height:16px" /> Dark as option</label>
+        <label style="display:flex;gap:10px;align-items:center;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--ot-navy);width:16px;height:16px" /> Icons only, no emoji</label>
+      </div>
+      <div class="row" style="margin-top:14px"><button class="btn btn-primary btn-sm" id="saveDemo"><i data-lucide="save"></i>Save demo</button></div>
+    </div>
+    <div class="card">
+      <h2><i data-lucide="siren"></i>Alerts</h2>
+      <p class="desc">Info = blue, warning = yellow, success = green, danger = maroon.</p>
+      <div style="display:grid;gap:10px">
+        <div class="alert a-info"><i data-lucide="info"></i><span><b>Info.</b> Tokens v0.2 now include status colors.</span></div>
+        <div class="alert a-warning"><i data-lucide="triangle-alert"></i><span><b>Warning.</b> Unsaved changes will be lost.</span></div>
+        <div class="alert a-success"><i data-lucide="circle-check"></i><span><b>Success.</b> Design tokens applied.</span></div>
+        <div class="alert a-danger"><i data-lucide="octagon-x"></i><span><b>Error.</b> Build failed: tokens not found.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><i data-lucide="panel-top"></i>Navbar + breadcrumbs</h2>
+    <p class="desc">Navbar: 40px logo radius 12 navy, active link navy-bg. Breadcrumb: 13px muted with chevron separators.</p>
+    <div style="border:1px solid var(--ot-border);border-radius:12px;background:var(--ot-bg);padding:10px 14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px"><div class="logo" style="width:32px;height:32px"><i data-lucide="crown"></i></div><b style="font-size:14px">OmegaOS</b></div>
+      <div class="row" style="font-size:14px"><span style="background:var(--ot-navy-bg);color:var(--ot-navy-text);padding:6px 12px;border-radius:8px;font-weight:600">Dashboard</span><span style="color:var(--ot-muted)">Tools</span><span style="color:var(--ot-muted)">Docs</span></div>
+      <div style="margin-left:auto" class="row"><button class="btn btn-secondary btn-sm" data-demo="Search clicked"><i data-lucide="search"></i>Search</button><button class="btn btn-primary btn-sm" data-demo="New clicked"><i data-lucide="plus"></i>New</button></div>
+    </div>
+    <div class="row" style="margin-top:12px;font-size:13px;color:var(--ot-muted)"><i data-lucide="home" style="width:14px;height:14px"></i><span>Home</span><i data-lucide="chevron-right" style="width:14px;height:14px"></i><span>Tools</span><i data-lucide="chevron-right" style="width:14px;height:14px"></i><span style="color:var(--ot-text);font-weight:600">VStack</span></div>
+    <p class="desc" style="margin:14px 0 8px">Submenu rule: navbar dropdown panel radius 12, item radius 8, nested flyout opens to the right.</p>
+    <div class="row" style="font-size:14px">
+      <div class="nav-drop">
+        <button class="btn btn-secondary btn-sm" id="navToolsBtn"><i data-lucide="wrench"></i>Tools<i data-lucide="chevron-down" style="width:14px;height:14px"></i></button>
+        <div class="nav-menu" id="navToolsMenu">
+          <div class="mi" data-demo="All tools clicked"><i data-lucide="layout-grid" style="width:14px;height:14px"></i>All tools</div>
+          <div class="mi flyout" id="secFly"><i data-lucide="shield" style="width:14px;height:14px"></i>Security<i data-lucide="chevron-right" style="width:14px;height:14px;margin-left:auto"></i>
+            <div class="nav-menu" id="secMenu" style="display:none">
+              <div class="mi" data-demo="VStack clicked"><i data-lucide="layers" style="width:14px;height:14px"></i>VStack</div>
+              <div class="mi" data-demo="CI-CD lab clicked"><i data-lucide="terminal" style="width:14px;height:14px"></i>CI-CD lab</div>
+            </div>
+          </div>
+          <div class="mi" data-demo="Portfolio clicked"><i data-lucide="user" style="width:14px;height:14px"></i>Portfolio</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2><i data-lucide="panel-left"></i>Sidebar</h2>
+      <p class="desc">240px wide, items 40px tall radius 12, active navy-bg. Collapse shrinks to 64px icon rail. Submenu expands inline with 13px children.</p>
+      <div class="row" style="margin-bottom:10px"><button class="btn btn-secondary btn-sm" id="collapseBtn"><i data-lucide="panel-left"></i>Collapse</button></div>
+      <div id="sideDemo" style="border:1px solid var(--ot-border);border-radius:12px;background:var(--ot-bg);padding:10px;display:grid;gap:4px;font-size:14px;max-width:280px">
+        <div class="nav-item" style="background:var(--ot-navy-bg);color:var(--ot-navy-text);font-weight:600"><i data-lucide="layout-dashboard" style="width:16px;height:16px;color:var(--ot-navy-text)"></i><span class="nav-label">Dashboard</span></div>
+        <div class="nav-item" id="sideToolsBtn" style="color:var(--ot-muted)"><i data-lucide="wrench" style="width:16px;height:16px"></i><span class="nav-label">Tools</span><i data-lucide="chevron-down" class="nav-chevron" style="width:14px;height:14px;margin-left:auto"></i></div>
+        <div class="submenu" id="sideToolsSub">
+          <div class="sub-item" data-demo="VStack clicked">VStack</div>
+          <div class="sub-item" data-demo="CI-CD lab clicked">CI-CD lab</div>
+          <div class="sub-item" data-demo="Portfolio clicked">Portfolio</div>
+        </div>
+        <div class="nav-item" style="color:var(--ot-muted)"><i data-lucide="folder" style="width:16px;height:16px"></i><span class="nav-label">Projects</span></div>
+        <div class="nav-item" style="color:var(--ot-muted)"><i data-lucide="book-open" style="width:16px;height:16px"></i><span class="nav-label">Docs</span></div>
+        <div class="nav-item" style="color:var(--ot-muted)"><i data-lucide="settings" style="width:16px;height:16px"></i><span class="nav-label">Settings</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2><i data-lucide="table"></i>Table + pagination (clickable)</h2>
+      <p class="desc">Click a row to select it. Action buttons have 12px gaps and 32px hit areas.</p>
+      <div style="border:1px solid var(--ot-border);border-radius:16px;overflow:hidden">
+        <table class="demo">
+          <thead><tr><th>Tool</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
+          <tbody id="toolRows"></tbody>
+        </table>
+      </div>
+      <div class="row" style="margin-top:12px" id="pager">
+        <button class="btn btn-secondary btn-sm" id="prevPage"><i data-lucide="chevron-left"></i>Prev</button>
+        <button class="badge" data-page="1">1</button>
+        <button class="badge" data-page="2">2</button>
+        <button class="badge" data-page="3">3</button>
+        <button class="btn btn-secondary btn-sm" id="nextPage">Next<i data-lucide="chevron-right"></i></button>
+      </div>
+      <p class="desc" id="pageInfo" style="margin:10px 0 0"></p>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="card">
+      <h2><i data-lucide="bell"></i>Toast notifications</h2>
+      <p class="desc">Bottom-right, radius 16, icon + title + close. Click a button to fire a live toast.</p>
+      <div class="row">
+        <button class="btn btn-secondary btn-sm" data-toast="info"><i data-lucide="info"></i>Info</button>
+        <button class="btn btn-secondary btn-sm" data-toast="warning"><i data-lucide="triangle-alert"></i>Warning</button>
+        <button class="btn btn-secondary btn-sm" data-toast="success"><i data-lucide="circle-check"></i>Success</button>
+        <button class="btn btn-secondary btn-sm" data-toast="danger"><i data-lucide="octagon-x"></i>Error</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2><i data-lucide="message-square"></i>Modal vs popup</h2>
+      <p class="desc">Modal blocks the screen with overlay (radius 16). Popup is a small menu near the trigger (radius 12).</p>
+      <div class="row"><button class="btn btn-danger btn-sm" id="openModal"><i data-lucide="trash-2"></i>Open modal</button></div>
+      <div style="margin-top:12px;border:1px solid var(--ot-border);border-radius:12px;background:var(--ot-bg);padding:6px;display:inline-grid;gap:2px;min-width:200px;font-size:14px">
+        <div style="padding:8px 10px;border-radius:8px;display:flex;gap:8px;align-items:center;cursor:pointer"><i data-lucide="pencil" style="width:14px;height:14px"></i>Rename</div>
+        <div style="padding:8px 10px;border-radius:8px;display:flex;gap:8px;align-items:center;cursor:pointer"><i data-lucide="copy" style="width:14px;height:14px"></i>Duplicate</div>
+        <div style="padding:8px 10px;border-radius:8px;display:flex;gap:8px;align-items:center;color:var(--ot-danger);cursor:pointer"><i data-lucide="trash-2" style="width:14px;height:14px"></i>Delete</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><i data-lucide="layout-grid"></i>Approved icon set (lucide only)</h2>
+    <p class="desc">Full list lives in <span class="mono">docs/ICONS.md</span>. One icon = one meaning. No emoji.</p>
+    <div class="icons-grid" id="iconGrid"></div>
+  </section>
+
+</div>
+
+<div id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgb(0 0 0/.55);z-index:40;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:16px;max-width:420px;width:100%;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid var(--ot-border);display:flex;align-items:center;gap:8px"><i data-lucide="trash-2" style="width:16px;height:16px;color:var(--ot-danger)"></i><b style="font-size:14px">Delete tool?</b><button class="icon-btn" id="closeModal" style="margin-left:auto"><i data-lucide="x"></i></button></div>
+    <div style="padding:14px 16px;font-size:14px;color:var(--ot-muted)">This action is permanent and cannot be undone.</div>
+    <div style="padding:12px 16px;display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--ot-border)"><button class="btn btn-secondary btn-sm" id="cancelModal">Cancel</button><button class="btn btn-danger btn-sm" id="confirmModal"><i data-lucide="trash-2"></i>Delete</button></div>
+  </div>
+</div>
+
+<div id="toastStack"></div>
+
+<script>
+lucide.createIcons();
+// Theme toggle — circular reveal flowing from the clicked toggle button
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.onclick = (e) => {
+  const x = e.clientX || innerWidth - 60, y = e.clientY || 40;
+  const apply = () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    themeBtn.innerHTML = dark ? '<i data-lucide="sun"></i><span>Light</span>' : '<i data-lucide="moon"></i><span>Dark</span>';
+    lucide.createIcons();
+  };
+  if (document.startViewTransition) {
+    const t = document.startViewTransition(apply);
+    t.ready.then(() => {
+      const r = Math.hypot(innerWidth, innerHeight);
+      document.documentElement.animate(
+        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 550, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
+      );
+    });
+  } else apply();
+};
+// Collapse menu + submenus (navbar dropdown, sidebar inline)
+const sideDemo = document.getElementById('sideDemo');
+document.getElementById('collapseBtn').onclick = function () {
+  const c = sideDemo.classList.toggle('collapsed');
+  sideDemo.style.maxWidth = c ? '64px' : '280px';
+  this.innerHTML = c ? '<i data-lucide="panel-left"></i>Expand' : '<i data-lucide="panel-left"></i>Collapse';
+  lucide.createIcons();
+};
+document.getElementById('sideToolsBtn').onclick = () => {
+  const sub = document.getElementById('sideToolsSub');
+  sub.style.display = sub.style.display === 'none' ? 'grid' : 'none';
+};
+const navMenu = document.getElementById('navToolsMenu');
+document.getElementById('navToolsBtn').onclick = (e) => { e.stopPropagation(); navMenu.style.display = navMenu.style.display === 'none' ? 'grid' : 'none'; };
+document.getElementById('secFly').onclick = (e) => { e.stopPropagation(); const m = document.getElementById('secMenu'); m.style.display = m.style.display === 'none' ? 'grid' : 'none'; };
+document.addEventListener('click', (e) => { if (!e.target.closest('.nav-drop')) { document.getElementById('secMenu').style.display = 'none'; } });
+// Toasts
+const TOAST = {
+  info:    { cls: 'a-info',    icon: 'info',           title: 'Info.' },
+  warning: { cls: 'a-warning', icon: 'triangle-alert', title: 'Warning.' },
+  success: { cls: 'a-success', icon: 'circle-check',   title: 'Success.' },
+  danger:  { cls: 'a-danger',  icon: 'octagon-x',      title: 'Error.' },
+};
+function toast(kind, msg) {
+  const t = TOAST[kind] || TOAST.info;
+  const el = document.createElement('div');
+  el.className = 'alert ' + t.cls;
+  el.style.background = 'var(--ot-surface)';
+  el.style.borderColor = 'var(--ot-border)';
+  el.innerHTML = '<i data-lucide="' + t.icon + '"></i><span><b>' + t.title + '</b> ' + msg + '</span>';
+  const x = document.createElement('button');
+  x.className = 'icon-btn'; x.style.marginLeft = 'auto';
+  x.innerHTML = '<i data-lucide="x"></i>';
+  x.onclick = () => el.remove();
+  el.appendChild(x);
+  document.getElementById('toastStack').appendChild(el);
+  lucide.createIcons();
+  setTimeout(() => el.remove(), 4000);
+}
+document.querySelectorAll('[data-demo]').forEach(b => b.onclick = () => toast('info', b.getAttribute('data-demo')));
+document.querySelectorAll('[data-toast]').forEach(b => b.onclick = () => toast(b.getAttribute('data-toast'), 'This is a live ' + b.getAttribute('data-toast') + ' toast.'));
+document.getElementById('saveDemo').onclick = () => {
+  const name = document.getElementById('toolName').value || 'untitled';
+  toast('success', 'Saved "' + name + '" as demo.');
+};
+// Table + pagination (demo data, 3 pages)
+const PAGES = {
+  1: [{ n: 'vstack', s: 'Active' }, { n: 'ci-cd-lab', s: 'Draft' }],
+  2: [{ n: 'portfolio', s: 'Active' }, { n: 'omega-docs', s: 'Draft' }],
+  3: [{ n: 'scanner', s: 'Archived' }, { n: 'playground', s: 'Draft' }],
+};
+let page = 1;
+function badgeFor(s) {
+  if (s === 'Active') return '<span class="badge b-success"><i data-lucide="check"></i>Active</span>';
+  if (s === 'Archived') return '<span class="badge b-grey"><i data-lucide="clock"></i>Archived</span>';
+  return '<span class="badge b-grey"><i data-lucide="clock"></i>Draft</span>';
+}
+function render() {
+  const tb = document.getElementById('toolRows');
+  tb.innerHTML = '';
+  PAGES[page].forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td style="font-weight:600">' + r.n + '</td><td>' + badgeFor(r.s) + '</td><td><div class="actions">' +
+      '<button class="icon-btn" title="Rename"><i data-lucide="pencil"></i></button>' +
+      '<button class="icon-btn" title="Duplicate"><i data-lucide="copy"></i></button>' +
+      '<button class="icon-btn danger" title="Delete"><i data-lucide="trash-2"></i></button></div></td>';
+    tr.querySelectorAll('.icon-btn')[0].onclick = e => { e.stopPropagation(); toast('info', 'Rename "' + r.n + '" (demo).'); };
+    tr.querySelectorAll('.icon-btn')[1].onclick = e => { e.stopPropagation(); toast('info', 'Duplicated "' + r.n + '" (demo).'); };
+    tr.querySelectorAll('.icon-btn')[2].onclick = e => { e.stopPropagation(); toast('danger', 'Delete "' + r.n + '" is destructive (demo).'); };
+    tr.onclick = () => toast('info', 'Selected row "' + r.n + '".');
+    tb.appendChild(tr);
+  });
+  document.querySelectorAll('#pager .badge').forEach(b => {
+    const active = Number(b.getAttribute('data-page')) === page;
+    b.classList.toggle('active', active);
+  });
+  document.getElementById('pageInfo').textContent = 'Page ' + page + ' of 3 — 2 rows per page (demo).';
+  document.getElementById('prevPage').disabled = page === 1;
+  document.getElementById('nextPage').disabled = page === 3;
+  lucide.createIcons();
+}
+document.querySelectorAll('#pager .badge').forEach(b => b.onclick = () => { page = Number(b.getAttribute('data-page')); render(); });
+document.getElementById('prevPage').onclick = () => { if (page > 1) { page--; render(); } };
+document.getElementById('nextPage').onclick = () => { if (page < 3) { page++; render(); } };
+render();
+// Modal
+const overlay = document.getElementById('modalOverlay');
+document.getElementById('openModal').onclick = () => { overlay.style.display = 'flex'; };
+document.getElementById('closeModal').onclick = () => { overlay.style.display = 'none'; };
+document.getElementById('cancelModal').onclick = () => { overlay.style.display = 'none'; };
+document.getElementById('confirmModal').onclick = () => { overlay.style.display = 'none'; toast('success', 'Tool deleted (demo).'); };
+overlay.onclick = e => { if (e.target === overlay) overlay.style.display = 'none'; };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.style.display = 'none'; });
+// Icon gallery
+const ICONS = ['crown','layout-dashboard','home','folder','layers','terminal','command','globe','book-open','plus','minus','x','check','pencil','trash-2','copy','download','upload','save','search','filter','settings','more-horizontal','external-link','arrow-right','arrow-left','chevron-down','chevron-up','chevron-left','chevron-right','refresh-cw','rotate-ccw','play','eye','eye-off','user','users','user-plus','mail','lock','key','fingerprint','tag','calendar','clock','history','info','triangle-alert','octagon-x','shield','shield-check','shield-alert','circle-check','loader-2','bell','ban','log-out','power','sun','moon','file','file-text','files','code','image','link','bookmark','github','git-branch','monitor','cpu','activity','database','server','cloud','wifi','siren','wrench','hammer','package','rocket','send','inbox','archive','star','pin','share-2','sliders-horizontal','list','squircle','table','panel-top','panel-left'];
+const grid = document.getElementById('iconGrid');
+ICONS.forEach(n => {
+  const d = document.createElement('div');
+  d.className = 'icon-cell';
+  d.innerHTML = '<i data-lucide="' + n + '"></i><code>' + n + '</code>';
+  grid.appendChild(d);
+});
+lucide.createIcons();
+</script>
+</body>
+</html>

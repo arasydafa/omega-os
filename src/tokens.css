@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* OmegaOS Design Tokens v0.1 — light default, dark via `.dark` */
+
+:root {
+  --ot-font-sans: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
+  --ot-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Brand */
+  --ot-navy: #1e3a5f;
+  --ot-navy-hover: #162c4a;
+  --ot-navy-bg: #eff4fa;
+  --ot-navy-text: #1e3a5f;
+  --ot-maroon: #7b1e26;
+  --ot-maroon-hover: #5f151d;
+  --ot-maroon-bg: #FAEDEF;
+
+  /* Functional status (info=blue, warning=yellow, success=green, danger=maroon) */
+  --ot-info: #1d4ed8;
+  --ot-info-bg: #e3edfd;
+  --ot-warning: #b45309;
+  --ot-warning-bg: #fef3c7;
+  --ot-success: #15803d;
+  --ot-success-bg: #dcfce7;
+  --ot-danger: #7b1e26;
+  --ot-danger-bg: #FAEDEF;
+
+  /* Light (default) */
+  --ot-bg: #ffffff;
+  --ot-surface: #f7f8fa;
+  --ot-surface-2: #f1f3f5;
+  --ot-border: #e2e5ea;
+  --ot-text: #0b0d10;
+  --ot-muted: #5b6470;
+
+  /* Shape — rounded everything, no sharp corners */
+  --ot-radius-sm: 8px;
+  --ot-radius-md: 12px;
+  --ot-radius-lg: 16px;
+  --ot-radius-xl: 20px;
+
+  /* Type scale */
+  --ot-text-xs: 12px;
+  --ot-text-sm: 14px;
+  --ot-text-base: 16px;
+  --ot-text-lg: 18px;
+  --ot-text-xl: 20px;
+  --ot-text-2xl: 24px;
+}
+
+.dark {
+  --ot-bg: #0b0d10;
+  --ot-surface: #15181d;
+  --ot-surface-2: #2b2f36;
+  --ot-border: #2b2f36;
+  --ot-text: #ffffff;
+  --ot-muted: #a6aeb9;
+
+  --ot-navy-bg: #162c4a;
+  --ot-navy-text: #c9daef;
+  --ot-maroon-bg: #471016;
+
+  --ot-info: #93c5fd;
+  --ot-info-bg: #1e3358;
+  --ot-warning: #fcd34d;
+  --ot-warning-bg: #453003;
+  --ot-success: #86efac;
+  --ot-success-bg: #123b24;
+  --ot-danger: #fca5a5;
+  --ot-danger-bg: #471016;
+}
+
+body {
+  font-family: var(--ot-font-sans);
+  background-color: var(--ot-bg);
+  color: var(--ot-text);
+}
+
+pre,
+code,
+.font-mono {
+  font-family: var(--ot-font-mono);
+}
+
+/* Thin scrollbar that follows the theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ot-border) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--ot-border);
+  border-radius: 8px;
+}
