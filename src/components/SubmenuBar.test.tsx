@@ -19,6 +19,7 @@ describe('SubmenuBar', () => {
     );
     expect(screen.getByRole('button', { name: /Code/ })).toHaveAttribute('aria-current', 'page');
     expect(screen.getByText('12')).toBeInTheDocument();
+    expect(screen.getByTestId('submenu-slide-bar')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Issues/ }));
     expect(onSelect).toHaveBeenCalledWith('issues');
   });

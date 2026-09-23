@@ -28,6 +28,9 @@ export type { CheckboxProps, RadioProps, SwitchProps } from './components/Choice
 export { Dropdown } from './components/Dropdown.js';
 export type { DropdownItemDef, DropdownProps } from './components/Dropdown.js';
 
+export { OMEGA_ICONS, iconComponentName } from './icons.js';
+export type { OmegaIconName } from './icons.js';
+
 export { EmptyState } from './components/EmptyState.js';
 export type { EmptyStateProps } from './components/EmptyState.js';
 

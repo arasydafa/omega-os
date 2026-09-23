@@ -9,6 +9,8 @@ export interface TableColumn<T> {
   header: ReactNode;
   render?: (row: T, index: number) => ReactNode;
   align?: TableAlign;
+  /** Loading placeholder for this column. Defaults to a text-width bar. */
+  skeleton?: ReactNode;
 }
 
 export interface TableProps<T> {
@@ -63,8 +65,20 @@ export function Table<T>({
             ? Array.from({ length: loadingRows }, (_, i) => (
                 <tr key={`loading-${i}`} className="border-t border-ot-border">
                   {columns.map((col) => (
-                    <td key={col.key} className="px-3 py-2.5">
-                      <Skeleton className="h-5 w-3/4" />
+                    <td key={col.key} className={`px-3 py-2.5 ${ALIGN[col.align ?? 'left']}`}>
+                      {col.skeleton ?? (
+                        <span
+                          className={`flex ${
+                            col.align === 'right'
+                              ? 'justify-end'
+                              : col.align === 'center'
+                                ? 'justify-center'
+                                : 'justify-start'
+                          }`}
+                        >
+                          <Skeleton className="h-5 w-3/4" />
+                        </span>
+                      )}
                     </td>
                   ))}
                 </tr>

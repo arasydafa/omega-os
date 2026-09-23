@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { KeyboardEvent, ReactNode } from 'react';
 
 export interface TabDef {
@@ -19,6 +19,17 @@ export interface TabsProps {
 
 export function Tabs({ tabs, value, onChange, label = 'Tabs', className = '' }: TabsProps) {
   const listRef = useRef<HTMLDivElement>(null);
+  const [bar, setBar] = useState({ left: 0, width: 0 });
+
+  useLayoutEffect(() => {
+    const place = () => {
+      const el = listRef.current?.querySelector<HTMLElement>(`[data-tab="${CSS.escape(value)}"]`);
+      if (el) setBar({ left: el.offsetLeft, width: el.offsetWidth });
+    };
+    place();
+    window.addEventListener('resize', place);
+    return () => window.removeEventListener('resize', place);
+  }, [value, tabs]);
 
   const focusTab = (id: string) => {
     listRef.current?.querySelector<HTMLElement>(`[data-tab="${id}"]`)?.focus();
@@ -59,7 +70,7 @@ export function Tabs({ tabs, value, onChange, label = 'Tabs', className = '' }: 
   };
 
   return (
-    <div ref={listRef} role="tablist" aria-label={label} className={`flex gap-1 font-sans ${className}`}>
+    <div ref={listRef} role="tablist" aria-label={label} className={`relative flex gap-1 font-sans ${className}`}>
       {tabs.map((tab) => {
         const active = tab.id === value;
         return (
@@ -72,18 +83,21 @@ export function Tabs({ tabs, value, onChange, label = 'Tabs', className = '' }: 
             disabled={tab.disabled}
             onClick={() => onChange(tab.id)}
             onKeyDown={(e) => onKeyDown(e, tab.id)}
-            className={`relative flex items-center gap-2 rounded-ot-sm px-3.5 py-2.5 text-sm outline-none transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+            className={`flex items-center gap-2 rounded-ot-sm px-3.5 py-2.5 text-sm outline-none transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
               active ? 'font-semibold text-navy-text' : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
             }`}
           >
             {tab.icon}
             {tab.label}
-            {active ? (
-              <span aria-hidden className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-navy" />
-            ) : null}
           </button>
         );
       })}
+      <span
+        aria-hidden
+        data-testid="tabs-slide-bar"
+        className="ot-transition pointer-events-none absolute bottom-0 h-0.5 rounded-full bg-navy"
+        style={{ left: bar.left + 12, width: Math.max(bar.width - 24, 0) }}
+      />
     </div>
   );
 }

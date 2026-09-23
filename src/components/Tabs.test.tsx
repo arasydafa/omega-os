@@ -16,6 +16,11 @@ describe('Tabs', () => {
     expect(screen.getByRole('tab', { name: 'Overview' })).toHaveAttribute('aria-selected', 'false');
   });
 
+  it('renders a sliding indicator for the active tab', () => {
+    render(<Tabs tabs={TABS} value="tools" onChange={() => {}} />);
+    expect(screen.getByTestId('tabs-slide-bar')).toBeInTheDocument();
+  });
+
   it('changes tab on click', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();

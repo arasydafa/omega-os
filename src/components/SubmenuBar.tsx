@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 
 export interface SubmenuLink {
@@ -19,14 +20,31 @@ export interface SubmenuBarProps {
 }
 
 export function SubmenuBar({ links, onSelect, label = 'Section', className = '' }: SubmenuBarProps) {
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [bar, setBar] = useState({ left: 0, width: 0 });
+  const activeId = links.find((l) => l.active)?.id;
+
+  useLayoutEffect(() => {
+    const place = () => {
+      const el = stripRef.current?.querySelector<HTMLElement>(
+        activeId ? `[data-link="${CSS.escape(activeId)}"]` : '[aria-current="page"]',
+      );
+      if (el) setBar({ left: el.offsetLeft, width: el.offsetWidth });
+    };
+    place();
+    window.addEventListener('resize', place);
+    return () => window.removeEventListener('resize', place);
+  }, [activeId, links]);
+
   if (links.length === 0) return null;
   return (
     <nav aria-label={label} className={`border-b border-ot-border font-sans ${className}`}>
-      <div className="flex items-center gap-1 overflow-x-auto">
+      <div ref={stripRef} className="relative flex items-center gap-1 overflow-x-auto">
         {links.map((link) => (
           <button
             key={link.id}
             type="button"
+            data-link={link.id}
             aria-current={link.active ? 'page' : undefined}
             onClick={() => {
               link.onClick?.();
@@ -47,11 +65,14 @@ export function SubmenuBar({ links, onSelect, label = 'Section', className = '' 
                 {link.count}
               </span>
             ) : null}
-            {link.active ? (
-              <span aria-hidden className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-navy" />
-            ) : null}
           </button>
         ))}
+        <span
+          aria-hidden
+          data-testid="submenu-slide-bar"
+          className="ot-transition pointer-events-none absolute bottom-0 h-0.5 rounded-full bg-navy"
+          style={{ left: bar.left + 12, width: Math.max(bar.width - 24, 0) }}
+        />
       </div>
     </nav>
   );
