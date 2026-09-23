@@ -67,5 +67,8 @@ export type { TabDef, TabsProps } from './components/Tabs.js';
 export { ToasterProvider, useToast } from './components/Toast.js';
 export type { ToastApi, ToastKind, ToastOptions } from './components/Toast.js';
 
+export { REVEAL_DURATION_FALLBACK, REVEAL_EASING_FALLBACK, readRevealTokens, toggleThemeReveal } from './theme.js';
+export type { RevealTokens } from './theme.js';
+
 export { Tooltip } from './components/Tooltip.js';
 export type { TooltipPosition, TooltipProps } from './components/Tooltip.js';

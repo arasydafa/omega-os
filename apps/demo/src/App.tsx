@@ -29,6 +29,7 @@ import {
   ToasterProvider,
   Tooltip,
   iconComponentName,
+  toggleThemeReveal,
   useToast,
 } from '@omega-os/ui';
 import type { AlertTone } from '@omega-os/ui';
@@ -62,53 +63,12 @@ export default function App() {
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const x = e.clientX || window.innerWidth - 60;
     const y = e.clientY || 40;
-    const apply = () => {
+    toggleThemeReveal(x, y, () => {
       const next = !dark;
       setDark(next);
       setIcon(next ? 'sun' : 'moon');
       document.documentElement.classList.toggle('dark', next);
-    };
-    // Guarded so the class toggles exactly once even if the transition API throws.
-    let applied = false;
-    const applyOnce = () => {
-      if (applied) return;
-      applied = true;
-      apply();
-    };
-    const vt = (
-      document as Document & {
-        startViewTransition?: (cb: () => void) => { ready: Promise<void> };
-      }
-    ).startViewTransition;
-    if (vt) {
-      try {
-        const t = vt(applyOnce);
-        t.ready.then(() => {
-          const cs = getComputedStyle(document.documentElement);
-          const rawMs = parseFloat(cs.getPropertyValue('--ot-duration-reveal'));
-          const duration = Number.isFinite(rawMs) && rawMs > 0 ? rawMs : 650;
-          const easing = cs.getPropertyValue('--ot-ease-smooth').trim() || 'cubic-bezier(0.65, 0, 0.35, 1)';
-          const r = Math.hypot(window.innerWidth, window.innerHeight);
-          document.documentElement.animate(
-            {
-              clipPath: [
-                `circle(0px at ${x}px ${y}px)`,
-                `circle(${r}px at ${x}px ${y}px)`,
-              ],
-            },
-            {
-              duration,
-              easing,
-              pseudoElement: '::view-transition-new(root)',
-            },
-          );
-        }).catch(() => {});
-        return;
-      } catch {
-        // Fall through to instant toggle below.
-      }
-    }
-    applyOnce();
+    });
   };
 
   return (
@@ -131,7 +91,7 @@ export default function App() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="inline-flex items-center gap-2 rounded-full border border-ot-border bg-ot-surface px-3.5 py-2 text-[13px] font-semibold"
+            className="inline-flex items-center gap-2 rounded-full border border-ot-border bg-ot-surface px-3.5 py-2 text-[13px] font-semibold transition-transform active:scale-90"
           >
             {icon === 'moon' ? <Moon size={15} /> : <Sun size={15} />}
             {dark ? 'Light' : 'Dark'}

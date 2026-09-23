@@ -85,7 +85,8 @@ section{margin-top:32px}
 .a-navy{background:var(--ot-navy-bg);color:var(--ot-navy-text)}
 .radius-demo{display:flex;gap:12px;flex-wrap:wrap}
 .rbox{width:120px;height:72px;background:var(--ot-navy);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
-.toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ot-border);background:var(--ot-surface);color:var(--ot-text);border-radius:9999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ot-border);background:var(--ot-surface);color:var(--ot-text);border-radius:9999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .15s ease}
+.toggle:active{transform:scale(.92)}
 .toggle svg{width:15px;height:15px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 /* Table row actions: fixed spacing */
@@ -348,38 +349,50 @@ function refreshIcons() {
 refreshIcons();
 // Theme toggle — circular reveal flowing from the clicked toggle button.
 // Bound independently of the icon CDN so theming never breaks.
-const themeBtn = document.getElementById('themeBtn');
-themeBtn.onclick = (e) => {
-  const x = (e && e.clientX) || innerWidth - 60, y = (e && e.clientY) || 40;
-  const apply = () => {
-    const dark = document.documentElement.classList.toggle('dark');
-    themeBtn.innerHTML = dark ? '<i data-lucide="sun"></i><span>Light</span>' : '<i data-lucide="moon"></i><span>Dark</span>';
-    refreshIcons();
+// Canonical Circular Reveal (mirrors toggleThemeReveal in src/theme.ts).
+// Falls back to an instant toggle with identical end state.
+var REVEAL_DURATION_FALLBACK = 650;
+var REVEAL_EASING_FALLBACK = 'cubic-bezier(0.65, 0, 0.35, 1)';
+function readRevealTokens() {
+  var cs = getComputedStyle(document.documentElement);
+  var rawMs = parseFloat(cs.getPropertyValue('--ot-duration-reveal'));
+  var easing = (cs.getPropertyValue('--ot-ease-smooth') || '').trim();
+  return {
+    duration: isFinite(rawMs) && rawMs > 0 ? rawMs : REVEAL_DURATION_FALLBACK,
+    easing: easing || REVEAL_EASING_FALLBACK
   };
-  let applied = false;
-  const applyOnce = () => {
+}
+function toggleThemeReveal(x, y, apply) {
+  var applied = false;
+  function applyOnce() {
     if (applied) return;
     applied = true;
     apply();
-  };
+  }
   try {
     if (document.startViewTransition) {
-      const t = document.startViewTransition(applyOnce);
-      t.ready.then(() => {
-        const cs = getComputedStyle(document.documentElement);
-        const rawMs = parseFloat(cs.getPropertyValue('--ot-duration-reveal'));
-        const duration = isFinite(rawMs) && rawMs > 0 ? rawMs : 650;
-        const easing = (cs.getPropertyValue('--ot-ease-smooth') || '').trim() || 'cubic-bezier(0.65, 0, 0.35, 1)';
-        const r = Math.hypot(innerWidth, innerHeight);
+      var t = document.startViewTransition(applyOnce);
+      t.ready.then(function () {
+        var tokens = readRevealTokens();
+        var r = Math.hypot(innerWidth, innerHeight);
         document.documentElement.animate(
           { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
-          { duration: duration, easing: easing, pseudoElement: '::view-transition-new(root)' }
+          { duration: tokens.duration, easing: tokens.easing, pseudoElement: '::view-transition-new(root)' }
         );
       }).catch(applyOnce);
       return;
     }
   } catch (_) {}
   applyOnce();
+}
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.onclick = (e) => {
+  var x = (e && e.clientX) || innerWidth - 60, y = (e && e.clientY) || 40;
+  toggleThemeReveal(x, y, function () {
+    var dark = document.documentElement.classList.toggle('dark');
+    themeBtn.innerHTML = dark ? '<i data-lucide="sun"></i><span>Light</span>' : '<i data-lucide="moon"></i><span>Dark</span>';
+    refreshIcons();
+  });
 };
 // Collapse menu + submenus (navbar dropdown, sidebar inline)
 const sideDemo = document.getElementById('sideDemo');
