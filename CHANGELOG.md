@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Overlay batch: `Toast` (`ToasterProvider` + `useToast`), `Modal` (portal + focus trap), `Dropdown` (flyout submenu), `Tooltip`.
+
 ## [0.4.0] — test + demo infra
 
 ### Added

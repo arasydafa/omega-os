@@ -3,13 +3,20 @@ import {
   Alert,
   Badge,
   Button,
+  Dropdown,
   Input,
+  Modal,
   Select,
   Textarea,
+  ToasterProvider,
+  Tooltip,
+  useToast,
 } from '@omega-os/ui';
 import type { AlertTone } from '@omega-os/ui';
 import {
+  Bell,
   Check,
+  ChevronDown,
   Crown,
   Moon,
   Plus,
@@ -62,6 +69,7 @@ export default function App() {
   };
 
   return (
+    <ToasterProvider>
     <div className="min-h-screen bg-ot-bg font-sans text-ot-text">
       <header className="sticky top-0 z-10 border-b border-ot-border bg-ot-bg/85 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3.5">
@@ -137,7 +145,79 @@ export default function App() {
             <Textarea label="Description" placeholder="Short description…" />
           </div>
         </section>
+
+        <OverlayDemo />
       </main>
     </div>
+    </ToasterProvider>
+  );
+}
+
+function OverlayDemo() {
+  const toast = useToast();
+  const [modalOpen, setModalOpen] = useState(false);
+  return (
+    <>
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Overlays</h2>
+        <p className="mb-4 text-sm text-ot-muted">Toast, modal, dropdown, tooltip.</p>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Button
+            variant="secondary"
+            icon={<Bell size={16} />}
+            onClick={() => toast.show('success', 'Tokens applied.', { title: 'Saved.' })}
+          >
+            Fire toast
+          </Button>
+          <Button variant="danger" icon={<Trash2 size={16} />} onClick={() => setModalOpen(true)}>
+            Open modal
+          </Button>
+          <Dropdown
+            trigger={
+              <Button variant="secondary">
+                Menu <ChevronDown size={16} />
+              </Button>
+            }
+            items={[
+              { label: 'Rename', onSelect: () => toast.show('info', 'Rename picked.') },
+              {
+                label: 'More',
+                children: [{ label: 'Duplicate', onSelect: () => toast.show('info', 'Duplicate picked.') }],
+              },
+              { label: 'Delete', danger: true, onSelect: () => toast.show('danger', 'Delete picked.') },
+            ]}
+          />
+          <Tooltip content="Helpful hint">
+            <Button variant="ghost">Hover me</Button>
+          </Tooltip>
+        </div>
+      </section>
+
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Delete tool?"
+        footer={
+          <>
+            <Button variant="secondary" size="sm" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              icon={<Trash2 size={16} />}
+              onClick={() => {
+                setModalOpen(false);
+                toast.show('success', 'Tool deleted (demo).');
+              }}
+            >
+              Delete
+            </Button>
+          </>
+        }
+      >
+        This action is permanent and cannot be undone.
+      </Modal>
+    </>
   );
 }
