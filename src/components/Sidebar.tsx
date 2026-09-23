@@ -61,8 +61,8 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
                 else pick(item.id, item.onClick);
               }}
               title={collapsed ? String(item.label) : undefined}
-              className={`flex w-full items-center gap-2.5 rounded-ot-md py-2.5 transition-all duration-200 ease-out ${
-                collapsed ? 'px-3.5' : 'px-3'
+              className={`flex w-full items-center rounded-ot-md py-2.5 transition-all duration-200 ease-out ${
+                collapsed ? 'gap-0 px-3.5' : 'gap-2.5 px-3'
               } ${
                 item.active
                   ? 'bg-navy-bg font-semibold text-navy-text'
