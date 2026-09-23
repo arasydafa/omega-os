@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.9.1 — smooth theme reveal (token-driven duration + easing). See `CHANGELOG.md`.
+v0.10.0 — canonical theme reveal (`toggleThemeReveal` + tests). 77 tests green. See `CHANGELOG.md`.

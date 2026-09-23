@@ -5,6 +5,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.10.0] — canonical theme reveal
+
 ### Added
 
 - Canonical `toggleThemeReveal` theme utility (Circular Reveal from the click point, token-driven, apply-once guarantee) with tests; demo and static preview share the same implementation.
