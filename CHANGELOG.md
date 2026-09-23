@@ -3,6 +3,14 @@
 All notable changes to `@omega-os/ui` are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Added
+
+- React components (dev branch): `Button`, `Badge`, `Alert`, `Input`, `Textarea`, `Select` with full prop types.
+- Spacing (`ot-1..ot-8`) and shadow (`ot-sm/md/lg`) tokens + preset keys.
+- Preset `navy-bg` / `navy-text` / `maroon-bg` keys for theme-aware tints.
+
 ## [0.2.0] — tokens stable
 
 ### Added
