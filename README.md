@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.5.0 — overlay batch (`Toast`, `Modal`, `Dropdown`, `Tooltip`) + motion tokens. 35 tests green. See `CHANGELOG.md`.
+v0.6.0 — data batch (`Table`, `Pagination`, `EmptyState`, `Skeleton`). 46 tests green. See `CHANGELOG.md`.
