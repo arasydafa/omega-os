@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Viewers batch: `FileViewer` (numbered code + copy), `Image` (aspect, skeleton, error placeholder), photo `Avatar` with initials fallback.
+
 ## [0.10.0] — canonical theme reveal
 
 ### Added
