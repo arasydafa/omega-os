@@ -34,6 +34,12 @@ export type { OmegaIconName } from './icons.js';
 export { EmptyState } from './components/EmptyState.js';
 export type { EmptyStateProps } from './components/EmptyState.js';
 
+export { FileViewer } from './components/FileViewer.js';
+export type { FileViewerProps } from './components/FileViewer.js';
+
+export { Image } from './components/Image.js';
+export type { ImageProps, ImageRadius } from './components/Image.js';
+
 export { Input, Select, Textarea } from './components/Input.js';
 export type { InputProps, SelectProps, TextareaProps } from './components/Input.js';
 

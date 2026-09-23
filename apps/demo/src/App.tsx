@@ -10,6 +10,8 @@ import {
   Checkbox,
   Dropdown,
   EmptyState,
+  FileViewer,
+  Image,
   Input,
   Modal,
   Navbar,
@@ -159,6 +161,8 @@ export default function App() {
         <DataDemo />
 
         <ComplementsDemo />
+
+        <ViewersDemo />
 
         <NavigationDemo />
 
@@ -577,6 +581,45 @@ function IconsDemo() {
             </div>
           );
         })}
+      </div>
+    </section>
+  );
+}
+
+const DEMO_PHOTO =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect width='96' height='96' fill='%231E3A5F'/><text x='48' y='62' font-size='36' text-anchor='middle' fill='white' font-family='sans-serif'>OT</text></svg>";
+
+function ViewersDemo() {
+  const toast = useToast();
+  return (
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Viewers</h2>
+      <p className="mb-4 text-sm text-ot-muted">Photo avatars with fallback, images, and code files.</p>
+      <div className="grid gap-4">
+        <div className="flex items-center gap-3">
+          <Avatar name="Omega Throne" src={DEMO_PHOTO} />
+          <Avatar name="Broken Link" src="https://example.com/missing.png" />
+          <span className="text-sm text-ot-muted">Photo, then broken-photo fallback.</span>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Image src={DEMO_PHOTO} alt="Demo cover" aspect="16/10" />
+          <Image
+            src="https://example.com/missing.png"
+            alt="Missing cover"
+            aspect="16/10"
+            fallbackLabel="Cover unavailable"
+          />
+        </div>
+        <FileViewer
+          filename="theme.ts"
+          language="ts"
+          maxHeight={220}
+          onCopy={() => toast.show('success', 'Code copied to clipboard.')}
+          code={`export function toggleThemeReveal(x: number, y: number, apply: () => void): void {
+  document.documentElement.classList.toggle('dark');
+  apply();
+}`}
+        />
       </div>
     </section>
   );

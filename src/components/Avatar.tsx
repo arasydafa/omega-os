@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 export type AvatarSize = 'sm' | 'md' | 'lg';
 
 export interface AvatarProps {
@@ -24,6 +26,7 @@ export function initials(name: string): string {
 }
 
 export function Avatar({ name, src, size = 'md', className = '' }: AvatarProps) {
+  const [failed, setFailed] = useState(false);
   return (
     <span
       role="img"
@@ -31,8 +34,8 @@ export function Avatar({ name, src, size = 'md', className = '' }: AvatarProps) 
       title={name}
       className={`inline-grid shrink-0 select-none place-items-center overflow-hidden rounded-full bg-navy-bg font-sans font-semibold text-navy-text ${SIZES[size]} ${className}`}
     >
-      {src ? (
-        <img src={src} alt="" className="h-full w-full object-cover" />
+      {src && !failed ? (
+        <img src={src} alt="" onError={() => setFailed(true)} className="h-full w-full object-cover" />
       ) : (
         <span aria-hidden>{initials(name)}</span>
       )}
