@@ -95,6 +95,44 @@ code,
   font-family: var(--ot-font-mono);
 }
 
+/* Overlay motion — smooth show AND hide */
+@keyframes ot-fade-in {
+  from { opacity: 0; }
+}
+@keyframes ot-fade-out {
+  to { opacity: 0; }
+}
+@keyframes ot-pop-in {
+  from { opacity: 0; transform: scale(0.96) translateY(4px); }
+}
+@keyframes ot-pop-out {
+  to { opacity: 0; transform: scale(0.96) translateY(4px); }
+}
+@keyframes ot-slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+}
+@keyframes ot-slide-out-right {
+  to { opacity: 0; transform: translateX(16px); }
+}
+
+.ot-anim-fade-in { animation: ot-fade-in 150ms ease-out; }
+.ot-anim-fade-out { animation: ot-fade-out 120ms ease-in forwards; }
+.ot-anim-pop-in { animation: ot-pop-in 160ms ease-out; }
+.ot-anim-pop-out { animation: ot-pop-out 130ms ease-in forwards; }
+.ot-anim-slide-in-right { animation: ot-slide-in-right 200ms ease-out; }
+.ot-anim-slide-out-right { animation: ot-slide-out-right 180ms ease-in forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ot-anim-fade-in,
+  .ot-anim-fade-out,
+  .ot-anim-pop-in,
+  .ot-anim-pop-out,
+  .ot-anim-slide-in-right,
+  .ot-anim-slide-out-right {
+    animation: none;
+  }
+}
+
 /* Thin scrollbar that follows the theme */
 * {
   scrollbar-width: thin;
