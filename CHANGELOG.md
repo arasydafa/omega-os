@@ -1,0 +1,29 @@
+# Changelog
+
+All notable changes to `@omega-os/ui` are documented here.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [0.2.0] — tokens stable
+
+### Added
+
+- Functional status colors for alerts + toasts: info blue (`#1D4ED8`), warning yellow (`#B45309`), success green (`#15803D`), danger maroon (`#7B1E26`), with dark-mode variants.
+- Theme-aware `--ot-navy-text` token (`#1E3A5F` light / `#C9DAEF` dark) for text on navy tints.
+- Surface swatches section in `preview.html` (bg, surface, surface-2, border, text, muted).
+- Interactive `preview.html`: clickable table + pagination, sidebar collapse + submenu, navbar dropdown + flyout, live toasts, working modal, circular-reveal dark toggle, icon gallery (90 icons).
+- `docs/ICONS.md`: security/infra and people/content icon groups with one-icon-one-meaning rules.
+
+### Fixed
+
+- Dark-mode readability: navy text/icons on navy tints (navbar + sidebar active states, badges, alerts) now use `navy-text`.
+- Dark muted brightened `#9AA3AF` → `#A6AEB9` for non-highlighted nav items.
+
+## [0.1.0] — initial tokens
+
+### Added
+
+- Brand tokens: navy primary, maroon danger-only, dark-grey/white/black surfaces (light default + `.dark`).
+- Typography: `Plus Jakarta Sans` + `JetBrains Mono` with type scale.
+- Shape: rounded `8 / 12 / 16 / 20px`, no sharp corners.
+- `tailwind.preset.js` (Tailwind v3, `darkMode: class`) and base `tokens.css`.
+- Static `preview.html` and `docs/ICONS.md` (initial set).
