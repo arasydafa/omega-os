@@ -44,7 +44,7 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
   return (
     <nav
       aria-label={label}
-      className={`grid content-start gap-1 rounded-ot-md border border-ot-border bg-ot-bg p-2.5 font-sans text-sm ${
+      className={`grid content-start gap-1 overflow-hidden rounded-ot-md border border-ot-border bg-ot-bg p-2.5 font-sans text-sm transition-[width] duration-200 ease-out ${
         collapsed ? 'w-16' : 'w-60'
       } ${className}`}
     >
@@ -70,35 +70,48 @@ export function Sidebar({ items, collapsed = false, onSelect, label = 'Sidebar',
               }`}
             >
               {item.icon}
-              {collapsed ? null : (
-                <>
-                  <span>{item.label}</span>
-                  {hasKids ? (
-                    <ChevronDown
-                      size={14}
-                      aria-hidden
-                      className={`ml-auto text-ot-muted transition-transform ${isOpen ? 'rotate-180' : ''}`}
-                    />
-                  ) : null}
-                </>
-              )}
-            </button>
-            {hasKids && isOpen && !collapsed ? (
-              <div className="ml-[26px] mt-1 grid gap-0.5">
-                {item.children!.map((child) => (
-                  <button
-                    key={child.id}
-                    type="button"
-                    onClick={() => pick(child.id, child.onClick)}
-                    className={`rounded-ot-sm px-2.5 py-2 text-left text-[13px] transition-colors ${
-                      child.active
-                        ? 'bg-navy-bg font-semibold text-navy-text'
-                        : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
+              <span
+                className={`flex min-w-0 flex-1 items-center gap-2 overflow-hidden whitespace-nowrap transition-all duration-200 ${
+                  collapsed ? 'max-w-0 opacity-0' : 'max-w-[160px] opacity-100'
+                }`}
+              >
+                <span className="truncate">{item.label}</span>
+                {hasKids ? (
+                  <ChevronDown
+                    size={14}
+                    aria-hidden
+                    className={`ml-auto shrink-0 text-ot-muted transition-transform duration-200 ${
+                      isOpen ? 'rotate-180' : ''
                     }`}
-                  >
-                    {child.label}
-                  </button>
-                ))}
+                  />
+                ) : null}
+              </span>
+            </button>
+            {hasKids && !collapsed ? (
+              <div
+                data-testid={`submenu-${item.id}`}
+                className={`grid transition-all duration-200 ease-out ${
+                  isOpen ? 'grid-rows-[1fr] opacity-100' : 'invisible grid-rows-[0fr] opacity-0'
+                }`}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <div className="ml-[26px] mt-1 grid gap-0.5">
+                    {item.children!.map((child) => (
+                      <button
+                        key={child.id}
+                        type="button"
+                        onClick={() => pick(child.id, child.onClick)}
+                        className={`rounded-ot-sm px-2.5 py-2 text-left text-[13px] transition-colors ${
+                          child.active
+                            ? 'bg-navy-bg font-semibold text-navy-text'
+                            : 'text-ot-muted hover:bg-ot-surface hover:text-ot-text'
+                        }`}
+                      >
+                        {child.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : null}
           </div>
