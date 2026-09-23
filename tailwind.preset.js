@@ -54,6 +54,12 @@ export default {
         'ot-sm': 'var(--ot-shadow-sm)',
         'ot-md': 'var(--ot-shadow-md)',
         'ot-lg': 'var(--ot-shadow-lg)',
+        'ot-ring': 'var(--ot-ring)',
+      },
+      zIndex: {
+        'ot-dropdown': 'var(--ot-z-dropdown)',
+        'ot-modal': 'var(--ot-z-modal)',
+        'ot-toast': 'var(--ot-z-toast)',
       },
       spacing: {
         'ot-1': 'var(--ot-space-1)',

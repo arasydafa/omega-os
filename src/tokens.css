@@ -59,6 +59,20 @@
   --ot-shadow-sm: 0 1px 2px rgb(11 13 16 / 0.06);
   --ot-shadow-md: 0 4px 12px rgb(11 13 16 / 0.08);
   --ot-shadow-lg: 0 8px 24px rgb(11 13 16 / 0.12);
+
+  /* Focus ring */
+  --ot-ring: 0 0 0 3px rgb(30 58 95 / 0.2);
+
+  /* Motion */
+  --ot-duration-fast: 120ms;
+  --ot-duration-base: 200ms;
+  --ot-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ot-ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Layering */
+  --ot-z-dropdown: 20;
+  --ot-z-modal: 40;
+  --ot-z-toast: 50;
 }
 
 .dark {
@@ -115,12 +129,15 @@ code,
   to { opacity: 0; transform: translateX(16px); }
 }
 
-.ot-anim-fade-in { animation: ot-fade-in 150ms ease-out; }
-.ot-anim-fade-out { animation: ot-fade-out 120ms ease-in forwards; }
-.ot-anim-pop-in { animation: ot-pop-in 160ms ease-out; }
-.ot-anim-pop-out { animation: ot-pop-out 130ms ease-in forwards; }
-.ot-anim-slide-in-right { animation: ot-slide-in-right 200ms ease-out; }
-.ot-anim-slide-out-right { animation: ot-slide-out-right 180ms ease-in forwards; }
+.ot-anim-fade-in { animation: ot-fade-in var(--ot-duration-base) var(--ot-ease-out); }
+.ot-anim-fade-out { animation: ot-fade-out var(--ot-duration-fast) var(--ot-ease-in) forwards; }
+.ot-anim-pop-in { animation: ot-pop-in 160ms var(--ot-ease-out); }
+.ot-anim-pop-out { animation: ot-pop-out 130ms var(--ot-ease-in) forwards; }
+.ot-anim-slide-in-right { animation: ot-slide-in-right var(--ot-duration-base) var(--ot-ease-out); }
+.ot-anim-slide-out-right { animation: ot-slide-out-right 180ms var(--ot-ease-in) forwards; }
+
+/* Standard transition for interactive elements */
+.ot-transition { transition: all var(--ot-duration-base) var(--ot-ease-out); }
 
 @media (prefers-reduced-motion: reduce) {
   .ot-anim-fade-in,
