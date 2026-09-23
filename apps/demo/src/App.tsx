@@ -12,6 +12,7 @@ import {
   Input,
   Modal,
   Navbar,
+  OMEGA_ICONS,
   Pagination,
   Radio,
   SearchBar,
@@ -26,6 +27,7 @@ import {
   Textarea,
   ToasterProvider,
   Tooltip,
+  iconComponentName,
   useToast,
 } from '@omega-os/ui';
 import type { AlertTone } from '@omega-os/ui';
@@ -48,6 +50,7 @@ import {
   Trash2,
   Wrench,
 } from 'lucide-react';
+import * as lucideSet from 'lucide-react';
 
 const ALERTS: AlertTone[] = ['info', 'warning', 'success', 'danger'];
 
@@ -106,7 +109,10 @@ export default function App() {
   return (
     <ToasterProvider>
     <div className="min-h-screen bg-ot-bg font-sans text-ot-text">
-      <header className="sticky top-0 z-10 border-b border-ot-border bg-ot-bg/85 backdrop-blur">
+      <header
+        className="sticky top-0 z-10 border-b border-ot-border backdrop-blur"
+        style={{ background: 'color-mix(in srgb, var(--ot-bg) 85%, transparent)' }}
+      >
         <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3.5">
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-ot-md bg-navy text-white">
@@ -190,6 +196,8 @@ export default function App() {
         <ComplementsDemo />
 
         <NavigationDemo />
+
+        <IconsDemo />
       </main>
     </div>
     </ToasterProvider>
@@ -206,10 +214,13 @@ function FoundationsDemo() {
       </div>
     </div>
   );
-  const typeRow = (sample: React.ReactNode, example: React.ReactNode) => (
+  const typeRow = (sample: React.ReactNode, example: React.ReactNode, use: string) => (
     <div className="py-2.5">
       <p>{sample}</p>
       <p className="mt-1 text-sm text-ot-muted">{example}</p>
+      <p className="mt-0.5 text-xs text-ot-muted">
+        <span className="font-semibold text-ot-text">Use for:</span> {use}
+      </p>
     </div>
   );
   return (
@@ -221,26 +232,32 @@ function FoundationsDemo() {
           {typeRow(
             <span className="text-3xl font-extrabold tracking-tight">Heading 30 / ExtraBold</span>,
             'VStack visualizes your ROP chain before you run it.',
+            'page titles, hero numbers',
           )}
           {typeRow(
             <span className="text-2xl font-bold">Heading 24 / Bold</span>,
             'CI-CD Lab walks through pipelines step by step.',
+            'section titles, card titles',
           )}
           {typeRow(
             <span className="text-lg font-semibold">Heading 18 / Semibold</span>,
             'Every tool ships with a guided workspace.',
+            'subsections, modal titles',
           )}
           {typeRow(
             <span className="text-base">Body 16 / Regular</span>,
             'Modern minimalist interfaces for tools, portfolio, and docs.',
+            'paragraphs, table cells, menu items',
           )}
           {typeRow(
             <span className="text-sm text-ot-muted">Muted 14</span>,
             'Helper text stays quiet so primary actions stand out.',
+            'descriptions, helper text, table headers',
           )}
           {typeRow(
             <span className="font-mono text-sm">mono 14 — const theme = &quot;light&quot; | &quot;dark&quot;;</span>,
             'Code, addresses, and log output always use the mono face.',
+            'code blocks, addresses, logs, badges with IDs',
           )}
           <div className="py-2.5 text-sm">
             <p className="mb-1 text-[13px] font-semibold">Rich text</p>
@@ -271,6 +288,12 @@ function FoundationsDemo() {
             {swatch('#0B0D10', 'Black', '#0B0D10')}
             {swatch('#FFFFFF', 'White', '#FFFFFF')}
           </div>
+          <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
+            <li><b className="text-ot-text">Navy</b> — primary buttons, active nav, links, focus.</li>
+            <li><b className="text-ot-text">Maroon</b> — destructive actions and errors only.</li>
+            <li><b className="text-ot-text">Dark grey</b> — borders, hover fills, secondary surfaces.</li>
+            <li><b className="text-ot-text">Black / white</b> — dark / light page base.</li>
+          </ul>
         </div>
         <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
           <h2 className="mb-1 text-lg font-bold">Status</h2>
@@ -281,6 +304,12 @@ function FoundationsDemo() {
             {swatch('var(--ot-success)', 'Success green', 'light #15803D')}
             {swatch('var(--ot-danger)', 'Danger maroon', '#7B1E26')}
           </div>
+          <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
+            <li><b className="text-ot-text">Info</b> — neutral updates, tips, new features.</li>
+            <li><b className="text-ot-text">Warning</b> — caution, unsaved changes, destructive confirmations.</li>
+            <li><b className="text-ot-text">Success</b> — saved, deployed, completed.</li>
+            <li><b className="text-ot-text">Danger</b> — errors, failures, destructive results.</li>
+          </ul>
         </div>
         <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
           <h2 className="mb-1 text-lg font-bold">Surfaces</h2>
@@ -293,18 +322,25 @@ function FoundationsDemo() {
             {swatch('var(--ot-text)', 'text', 'foreground')}
             {swatch('var(--ot-muted)', 'muted', 'secondary text')}
           </div>
+          <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
+            <li><b className="text-ot-text">bg</b> — page background.</li>
+            <li><b className="text-ot-text">surface</b> — cards, panels, table headers.</li>
+            <li><b className="text-ot-text">surface-2</b> — hover fills, input backgrounds, skeletons.</li>
+            <li><b className="text-ot-text">border</b> — dividers, card outlines, thumbs.</li>
+            <li><b className="text-ot-text">text / muted</b> — primary vs secondary copy.</li>
+          </ul>
         </div>
       </section>
 
       <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Radius</h2>
-        <p className="mb-4 text-sm text-ot-muted">No sharp corners: 8 input, 12 button, 16 card, 20 panel, full pill.</p>
+        <p className="mb-4 text-sm text-ot-muted">No sharp corners — each size has one job.</p>
         <div className="flex flex-wrap gap-3">
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 8 }}>8 input</span>
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 12 }}>12 btn</span>
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 16 }}>16 card</span>
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 20 }}>20 panel</span>
-          <span className="grid h-[72px] w-[140px] place-items-center rounded-full bg-navy text-xs font-bold text-white">full pill</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 8 }}>8 · inputs, badges</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 12 }}>12 · buttons, alerts</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 16 }}>16 · cards, modals</span>
+          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 20 }}>20 · large panels</span>
+          <span className="grid h-[72px] w-[140px] place-items-center rounded-full bg-navy text-xs font-bold text-white">full · pills, avatars</span>
         </div>
       </section>
     </>
@@ -392,7 +428,7 @@ function OverlayDemo() {
 interface DemoTool {
   id: string;
   name: string;
-  status: 'Active' | 'Draft' | 'Archived';
+  status: 'Active' | 'Draft' | 'Archived' | 'Disabled' | 'Info' | 'Warning';
 }
 
 const DEMO_TOOLS: DemoTool[] = [
@@ -408,6 +444,9 @@ const DEMO_TOOLS: DemoTool[] = [
   { id: 'linter', name: 'Linter', status: 'Active' },
   { id: 'backup', name: 'Backup', status: 'Draft' },
   { id: 'proxy', name: 'Proxy', status: 'Archived' },
+  { id: 'gateway', name: 'Gateway', status: 'Disabled' },
+  { id: 'notifier', name: 'Notifier', status: 'Info' },
+  { id: 'updater', name: 'Updater', status: 'Warning' },
 ];
 
 const PAGE_SIZE = 5;
@@ -415,6 +454,9 @@ const PAGE_SIZE = 5;
 function statusBadge(status: DemoTool['status']) {
   if (status === 'Active') return <Badge tone="success" icon={<Check size={12} />}>Active</Badge>;
   if (status === 'Archived') return <Badge tone="grey">Archived</Badge>;
+  if (status === 'Disabled') return <Badge tone="grey">Disabled</Badge>;
+  if (status === 'Info') return <Badge tone="info">Info</Badge>;
+  if (status === 'Warning') return <Badge tone="warning">Warning</Badge>;
   return <Badge tone="grey">Draft</Badge>;
 }
 
@@ -443,6 +485,13 @@ function DataDemo() {
             key: 'actions',
             header: 'Actions',
             align: 'right',
+            skeleton: (
+              <span className="flex justify-end gap-3">
+                <Skeleton className="h-5 w-5" />
+                <Skeleton className="h-5 w-5" />
+                <Skeleton className="h-5 w-5" />
+              </span>
+            ),
             render: (r) => (
               <span className="flex justify-end gap-3">
                 <button
@@ -535,6 +584,32 @@ function ComplementsDemo() {
           <Checkbox label="Icons only" description="No emoji in UI." defaultChecked />
           <Switch checked={notify} onChange={setNotify} label="Enable notifications" />
         </div>
+      </div>
+    </section>
+  );
+}
+
+function IconsDemo() {
+  const set = lucideSet as unknown as Record<string, React.ComponentType<{ size?: number }>>;
+  return (
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Icons</h2>
+      <p className="mb-4 text-sm text-ot-muted">
+        {OMEGA_ICONS.length} approved lucide icons — same list as preview and docs. No emoji.
+      </p>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2">
+        {OMEGA_ICONS.map((name) => {
+          const Cmp = set[iconComponentName(name)];
+          return (
+            <div
+              key={name}
+              className="grid place-items-center gap-1.5 rounded-ot-sm border border-ot-border bg-ot-bg px-2 py-2.5 text-center"
+            >
+              {Cmp ? <Cmp size={18} /> : <span className="text-xs text-danger">missing</span>}
+              <code className="font-mono text-[10px] text-ot-muted [overflow-wrap:anywhere]">{name}</code>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

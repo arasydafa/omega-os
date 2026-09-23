@@ -10,11 +10,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `SearchBar` (clear button, shortcut hint, Escape to clear) and `SubmenuBar` (secondary strip with count badges).
 - Foundations showcase in the demo app (typography scale, brand/status/surface swatches).
 - Slow motion token (`ot-duration-slow`, `ot-transition-slow`) used by sidebar collapse.
+- Navigation nesting: `NavbarLink.children` dropdown menus, 3-level `Sidebar` submenus.
+- `OMEGA_ICONS` canonical icon list + `iconComponentName` helper with resolving test.
+- Sliding active indicators on `Tabs` and `SubmenuBar`.
+- `Table` per-column `skeleton` override with alignment-aware default.
+- Foundations parity with preview (hover/tint swatches, radius card, usage notes, example sentences, rich-text sample, icon gallery).
 
 ### Fixed
 
 - Dark-mode toggle hardened against icon-CDN and View Transition failures (class toggles exactly once).
 - Modal backdrop now blurs the page behind it.
+- Demo header transparency via color-mix (invalid opacity modifier removed).
 
 ## [0.8.0] — complements + hardening
 
