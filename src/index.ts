@@ -43,11 +43,17 @@ export type { NavbarLink, NavbarProps } from './components/Navbar.js';
 export { Pagination, pageSlots } from './components/Pagination.js';
 export type { PaginationProps } from './components/Pagination.js';
 
+export { SearchBar } from './components/SearchBar.js';
+export type { SearchBarProps } from './components/SearchBar.js';
+
 export { Sidebar } from './components/Sidebar.js';
 export type { SidebarChild, SidebarItemDef, SidebarProps } from './components/Sidebar.js';
 
 export { Skeleton } from './components/Skeleton.js';
 export type { SkeletonProps } from './components/Skeleton.js';
+
+export { SubmenuBar } from './components/SubmenuBar.js';
+export type { SubmenuBarProps, SubmenuLink } from './components/SubmenuBar.js';
 
 export { Table } from './components/Table.js';
 export type { TableAlign, TableColumn, TableProps } from './components/Table.js';
