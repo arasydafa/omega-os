@@ -13,11 +13,23 @@ export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button
 export { Dropdown } from './components/Dropdown.js';
 export type { DropdownItemDef, DropdownProps } from './components/Dropdown.js';
 
+export { EmptyState } from './components/EmptyState.js';
+export type { EmptyStateProps } from './components/EmptyState.js';
+
 export { Input, Select, Textarea } from './components/Input.js';
 export type { InputProps, SelectProps, TextareaProps } from './components/Input.js';
 
 export { Modal } from './components/Modal.js';
 export type { ModalProps } from './components/Modal.js';
+
+export { Pagination, pageSlots } from './components/Pagination.js';
+export type { PaginationProps } from './components/Pagination.js';
+
+export { Skeleton } from './components/Skeleton.js';
+export type { SkeletonProps } from './components/Skeleton.js';
+
+export { Table } from './components/Table.js';
+export type { TableAlign, TableColumn, TableProps } from './components/Table.js';
 
 export { ToasterProvider, useToast } from './components/Toast.js';
 export type { ToastApi, ToastKind, ToastOptions } from './components/Toast.js';
