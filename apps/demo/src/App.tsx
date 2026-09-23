@@ -2,15 +2,19 @@ import { useState } from 'react';
 import {
   Alert,
   Badge,
+  Breadcrumbs,
   Button,
   Dropdown,
   EmptyState,
   Input,
   Modal,
+  Navbar,
   Pagination,
   Select,
+  Sidebar,
   Skeleton,
   Table,
+  Tabs,
   Textarea,
   ToasterProvider,
   Tooltip,
@@ -19,16 +23,22 @@ import {
 import type { AlertTone } from '@omega-os/ui';
 import {
   Bell,
+  BookOpen,
   Check,
   ChevronDown,
   Copy,
   Crown,
+  Folder,
+  Home,
+  LayoutDashboard,
   Moon,
+  PanelLeft,
   Pencil,
   Plus,
   Settings,
   Sun,
   Trash2,
+  Wrench,
 } from 'lucide-react';
 
 const ALERTS: AlertTone[] = ['info', 'warning', 'success', 'danger'];
@@ -155,6 +165,8 @@ export default function App() {
         <OverlayDemo />
 
         <DataDemo />
+
+        <NavigationDemo />
       </main>
     </div>
     </ToasterProvider>
@@ -350,6 +362,74 @@ function DataDemo() {
           description="This is the standalone empty state."
           action={<Button size="sm">Create new</Button>}
         />
+      </div>
+    </section>
+  );
+}
+
+function NavigationDemo() {
+  const [collapsed, setCollapsed] = useState(false);
+  const [tab, setTab] = useState('overview');
+  return (
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Navigation</h2>
+      <p className="mb-4 text-sm text-ot-muted">Navbar, sidebar with collapse, breadcrumbs, tabs.</p>
+      <div className="grid gap-4">
+        <Navbar
+          brand={
+            <>
+              <span className="grid h-8 w-8 place-items-center rounded-ot-sm bg-navy text-white">
+                <Crown size={16} />
+              </span>
+              <b className="text-sm">OmegaOS</b>
+            </>
+          }
+          links={[{ label: 'Dashboard', active: true }, { label: 'Tools' }, { label: 'Docs' }]}
+          actions={<Button size="sm" icon={<Plus size={16} />}>New</Button>}
+        />
+        <Breadcrumbs
+          items={[
+            { label: 'Home', icon: <Home size={14} /> },
+            { label: 'Tools' },
+            { label: 'VStack' },
+          ]}
+        />
+        <div className="flex flex-wrap items-start gap-4">
+          <div className="grid gap-2">
+            <Button size="sm" variant="secondary" icon={<PanelLeft size={16} />} onClick={() => setCollapsed((v) => !v)}>
+              {collapsed ? 'Expand' : 'Collapse'}
+            </Button>
+            <Sidebar
+              collapsed={collapsed}
+              items={[
+                { id: 'dash', label: 'Dashboard', icon: <LayoutDashboard size={16} />, active: true },
+                {
+                  id: 'tools',
+                  label: 'Tools',
+                  icon: <Wrench size={16} />,
+                  children: [
+                    { id: 'vstack', label: 'VStack' },
+                    { id: 'lab', label: 'CI-CD lab' },
+                  ],
+                },
+                { id: 'projects', label: 'Projects', icon: <Folder size={16} /> },
+                { id: 'docs', label: 'Docs', icon: <BookOpen size={16} /> },
+              ]}
+            />
+          </div>
+          <div className="min-w-0 flex-1 rounded-ot-md border border-ot-border bg-ot-bg p-4">
+            <Tabs
+              value={tab}
+              onChange={setTab}
+              tabs={[
+                { id: 'overview', label: 'Overview' },
+                { id: 'tools', label: 'Tools' },
+                { id: 'settings', label: 'Settings', disabled: true },
+              ]}
+            />
+            <p className="mt-3 text-sm text-ot-muted">Active tab: {tab}</p>
+          </div>
+        </div>
       </div>
     </section>
   );
