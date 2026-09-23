@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Spinner } from './Spinner.js';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -44,11 +44,7 @@ export function Button({
       className={`inline-flex items-center justify-center gap-2 border border-transparent font-sans font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
       {...rest}
     >
-      {loading ? (
-        <Loader2 size={16} className="animate-spin" aria-hidden />
-      ) : (
-        icon
-      )}
+      {loading ? <Spinner size={16} /> : icon}
       {children}
     </button>
   );

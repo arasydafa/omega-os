@@ -13,6 +13,18 @@ export type { BreadcrumbsProps, Crumb } from './components/Breadcrumbs.js';
 export { Button } from './components/Button.js';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button.js';
 
+export { Card } from './components/Card.js';
+export type { CardPadding, CardProps } from './components/Card.js';
+
+export { Avatar } from './components/Avatar.js';
+export type { AvatarProps, AvatarSize } from './components/Avatar.js';
+
+export { Spinner } from './components/Spinner.js';
+export type { SpinnerProps } from './components/Spinner.js';
+
+export { Checkbox, Radio, Switch } from './components/Choice.js';
+export type { CheckboxProps, RadioProps, SwitchProps } from './components/Choice.js';
+
 export { Dropdown } from './components/Dropdown.js';
 export type { DropdownItemDef, DropdownProps } from './components/Dropdown.js';
 
