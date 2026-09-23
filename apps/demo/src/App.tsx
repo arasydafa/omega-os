@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import uiPkg from '@omega-os/ui/package.json';
 import {
   Alert,
   Avatar,
@@ -120,7 +121,7 @@ export default function App() {
             </span>
             <div>
               <h1 className="text-xl font-extrabold tracking-tight">OmegaOS UI</h1>
-              <p className="text-xs text-ot-muted">React demo — v0.4.0 infra</p>
+              <p className="text-xs text-ot-muted">Component showcase — v{uiPkg.version}</p>
             </div>
           </div>
           <button
@@ -428,7 +429,7 @@ function OverlayDemo() {
 interface DemoTool {
   id: string;
   name: string;
-  status: 'Active' | 'Draft' | 'Archived' | 'Disabled' | 'Info' | 'Warning';
+  status: 'Active' | 'Draft' | 'Archived' | 'Disabled' | 'Info' | 'Warning' | 'Error';
 }
 
 const DEMO_TOOLS: DemoTool[] = [
@@ -447,6 +448,7 @@ const DEMO_TOOLS: DemoTool[] = [
   { id: 'gateway', name: 'Gateway', status: 'Disabled' },
   { id: 'notifier', name: 'Notifier', status: 'Info' },
   { id: 'updater', name: 'Updater', status: 'Warning' },
+  { id: 'crasher', name: 'Crasher', status: 'Error' },
 ];
 
 const PAGE_SIZE = 5;
@@ -457,6 +459,7 @@ function statusBadge(status: DemoTool['status']) {
   if (status === 'Disabled') return <Badge tone="grey">Disabled</Badge>;
   if (status === 'Info') return <Badge tone="info">Info</Badge>;
   if (status === 'Warning') return <Badge tone="warning">Warning</Badge>;
+  if (status === 'Error') return <Badge tone="danger">Error</Badge>;
   return <Badge tone="grey">Draft</Badge>;
 }
 
