@@ -4,6 +4,7 @@ import {
   Alert,
   Avatar,
   Badge,
+  Bar,
   Breadcrumbs,
   Button,
   Card,
@@ -11,13 +12,17 @@ import {
   Dropdown,
   EmptyState,
   FileViewer,
+  GraphViewer,
   Image,
   Input,
+  Line,
   Modal,
   Navbar,
   OMEGA_ICONS,
   Pagination,
+  Pie,
   Radio,
+  Scatter,
   SearchBar,
   Select,
   Sidebar,
@@ -163,6 +168,8 @@ export default function App() {
         <ComplementsDemo />
 
         <ViewersDemo />
+
+        <ChartsDemo />
 
         <NavigationDemo />
 
@@ -622,6 +629,78 @@ function ViewersDemo() {
         />
       </div>
     </section>
+  );
+}
+
+function ChartsDemo() {
+  const [selectedNode, setSelectedNode] = useState<string | null>('auth');
+  return (
+    <>
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Charts</h2>
+        <p className="mb-4 text-sm text-ot-muted">Custom theme-aware SVG. No charting dependency.</p>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Pie
+            data={[
+              { label: 'Tools', value: 6 },
+              { label: 'Docs', value: 3 },
+              { label: 'Other', value: 1 },
+            ]}
+          />
+          <Bar
+            data={[
+              { label: 'Mon', value: 4 },
+              { label: 'Tue', value: 9 },
+              { label: 'Wed', value: 6 },
+              { label: 'Thu', value: 12 },
+              { label: 'Fri', value: 7 },
+            ]}
+          />
+          <Line
+            points={[
+              { x: 'Mon', y: 4 },
+              { x: 'Tue', y: 9 },
+              { x: 'Wed', y: 6 },
+              { x: 'Thu', y: 12 },
+              { x: 'Fri', y: 7 },
+            ]}
+          />
+          <Scatter
+            points={[
+              { x: 1, y: 2, label: 'Gadget A' },
+              { x: 2, y: 5, label: 'Gadget B' },
+              { x: 3, y: 3, label: 'Gadget C' },
+              { x: 4, y: 8, label: 'Gadget D' },
+              { x: 5, y: 6, label: 'Gadget E' },
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Graph</h2>
+        <p className="mb-4 text-sm text-ot-muted">
+          Drag to pan, scroll to zoom, click a node{selectedNode ? ` — selected: ${selectedNode}` : ''}.
+        </p>
+        <GraphViewer
+          selectedId={selectedNode}
+          onSelect={setSelectedNode}
+          nodes={[
+            { id: 'app', label: 'App', sub: 'entrypoint' },
+            { id: 'auth', label: 'Auth', sub: 'login flow' },
+            { id: 'api', label: 'API', sub: 'rest' },
+            { id: 'db', label: 'Database', sub: 'postgres' },
+            { id: 'cache', label: 'Cache', sub: 'redis' },
+          ]}
+          edges={[
+            ['app', 'auth'],
+            ['auth', 'api'],
+            ['api', 'db'],
+            ['api', 'cache'],
+          ]}
+        />
+      </section>
+    </>
   );
 }
 

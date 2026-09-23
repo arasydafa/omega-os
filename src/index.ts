@@ -19,6 +19,9 @@ export type { CardPadding, CardProps } from './components/Card.js';
 export { Avatar } from './components/Avatar.js';
 export type { AvatarProps, AvatarSize } from './components/Avatar.js';
 
+export { Bar } from './components/Bar.js';
+export type { BarDatum, BarProps } from './components/Bar.js';
+
 export { Spinner } from './components/Spinner.js';
 export type { SpinnerProps } from './components/Spinner.js';
 
@@ -37,11 +40,17 @@ export type { EmptyStateProps } from './components/EmptyState.js';
 export { FileViewer } from './components/FileViewer.js';
 export type { FileViewerProps } from './components/FileViewer.js';
 
+export { GraphViewer } from './components/GraphViewer.js';
+export type { GraphEdge, GraphNode, GraphViewerProps } from './components/GraphViewer.js';
+
 export { Image } from './components/Image.js';
 export type { ImageProps, ImageRadius } from './components/Image.js';
 
 export { Input, Select, Textarea } from './components/Input.js';
 export type { InputProps, SelectProps, TextareaProps } from './components/Input.js';
+
+export { Line } from './components/Line.js';
+export type { LinePoint, LineProps } from './components/Line.js';
 
 export { Modal } from './components/Modal.js';
 export type { ModalProps } from './components/Modal.js';
@@ -51,6 +60,12 @@ export type { NavbarLink, NavbarProps } from './components/Navbar.js';
 
 export { Pagination, pageSlots } from './components/Pagination.js';
 export type { PaginationProps } from './components/Pagination.js';
+
+export { Pie } from './components/Pie.js';
+export type { PieDatum, PieProps } from './components/Pie.js';
+
+export { Scatter } from './components/Scatter.js';
+export type { ScatterPoint, ScatterProps } from './components/Scatter.js';
 
 export { SearchBar } from './components/SearchBar.js';
 export type { SearchBarProps } from './components/SearchBar.js';
