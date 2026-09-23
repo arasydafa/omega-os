@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
 import { ChevronDown } from 'lucide-react';
 
@@ -11,19 +12,22 @@ interface FieldMeta {
 }
 
 const CONTROL =
-  'h-10 w-full rounded-ot-md border bg-ot-bg px-3 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted focus:border-navy';
+  'h-10 w-full rounded-ot-md border bg-ot-bg px-3 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted';
 
 function FieldShell({
+  fieldId,
   label,
   helper,
   error,
   className = '',
   children,
-}: FieldMeta & { children: ReactNode }) {
+}: FieldMeta & { fieldId: string; children: ReactNode }) {
   return (
     <div className={className}>
       {label ? (
-        <label className="mb-1.5 block font-sans text-[13px] font-semibold text-ot-text">{label}</label>
+        <label htmlFor={fieldId} className="mb-1.5 block font-sans text-[13px] font-semibold text-ot-text">
+          {label}
+        </label>
       ) : null}
       {children}
       {error ? (
@@ -42,9 +46,11 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement>, Field
   icon?: ReactNode;
 }
 
-export function Input({ label, helper, error, icon, className = '', ...rest }: InputProps) {
+export function Input({ label, helper, error, icon, className = '', id, ...rest }: InputProps) {
+  const fieldId = useId();
+  const controlId = id ?? fieldId;
   return (
-    <FieldShell label={label} helper={helper} error={error} className={className}>
+    <FieldShell fieldId={controlId} label={label} helper={helper} error={error} className={className}>
       <div className="relative">
         {icon ? (
           <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ot-muted [&>svg]:block">
@@ -52,8 +58,9 @@ export function Input({ label, helper, error, icon, className = '', ...rest }: I
           </span>
         ) : null}
         <input
-          className={`${CONTROL} border-ot-border ${icon ? 'pl-9' : ''} ${
-            error ? 'border-danger' : ''
+          id={controlId}
+          className={`${CONTROL} ${icon ? 'pl-9' : ''} ${
+            error ? 'border-danger focus:border-danger' : 'border-ot-border focus:border-navy'
           } disabled:cursor-not-allowed disabled:opacity-50`}
           aria-invalid={error ? true : undefined}
           {...rest}
@@ -65,13 +72,16 @@ export function Input({ label, helper, error, icon, className = '', ...rest }: I
 
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>, FieldMeta {}
 
-export function Textarea({ label, helper, error, className = '', ...rest }: TextareaProps) {
+export function Textarea({ label, helper, error, className = '', id, ...rest }: TextareaProps) {
+  const fieldId = useId();
+  const controlId = id ?? fieldId;
   return (
-    <FieldShell label={label} helper={helper} error={error} className={className}>
+    <FieldShell fieldId={controlId} label={label} helper={helper} error={error} className={className}>
       <textarea
+        id={controlId}
         rows={3}
-        className={`min-h-[72px] w-full resize-y rounded-ot-md border bg-ot-bg px-3 py-2.5 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted focus:border-navy border-ot-border ${
-          error ? 'border-danger' : ''
+        className={`min-h-[72px] w-full resize-y rounded-ot-md border bg-ot-bg px-3 py-2.5 font-sans text-sm text-ot-text outline-none transition-shadow placeholder:text-ot-muted ${
+          error ? 'border-danger focus:border-danger' : 'border-ot-border focus:border-navy'
         } disabled:cursor-not-allowed disabled:opacity-50`}
         aria-invalid={error ? true : undefined}
         {...rest}
@@ -82,13 +92,16 @@ export function Textarea({ label, helper, error, className = '', ...rest }: Text
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement>, FieldMeta {}
 
-export function Select({ label, helper, error, className = '', children, ...rest }: SelectProps) {
+export function Select({ label, helper, error, className = '', children, id, ...rest }: SelectProps) {
+  const fieldId = useId();
+  const controlId = id ?? fieldId;
   return (
-    <FieldShell label={label} helper={helper} error={error} className={className}>
+    <FieldShell fieldId={controlId} label={label} helper={helper} error={error} className={className}>
       <div className="relative">
         <select
-          className={`${CONTROL} appearance-none border-ot-border pr-9 ${
-            error ? 'border-danger' : ''
+          id={controlId}
+          className={`${CONTROL} appearance-none pr-9 ${
+            error ? 'border-danger focus:border-danger' : 'border-ot-border focus:border-navy'
           } disabled:cursor-not-allowed disabled:opacity-50`}
           aria-invalid={error ? true : undefined}
           {...rest}

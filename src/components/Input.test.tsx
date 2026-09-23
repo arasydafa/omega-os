@@ -17,6 +17,7 @@ describe('Input', () => {
     expect(screen.queryByText('Lowercase only.')).not.toBeInTheDocument();
     expect(document.querySelector('input')).toHaveAttribute('aria-invalid', 'true');
     expect(document.querySelector('input')).toHaveClass('border-danger');
+    expect(document.querySelector('input')).not.toHaveClass('border-ot-border');
   });
 
   it('hides helper when error is set', () => {
