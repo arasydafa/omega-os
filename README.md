@@ -53,4 +53,4 @@ Open `preview.html` in a browser: typography, brand + status + surface colors, b
 
 ## Status
 
-v0.2.0 — tokens stable. No React components yet (planned for v0.3). See `CHANGELOG.md`.
+v0.3.0 — core components (`Button`, `Badge`, `Alert`, `Input`, `Textarea`, `Select`). See `CHANGELOG.md`.
