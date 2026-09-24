@@ -73,4 +73,4 @@ Work happens on `dev` (or `feat/*`), releases merge to `main` with a version bum
 
 ## Status
 
-v0.18.0 — solid button + code block. 141 tests green. See `CHANGELOG.md`.
+v1.0.0 — first stable (pilot vstack migrated). 141 tests green. See `CHANGELOG.md`.

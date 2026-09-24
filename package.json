@@ -1,6 +1,6 @@
 {
   "name": "@omega-os/ui",
-  "version": "0.18.0",
+  "version": "1.0.0",
   "description": "OmegaOS Design System — modern minimalist tokens (Plus Jakarta Sans + JetBrains Mono, navy/maroon/grey, light + dark, rounded, lucide icons only)",
   "type": "module",
   "main": "./dist/index.js",

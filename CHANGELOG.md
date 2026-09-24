@@ -5,6 +5,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.0.0] — first stable
+
+No code changes since 0.18.0. Pilot repo (vstack) migrated and merged,
+141 tests + lint + build green. From here, breaking changes bump MAJOR.
+
 ## [0.18.0] — solid button + code block
 
 ### Added
