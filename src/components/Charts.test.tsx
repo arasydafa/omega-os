@@ -59,7 +59,7 @@ describe('Bar', () => {
     expect(bars.length).toBe(2);
     expect((bars[0] as HTMLElement).style.height).toBe('100%');
     expect((bars[1] as HTMLElement).style.height).toBe('50%');
-    expect((bars[0] as HTMLElement).className).toContain('ot-anim-grow-up');
+    expect((bars[0] as HTMLElement).className).toContain('ot-chart-grow-up');
   });
 });
 
@@ -76,7 +76,7 @@ describe('Line', () => {
     );
     expect(container.querySelectorAll('circle[style]').length).toBe(3);
     expect(container.querySelector('polyline')).toBeInTheDocument();
-    expect(container.querySelector('polyline')).toHaveClass('ot-anim-line-draw');
+    expect(container.querySelector('polyline')).toHaveClass('ot-chart-line-draw');
   });
 
   it('supports multiple series with legend toggle and rich tooltip', async () => {

@@ -115,7 +115,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
                   strokeDashoffset={-acc}
                   transform="rotate(-90 100 100)"
                   style={{ stroke: d.color }}
-                  className="ot-anim-fade-in transition-[stroke-dasharray,stroke-dashoffset] duration-[var(--ot-duration-base)]"
+                  className="ot-chart-fade ot-chart-sweep"
                 >
                   <title>{`${d.label}: ${d.value}`}</title>
                 </circle>
@@ -139,7 +139,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
                 key={d.label}
                 d={`M100,100 L${x1.toFixed(2)},${y1.toFixed(2)} A78,78 0 ${end - start > 180 ? 1 : 0},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z`}
                 style={{ fill: d.color, stroke: 'var(--ot-bg)', strokeWidth: 2 }}
-                className="ot-anim-fade-in"
+                className="ot-chart-fade"
               >
                 <title>{`${d.label}: ${d.value}`}</title>
               </path>

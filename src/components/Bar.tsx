@@ -39,7 +39,7 @@ export function Bar({ data, height = 180, label, className = '' }: BarProps) {
                 background: d.color ?? 'var(--ot-navy)',
                 animationDelay: `${Math.min(i * 40, 400)}ms`,
               }}
-              className="ot-anim-grow-up min-h-[3px] w-full max-w-12 rounded-ot-sm transition-[height]"
+              className="ot-chart-grow-up ot-chart-resize min-h-[3px] w-full max-w-12 rounded-ot-sm"
             />
           </div>
         ))}

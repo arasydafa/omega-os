@@ -75,6 +75,7 @@
   --ot-duration-base: 200ms;
   --ot-duration-slow: 300ms;
   --ot-duration-reveal: 650ms;
+  --ot-duration-chart: 700ms;
   --ot-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ot-ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ot-ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
@@ -169,12 +170,21 @@ code,
 /* Slow transition for large layout motion (sidebar collapse) */
 .ot-transition-slow { transition: all var(--ot-duration-slow) var(--ot-ease-out); }
 
+/* Chart motion: slow, gentle start and end. Shared by every chart. */
+.ot-chart-grow-up { animation: ot-grow-up var(--ot-duration-chart) var(--ot-ease-smooth); transform-origin: bottom; }
+.ot-chart-line-draw { stroke-dasharray: 1; animation: ot-line-draw var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
+.ot-chart-pop { animation: ot-pop var(--ot-duration-chart) var(--ot-ease-smooth); }
+.ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth); }
+.ot-chart-sweep { transition: stroke-dasharray var(--ot-duration-chart) var(--ot-ease-smooth), stroke-dashoffset var(--ot-duration-chart) var(--ot-ease-smooth); }
+.ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth); }
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --ot-duration-fast: 0ms;
     --ot-duration-base: 0ms;
     --ot-duration-slow: 0ms;
     --ot-duration-reveal: 0ms;
+    --ot-duration-chart: 0ms;
   }
   .ot-anim-fade-in,
   .ot-anim-fade-out,
@@ -185,7 +195,11 @@ code,
   .ot-anim-grow-up,
   .ot-anim-line-draw,
   .ot-anim-pop,
-  .ot-anim-fade-up {
+  .ot-anim-fade-up,
+  .ot-chart-grow-up,
+  .ot-chart-line-draw,
+  .ot-chart-pop,
+  .ot-chart-fade {
     animation: none;
   }
 }

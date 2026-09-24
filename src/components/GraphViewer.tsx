@@ -232,7 +232,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
                     onSelect?.(n.id);
                   }
                 }}
-                className="cursor-pointer ot-anim-fade-in outline-none"
+                className="cursor-pointer ot-chart-fade outline-none"
               >
                 <rect
                   x={p.x}

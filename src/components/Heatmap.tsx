@@ -64,7 +64,7 @@ export function Heatmap({ data, xLabels, yLabels, onSelect, label, className = '
                     background: `color-mix(in srgb, var(--ot-navy) ${Math.round(t * 100)}%, var(--ot-surface-2))`,
                     animationDelay: `${Math.min((xi + ys.indexOf(y)) * 40, 320)}ms`,
                   }}
-                  className={`ot-anim-fade-in aspect-square w-full rounded-ot-sm transition-transform ${
+                  className={`ot-chart-fade aspect-square w-full rounded-ot-sm transition-transform ${
                     cell && onSelect ? 'cursor-pointer hover:scale-[1.04]' : 'cursor-default'
                   }`}
                 />

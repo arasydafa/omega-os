@@ -7,6 +7,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Dedicated chart motion (`ot-duration-chart` 700ms + gentle `ot-ease-smooth`): grow, draw, pop, fade, sweep, and resize utilities shared by every chart.
+
+### Added
+
 - Chart motion: enter + update animations for Pie, Bar, Line, Scatter, Treemap, WordCloud, Heatmap, and Graph nodes (`ot-anim-grow-up`, `ot-anim-line-draw`, `ot-anim-pop`, `ot-anim-fade-up`); reduced-motion zeroes all durations.
 
 ### Added

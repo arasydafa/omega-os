@@ -68,7 +68,7 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
             onClick={() => onSelect(w.text)}
             title={`${w.text}: ${w.weight}`}
             style={style}
-            className="ot-anim-fade-in font-semibold leading-none transition-opacity hover:opacity-70"
+            className="ot-chart-fade font-semibold leading-none transition-opacity hover:opacity-70"
           >
             {w.text}
           </button>
@@ -77,7 +77,7 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
             key={w.text}
             title={`${w.text}: ${w.weight}`}
             style={style}
-            className="ot-anim-fade-in font-semibold leading-none"
+            className="ot-chart-fade font-semibold leading-none"
           >
             {w.text}
           </span>

@@ -110,7 +110,7 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
                 <polygon
                   points={`${PAD},${height - PAD} ${coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' ')} ${PAD + innerW},${height - PAD}`}
                   style={{ fill: coords[0]?.color, opacity: 0.12 }}
-                  className="ot-anim-fade-in"
+                  className="ot-chart-fade"
                 />
               ) : null}
               <polyline
@@ -120,7 +120,7 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
                 strokeLinejoin="round"
                 pathLength={1}
                 style={{ stroke: coords[0]?.color }}
-                className="ot-anim-line-draw"
+                className="ot-chart-line-draw"
               />
               {coords.map((c) => (
                 <circle
@@ -143,7 +143,7 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
                   r={3}
                   pointerEvents="none"
                   style={{ fill: c.color, animationDelay: `${Math.min(ci * 60, 420)}ms` }}
-                  className="ot-anim-pop"
+                  className="ot-chart-pop"
                 />
               ))}
             </g>
