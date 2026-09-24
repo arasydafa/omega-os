@@ -5,6 +5,7 @@ import {
   Accordion,
   Alert,
   Avatar,
+  AvatarGroup,
   Badge,
   Bar,
   Breadcrumbs,
@@ -13,6 +14,7 @@ import {
   Carousel,
   Checkbox,
   Combobox,
+  CommandPalette,
   CopyButton,
   DatePicker,
   Drawer,
@@ -26,6 +28,8 @@ import {
   Input,
   Kbd,
   Line,
+  LogViewer,
+  Markdown,
   Modal,
   Navbar,
   OMEGA_ICONS,
@@ -186,6 +190,8 @@ export default function App() {
         <ComplementsDemo />
 
         <PrimitivesDemo />
+
+        <CommandDemo />
 
         <ComplexDemo />
 
@@ -678,6 +684,68 @@ function PrimitivesDemo() {
       >
         Side panel with focus trap, ESC, and overlay click — same contract as Modal.
       </Drawer>
+    </>
+  );
+}
+
+function CommandDemo() {
+  const toast = useToast();
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const act = (name: string) => () => toast.show('info', `${name} selected.`);
+  return (
+    <>
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Command + logs + docs</h2>
+        <p className="mb-4 text-sm text-ot-muted">
+          Press <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd> anywhere, or use the button.
+        </p>
+        <div className="mb-4 flex flex-wrap items-center gap-2.5">
+          <Button variant="secondary" size="sm" onClick={() => setPaletteOpen(true)}>
+            Open palette
+          </Button>
+          <AvatarGroup
+            avatars={[
+              { name: 'Omega Throne' },
+              { name: 'Vstack' },
+              { name: 'Docs' },
+              { name: 'Lab' },
+              { name: 'Extra' },
+            ]}
+            max={3}
+          />
+        </div>
+        <div className="grid gap-4">
+          <LogViewer
+            lines={[
+              { id: '1', level: 'info', text: 'Build started', time: '09:00' },
+              { id: '2', level: 'info', text: 'Tests passed (106)', time: '09:04' },
+              { id: '3', level: 'warn', text: 'Cache miss on install step', time: '09:04' },
+              { id: '4', level: 'error', text: 'Deploy failed: timeout', time: '09:05' },
+            ]}
+          />
+          <Markdown
+            source={`## Release notes
+
+Ship with **confidence**: run \`npm test\` and read the [changelog](https://example.com).
+
+| Version | Status |
+|---|---|
+| 0.15.0 | Shipped |
+| 0.16.0 | Next |
+`}
+          />
+        </div>
+      </section>
+
+      <CommandPalette
+        open={paletteOpen}
+        onOpenChange={setPaletteOpen}
+        items={[
+          { id: 'vstack', label: 'VStack', group: 'Tools', hint: 'ROP', onSelect: act('VStack') },
+          { id: 'lab', label: 'CI-CD Lab', group: 'Tools', onSelect: act('CI-CD Lab') },
+          { id: 'docs', label: 'Docs', group: 'Help', onSelect: act('Docs') },
+        ]}
+      />
     </>
   );
 }

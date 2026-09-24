@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Power batch: `CommandPalette` (Cmd/Ctrl+K, fuzzy filter, keyboard model), `LogViewer` (levels, follow, filter, cap), `AvatarGroup` (+N overflow), `Markdown` (Omega-styled GFM), `Table` sorting (asc/desc/off, controlled or not).
+
 ## [0.15.0] — complex batch
 
 ### Added
