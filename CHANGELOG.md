@@ -5,6 +5,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.15.0] — complex batch
+
 ### Added
 
 - Complex batch: `Slider`, `Stepper`, `Timeline`, `TreeView`, `Carousel`, `DatePicker` (custom calendar, id-ID default, keyboard model).

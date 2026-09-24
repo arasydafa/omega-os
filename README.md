@@ -73,4 +73,4 @@ Work happens on `dev` (or `feat/*`), releases merge to `main` with a version bum
 
 ## Status
 
-v0.14.0 — input + primitives (`FileUpload`, `CopyButton`, `Kbd`, `Progress`, `Accordion`, `Drawer`, `Combobox`). 118 tests green. See `CHANGELOG.md`.
+v0.15.0 — complex batch (`Slider`, `Stepper`, `Timeline`, `TreeView`, `Carousel`, `DatePicker`). 126 tests green. See `CHANGELOG.md`.
