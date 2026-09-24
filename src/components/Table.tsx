@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { EmptyState } from './EmptyState.js';
+import { SearchBar } from './SearchBar.js';
 import { Skeleton } from './Skeleton.js';
 
 export type TableAlign = 'left' | 'center' | 'right';
@@ -18,6 +19,8 @@ export interface TableColumn<T> {
   sortable?: boolean;
   /** Value used for sorting. Defaults to the column key lookup. */
   sortValue?: (row: T) => string | number | null | undefined;
+  /** Value used for filtering. Defaults to sortValue ?? key lookup. */
+  filterValue?: (row: T) => string | number | null | undefined;
 }
 
 export interface TableProps<T> {
@@ -36,6 +39,12 @@ export interface TableProps<T> {
   sortKey?: string | null;
   sortDir?: SortDir | null;
   onSort?: (key: string | null, dir: SortDir | null) => void;
+  /** Renders a filter box above the table. */
+  filterable?: boolean;
+  /** Controlled filter text. Omit for uncontrolled. */
+  filter?: string;
+  onFilter?: (query: string) => void;
+  filterPlaceholder?: string;
   className?: string;
 }
 
@@ -59,13 +68,18 @@ export function Table<T>({
   sortKey: controlledKey,
   sortDir: controlledDir,
   onSort,
+  filterable = false,
+  filter: controlledFilter,
+  onFilter,
+  filterPlaceholder = 'Filter rows…',
   className = '',
 }: TableProps<T>) {
   const [innerKey, setInnerKey] = useState<string | null>(null);
   const [innerDir, setInnerDir] = useState<SortDir | null>(null);
+  const [innerFilter, setInnerFilter] = useState('');
   const sortKey = controlledKey !== undefined ? controlledKey : innerKey;
   const sortDir = controlledDir !== undefined ? controlledDir : innerDir;
-  const showEmpty = !loading && rows.length === 0;
+  const query = controlledFilter !== undefined ? controlledFilter : innerFilter;
 
   const cycleSort = (key: string) => {
     let nextKey: string | null = key;
@@ -84,13 +98,33 @@ export function Table<T>({
     onSort?.(nextKey, nextDir);
   };
 
+  const setQuery = (next: string) => {
+    if (controlledFilter === undefined) setInnerFilter(next);
+    onFilter?.(next);
+  };
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return rows;
+    return rows.filter((row) =>
+      columns.some((col) => {
+        const get =
+          col.filterValue ??
+          col.sortValue ??
+          ((r: T) => (r as Record<string, unknown>)[col.key] as string | number | null | undefined);
+        const v = get(row);
+        return v != null && String(v).toLowerCase().includes(q);
+      }),
+    );
+  }, [rows, query, columns]);
+
   const sorted = useMemo(() => {
-    if (!sortKey || !sortDir) return rows;
+    if (!sortKey || !sortDir) return filtered;
     const col = columns.find((c) => c.key === sortKey);
-    if (!col?.sortable) return rows;
+    if (!col?.sortable) return filtered;
     const get = col.sortValue ?? ((row: T) => (row as Record<string, unknown>)[sortKey] as string | number | null | undefined);
     const dir = sortDir === 'asc' ? 1 : -1;
-    return [...rows].sort((a, b) => {
+    return [...filtered].sort((a, b) => {
       const va = get(a);
       const vb = get(b);
       if (va == null && vb == null) return 0;
@@ -99,8 +133,19 @@ export function Table<T>({
       if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
       return String(va).localeCompare(String(vb)) * dir;
     });
-  }, [rows, sortKey, sortDir, columns]);
+  }, [filtered, sortKey, sortDir, columns]);
+
+  const showEmpty = !loading && sorted.length === 0;
   return (
+    <div className={`font-sans ${className}`}>
+      {filterable ? (
+        <div className="mb-3">
+          <SearchBar value={query} onChange={setQuery} placeholder={filterPlaceholder} label="Filter table" />
+        </div>
+      ) : null}
+      <p aria-live="polite" className="sr-only">
+        {sorted.length} rows shown
+      </p>
     <div className={`overflow-hidden rounded-ot-lg border border-ot-border bg-ot-bg font-sans ${className}`}>
       <table className="w-full border-collapse text-sm" aria-busy={loading || undefined}>
         <thead>
@@ -181,6 +226,7 @@ export function Table<T>({
       {showEmpty ? (
         <EmptyState title={emptyTitle} description={emptyDescription} action={emptyAction} />
       ) : null}
+      </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Table } from './Table.js';
 
@@ -58,6 +58,33 @@ describe('Table', () => {
     expect(screen.getAllByRole('row')[1]).toHaveTextContent('vstack');
     await user.click(header);
     expect(header.closest('th')).toHaveAttribute('aria-sort', 'none');
+  });
+
+  it('filters rows through the search box', async () => {
+    const user = userEvent.setup();
+    const cols = [{ ...COLUMNS[0], sortable: true }, COLUMNS[1]];
+    render(<Table columns={cols} rows={ROWS} keyOf={(r: Row) => r.id} filterable />);
+    expect(screen.getByText('vstack')).toBeInTheDocument();
+    await user.type(screen.getByRole('searchbox', { name: 'Filter table' }), 'omega');
+    await waitFor(() => {
+      expect(screen.queryByText('vstack')).not.toBeInTheDocument();
+    });
+    expect(screen.getByText('omega-docs')).toBeInTheDocument();
+    await user.clear(screen.getByRole('searchbox', { name: 'Filter table' }));
+    await waitFor(() => {
+      expect(screen.getByText('vstack')).toBeInTheDocument();
+    });
+  });
+
+  it('filters with stable prop identities', async () => {
+    const user = userEvent.setup();
+    const cols = [{ key: 'name', header: 'Tool', render: (r: Row) => r.name }];
+    render(<Table columns={cols} rows={ROWS} keyOf={(r: Row) => r.id} filterable />);
+    await user.type(screen.getByRole('searchbox', { name: 'Filter table' }), 'omega');
+    await waitFor(() => {
+      expect(screen.queryByText('vstack')).not.toBeInTheDocument();
+    });
+    expect(screen.getByText('1 rows shown')).toBeInTheDocument();
   });
 
   it('uses the column skeleton override when provided', () => {

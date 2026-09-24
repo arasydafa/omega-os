@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- `Table` sorted memo now depends on the filtered rows, so filtering works with stable (memoized) props instead of showing stale rows.
+
 ### Added
 
 - Power batch: `CommandPalette` (Cmd/Ctrl+K, fuzzy filter, keyboard model), `LogViewer` (levels, follow, filter, cap), `AvatarGroup` (+N overflow), `Markdown` (Omega-styled GFM), `Table` sorting (asc/desc/off, controlled or not).
