@@ -51,6 +51,26 @@ bg-info-bg text-info / bg-warning-bg text-warning / bg-success-bg text-success /
 
 Open `preview.html` in a browser: typography, brand + status + surface colors, buttons, forms, navbar, sidebar (collapse + submenu), table + pagination, alerts, toasts, modal, popup, icon gallery.
 
+For the interactive React demo: `cd apps/demo && npm.cmd install && npm.cmd run dev` → http://localhost:5173.
+
+## Development
+
+Two installs are required (root holds the shared toolchain, the demo has its own):
+
+```
+# from the repo root
+npm.cmd install
+npm.cmd run check   # typecheck
+npm.cmd run lint    # eslint, incl. no-emoji rule
+npm.cmd test        # vitest
+
+cd apps/demo
+npm.cmd install
+npm.cmd run build   # typecheck + production build
+```
+
+Work happens on `dev` (or `feat/*`), releases merge to `main` with a version bump + changelog + tag. See `docs/VERSIONING.md`.
+
 ## Status
 
 v0.12.0 — charts + graph (`Pie`, `Bar`, `Line`, `Scatter`, `GraphViewer`). 88 tests green. See `CHANGELOG.md`.

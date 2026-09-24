@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { EmptyState } from './EmptyState.js';
 
 export interface PieDatum {
@@ -35,11 +36,62 @@ function polar(cx: number, cy: number, r: number, deg: number): [number, number]
 }
 
 export function Pie({ data, size = 200, hole = true, showLegend = true, label, className = '' }: PieProps) {
-  const total = data.reduce((sum, d) => sum + Math.max(d.value, 0), 0);
-  if (total <= 0) {
+  const [hidden, setHidden] = useState<string[]>([]);
+  const rawTotal = data.reduce((sum, d) => sum + Math.max(d.value, 0), 0);
+  if (rawTotal <= 0) {
     return <EmptyState title="No data" description="Add values to render the chart." className={className} />;
   }
-  const colored = data.map((d, i) => ({ ...d, color: d.color ?? PALETTE[i % PALETTE.length] }));
+  const toggle = (name: string) =>
+    setHidden((prev) => (prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]));
+  // Hidden segments shrink to zero instead of unmounting, so the
+  // dasharray transition sweeps them away smoothly.
+  const visible = data.filter((d) => !hidden.includes(d.label));
+  const total = visible.reduce((sum, d) => sum + Math.max(d.value, 0), 0);
+  const drawn = data.map((d) => ({
+    ...d,
+    drawValue: hidden.includes(d.label) ? 0 : d.value,
+  }));
+  const legend = (
+    <div className="flex flex-wrap gap-x-2 gap-y-1.5 text-[13px]">
+      {data.map((d) => {
+        const off = hidden.includes(d.label);
+        const pct = total > 0 && !off ? Math.round((Math.max(d.value, 0) / total) * 100) : 0;
+        return (
+          <button
+            key={d.label}
+            type="button"
+            aria-pressed={!off}
+            aria-label={`Toggle ${d.label}`}
+            onClick={() => toggle(d.label)}
+            className={`inline-flex items-center gap-1.5 rounded-ot-sm px-1.5 py-0.5 transition-opacity ${
+              off ? 'opacity-50' : 'text-ot-muted hover:bg-ot-surface'
+            }`}
+          >
+            <span
+              aria-hidden
+              className="h-3 w-3 rounded-full"
+              style={{ background: d.color ?? PALETTE[data.findIndex((o) => o.label === d.label) % PALETTE.length] }}
+            />
+            {d.label} <b className="text-ot-text">{pct}%</b>
+          </button>
+        );
+      })}
+    </div>
+  );
+  if (total <= 0) {
+    return (
+      <figure className={`font-sans ${className}`}>
+        <p className="rounded-ot-md border border-dashed border-ot-border p-4 text-center text-sm text-ot-muted">
+          All series hidden — toggle the legend to show them.
+        </p>
+        {showLegend ? legend : null}
+      </figure>
+    );
+  }
+  const colored = drawn.map((d) => {
+    const i = data.findIndex((o) => o.label === d.label);
+    return { ...d, color: d.color ?? PALETTE[i % PALETTE.length] };
+  });
   let acc = 0;
 
   return (
@@ -54,11 +106,11 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
         {hole ? (
           <>
             <circle cx={100} cy={100} r={R} fill="none" strokeWidth={28} className="stroke-ot-surface-2" />
-            {colored.map((d, i) => {
-              const pct = (Math.max(d.value, 0) / total) * 100;
+            {colored.map((d) => {
+              const pct = total > 0 ? (Math.max(d.drawValue, 0) / total) * 100 : 0;
               const el = (
                 <circle
-                  key={i}
+                  key={d.label}
                   cx={100}
                   cy={100}
                   r={R}
@@ -69,6 +121,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
                   strokeDashoffset={-acc}
                   transform="rotate(-90 100 100)"
                   style={{ stroke: d.color }}
+                  className="ot-chart-fade ot-chart-sweep"
                 >
                   <title>{`${d.label}: ${d.value}`}</title>
                 </circle>
@@ -81,17 +134,18 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
             </text>
           </>
         ) : (
-          colored.map((d, i) => {
-            const start = (acc / total) * 360;
-            acc += Math.max(d.value, 0);
-            const end = (acc / total) * 360;
+          colored.map((d) => {
+            const start = total > 0 ? (acc / total) * 360 : 0;
+            acc += Math.max(d.drawValue, 0);
+            const end = total > 0 ? (acc / total) * 360 : 0;
             const [x1, y1] = polar(100, 100, 78, start);
             const [x2, y2] = polar(100, 100, 78, end);
             return (
               <path
-                key={i}
+                key={d.label}
                 d={`M100,100 L${x1.toFixed(2)},${y1.toFixed(2)} A78,78 0 ${end - start > 180 ? 1 : 0},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z`}
                 style={{ fill: d.color, stroke: 'var(--ot-bg)', strokeWidth: 2 }}
+                className="ot-chart-fade"
               >
                 <title>{`${d.label}: ${d.value}`}</title>
               </path>
@@ -99,16 +153,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
           })
         )}
       </svg>
-      {showLegend ? (
-        <figcaption className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
-          {colored.map((d, i) => (
-            <span key={i} className="inline-flex items-center gap-1.5 text-ot-muted">
-              <span aria-hidden className="h-3 w-3 rounded-full" style={{ background: d.color }} />
-              {d.label} <b className="text-ot-text">{Math.round((Math.max(d.value, 0) / total) * 100)}%</b>
-            </span>
-          ))}
-        </figcaption>
-      ) : null}
+      {showLegend ? <figcaption className="mt-3">{legend}</figcaption> : null}
       <table className="sr-only">
         <tbody>
           {colored.map((d, i) => (

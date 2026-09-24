@@ -43,6 +43,9 @@ export type { FileViewerProps } from './components/FileViewer.js';
 export { GraphViewer } from './components/GraphViewer.js';
 export type { GraphEdge, GraphNode, GraphViewerProps } from './components/GraphViewer.js';
 
+export { Heatmap } from './components/Heatmap.js';
+export type { HeatDatum, HeatmapProps } from './components/Heatmap.js';
+
 export { Image } from './components/Image.js';
 export type { ImageProps, ImageRadius } from './components/Image.js';
 
@@ -64,8 +67,8 @@ export type { PaginationProps } from './components/Pagination.js';
 export { Pie } from './components/Pie.js';
 export type { PieDatum, PieProps } from './components/Pie.js';
 
-export { Scatter } from './components/Scatter.js';
-export type { ScatterPoint, ScatterProps } from './components/Scatter.js';
+export { Scatter, formatTick } from './components/Scatter.js';
+export type { ScatterPoint, ScatterProps, ScatterSeries } from './components/Scatter.js';
 
 export { SearchBar } from './components/SearchBar.js';
 export type { SearchBarProps } from './components/SearchBar.js';
@@ -84,6 +87,12 @@ export type { TableAlign, TableColumn, TableProps } from './components/Table.js'
 
 export { Tabs } from './components/Tabs.js';
 export type { TabDef, TabsProps } from './components/Tabs.js';
+
+export { Treemap, squarifyLayout } from './components/Treemap.js';
+export type { TreemapDatum, TreemapProps } from './components/Treemap.js';
+
+export { WordCloud, wordFontSize, wordTilt } from './components/WordCloud.js';
+export type { WordCloudProps, WordDatum } from './components/WordCloud.js';
 
 export { ToasterProvider, useToast } from './components/Toast.js';
 export type { ToastApi, ToastKind, ToastOptions } from './components/Toast.js';
