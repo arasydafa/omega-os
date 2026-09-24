@@ -129,10 +129,13 @@ describe('WordCloud', () => {
       const word = screen.getByText('omega');
       const zone = screen.getByRole('img');
       fireEvent(word, new MouseEvent('pointerdown', { clientX: 0, clientY: 0, bubbles: true }));
-      // Drop onto the second word's box.
+      // Hover over the second word's box: it gets pushed away mid-drag…
       fireEvent(zone, new MouseEvent('pointermove', { clientX: 110, clientY: 5, bubbles: true }));
+      expect(screen.getByText('ui').style.transform).not.toContain('translate(0px, 0px)');
       fireEvent(zone, new MouseEvent('pointerup', { bubbles: true }));
+      // …then springs back on drop, and the dragged word resets (overlap guard).
       expect(word.style.transform).toContain('translate(0px, 0px)');
+      expect(screen.getByText('ui').style.transform).toContain('translate(0px, 0px)');
     } finally {
       spy.mockRestore();
     }

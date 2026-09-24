@@ -159,8 +159,11 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
           animationDelay: `${Math.min(i * 30, 300)}ms`,
         };
         const interactive = `touch-none select-none ${dragging === w.text ? 'cursor-grabbing' : 'cursor-grab'}`;
-        // Snap-back glides via transform transition; dragging stays 1:1.
-        const glide = dragging === w.text ? '' : 'transition-transform duration-200';
+        // Snap-back and push release glide with a spring overshoot.
+        const glide =
+          dragging === w.text
+            ? ''
+            : 'transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]';
         return onSelect ? (
           <button
             key={w.text}
