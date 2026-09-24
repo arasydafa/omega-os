@@ -138,6 +138,19 @@ code,
 @keyframes ot-slide-out-right {
   to { opacity: 0; transform: translateX(16px); }
 }
+@keyframes ot-grow-up {
+  from { transform: scaleY(0); }
+}
+@keyframes ot-line-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes ot-pop {
+  from { opacity: 0; transform: scale(0); }
+}
+@keyframes ot-fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+}
 
 .ot-anim-fade-in { animation: ot-fade-in var(--ot-duration-base) var(--ot-ease-out); }
 .ot-anim-fade-out { animation: ot-fade-out var(--ot-duration-fast) var(--ot-ease-in) forwards; }
@@ -145,6 +158,10 @@ code,
 .ot-anim-pop-out { animation: ot-pop-out 130ms var(--ot-ease-in) forwards; }
 .ot-anim-slide-in-right { animation: ot-slide-in-right var(--ot-duration-base) var(--ot-ease-out); }
 .ot-anim-slide-out-right { animation: ot-slide-out-right 180ms var(--ot-ease-in) forwards; }
+.ot-anim-grow-up { animation: ot-grow-up var(--ot-duration-base) var(--ot-ease-out); transform-origin: bottom; }
+.ot-anim-line-draw { stroke-dasharray: 1; animation: ot-line-draw 800ms var(--ot-ease-out) forwards; }
+.ot-anim-pop { animation: ot-pop var(--ot-duration-base) var(--ot-ease-out); }
+.ot-anim-fade-up { animation: ot-fade-up var(--ot-duration-base) var(--ot-ease-out); }
 
 /* Standard transition for interactive elements */
 .ot-transition { transition: all var(--ot-duration-base) var(--ot-ease-out); }
@@ -153,12 +170,22 @@ code,
 .ot-transition-slow { transition: all var(--ot-duration-slow) var(--ot-ease-out); }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --ot-duration-fast: 0ms;
+    --ot-duration-base: 0ms;
+    --ot-duration-slow: 0ms;
+    --ot-duration-reveal: 0ms;
+  }
   .ot-anim-fade-in,
   .ot-anim-fade-out,
   .ot-anim-pop-in,
   .ot-anim-pop-out,
   .ot-anim-slide-in-right,
-  .ot-anim-slide-out-right {
+  .ot-anim-slide-out-right,
+  .ot-anim-grow-up,
+  .ot-anim-line-draw,
+  .ot-anim-pop,
+  .ot-anim-fade-up {
     animation: none;
   }
 }

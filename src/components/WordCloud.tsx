@@ -54,19 +54,21 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
       aria-label={label ?? `Word cloud with ${valid.length} words`}
       className={`flex flex-wrap items-baseline justify-center gap-x-4 gap-y-2 p-4 font-sans ${className}`}
     >
-      {sorted.map((w, i) =>
-        onSelect ? (
+      {sorted.map((w, i) => {
+        const style = {
+          fontSize: wordFontSize(w.weight, min, max),
+          color: w.color ?? PALETTE[i % PALETTE.length],
+          transform: `rotate(${wordTilt(i)}deg)`,
+          animationDelay: `${Math.min(i * 30, 300)}ms`,
+        };
+        return onSelect ? (
           <button
             key={w.text}
             type="button"
             onClick={() => onSelect(w.text)}
             title={`${w.text}: ${w.weight}`}
-            style={{
-              fontSize: wordFontSize(w.weight, min, max),
-              color: w.color ?? PALETTE[i % PALETTE.length],
-              transform: `rotate(${wordTilt(i)}deg)`,
-            }}
-            className="font-semibold leading-none transition-opacity hover:opacity-70"
+            style={style}
+            className="ot-anim-fade-in font-semibold leading-none transition-opacity hover:opacity-70"
           >
             {w.text}
           </button>
@@ -74,17 +76,13 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
           <span
             key={w.text}
             title={`${w.text}: ${w.weight}`}
-            style={{
-              fontSize: wordFontSize(w.weight, min, max),
-              color: w.color ?? PALETTE[i % PALETTE.length],
-              transform: `rotate(${wordTilt(i)}deg)`,
-            }}
-            className="font-semibold leading-none"
+            style={style}
+            className="ot-anim-fade-in font-semibold leading-none"
           >
             {w.text}
           </span>
-        ),
-      )}
+        );
+      })}
     </div>
   );
 }

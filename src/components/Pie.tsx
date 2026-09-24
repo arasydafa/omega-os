@@ -100,11 +100,11 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
         {hole ? (
           <>
             <circle cx={100} cy={100} r={R} fill="none" strokeWidth={28} className="stroke-ot-surface-2" />
-            {colored.map((d, i) => {
+            {colored.map((d) => {
               const pct = (Math.max(d.value, 0) / total) * 100;
               const el = (
                 <circle
-                  key={i}
+                  key={d.label}
                   cx={100}
                   cy={100}
                   r={R}
@@ -115,6 +115,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
                   strokeDashoffset={-acc}
                   transform="rotate(-90 100 100)"
                   style={{ stroke: d.color }}
+                  className="ot-anim-fade-in transition-[stroke-dasharray,stroke-dashoffset] duration-[var(--ot-duration-base)]"
                 >
                   <title>{`${d.label}: ${d.value}`}</title>
                 </circle>
@@ -127,7 +128,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
             </text>
           </>
         ) : (
-          colored.map((d, i) => {
+          colored.map((d) => {
             const start = (acc / total) * 360;
             acc += Math.max(d.value, 0);
             const end = (acc / total) * 360;
@@ -135,9 +136,10 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
             const [x2, y2] = polar(100, 100, 78, end);
             return (
               <path
-                key={i}
+                key={d.label}
                 d={`M100,100 L${x1.toFixed(2)},${y1.toFixed(2)} A78,78 0 ${end - start > 180 ? 1 : 0},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z`}
                 style={{ fill: d.color, stroke: 'var(--ot-bg)', strokeWidth: 2 }}
+                className="ot-anim-fade-in"
               >
                 <title>{`${d.label}: ${d.value}`}</title>
               </path>

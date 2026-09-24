@@ -7,6 +7,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Chart motion: enter + update animations for Pie, Bar, Line, Scatter, Treemap, WordCloud, Heatmap, and Graph nodes (`ot-anim-grow-up`, `ot-anim-line-draw`, `ot-anim-pop`, `ot-anim-fade-up`); reduced-motion zeroes all durations.
+
+### Added
+
 - Charts round 2: `Treemap` (squarified layout), `WordCloud` (deterministic scale), `Heatmap` (intensity grid).
 - Interactive legends: `Pie` segment toggle with recompute, multi-series `Line`/`Scatter` with toggles, `GraphViewer` node-group legend.
 - Rich hover tooltips on `Line`/`Scatter`; legacy single-series props keep working.

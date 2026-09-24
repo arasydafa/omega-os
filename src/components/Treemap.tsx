@@ -139,7 +139,8 @@ export function Treemap({ data, width = 320, height = 220, onSelect, label, clas
                     }
                   : undefined
               }
-              className={onSelect ? 'cursor-pointer outline-none' : undefined}
+              className={`ot-anim-fade-in ${onSelect ? 'cursor-pointer outline-none' : ''}`}
+              style={{ animationDelay: `${Math.min(i * 25, 250)}ms` }}
             >
               <rect
                 x={r.x + 1}

@@ -34,8 +34,12 @@ export function Bar({ data, height = 180, label, className = '' }: BarProps) {
             <span className="font-mono text-[11px] text-ot-muted">{d.value}</span>
             <div
               title={`${d.label}: ${d.value}`}
-              style={{ height: `${(Math.max(d.value, 0) / safeMax) * 100}%`, background: d.color ?? 'var(--ot-navy)' }}
-              className="min-h-[3px] w-full max-w-12 rounded-ot-sm"
+              style={{
+                height: `${(Math.max(d.value, 0) / safeMax) * 100}%`,
+                background: d.color ?? 'var(--ot-navy)',
+                animationDelay: `${Math.min(i * 40, 400)}ms`,
+              }}
+              className="ot-anim-grow-up min-h-[3px] w-full max-w-12 rounded-ot-sm transition-[height]"
             />
           </div>
         ))}

@@ -127,7 +127,14 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
                       >
                         <title>{text}</title>
                       </circle>
-                      <circle cx={cx} cy={cy} r={4.5} pointerEvents="none" style={{ fill: p.color ?? color }} />
+                      <circle
+                        cx={cx}
+                        cy={cy}
+                        r={4.5}
+                        pointerEvents="none"
+                        style={{ fill: p.color ?? color, animationDelay: `${Math.min(i * 30, 300)}ms` }}
+                        className="ot-anim-pop"
+                      />
                     </g>
                   );
                 })}
