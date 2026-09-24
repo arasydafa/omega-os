@@ -13,6 +13,7 @@ import {
   EmptyState,
   FileViewer,
   GraphViewer,
+  Heatmap,
   Image,
   Input,
   Line,
@@ -35,6 +36,8 @@ import {
   Textarea,
   ToasterProvider,
   Tooltip,
+  Treemap,
+  WordCloud,
   iconComponentName,
   toggleThemeReveal,
   useToast,
@@ -633,6 +636,7 @@ function ViewersDemo() {
 }
 
 function ChartsDemo() {
+  const toast = useToast();
   const [selectedNode, setSelectedNode] = useState<string | null>('auth');
   return (
     <>
@@ -646,6 +650,38 @@ function ChartsDemo() {
               { label: 'Docs', value: 3 },
               { label: 'Other', value: 1 },
             ]}
+          />
+          <Treemap
+            data={[
+              { label: 'Tools', value: 6 },
+              { label: 'Docs', value: 3 },
+              { label: 'Media', value: 2 },
+              { label: 'Other', value: 1 },
+            ]}
+            onSelect={(label) => toast.show('info', `${label} selected.`)}
+          />
+          <WordCloud
+            words={[
+              { text: 'omega', weight: 24 },
+              { text: 'design', weight: 16 },
+              { text: 'system', weight: 14 },
+              { text: 'tokens', weight: 10 },
+              { text: 'react', weight: 8 },
+              { text: 'minimal', weight: 5 },
+              { text: 'navy', weight: 3 },
+            ]}
+            onSelect={(text) => toast.show('info', `${text} selected.`)}
+          />
+          <Heatmap
+            data={[
+              { x: 'Mon', y: 'CPU', value: 20 },
+              { x: 'Tue', y: 'CPU', value: 80 },
+              { x: 'Wed', y: 'CPU', value: 45 },
+              { x: 'Mon', y: 'Mem', value: 60 },
+              { x: 'Tue', y: 'Mem', value: 30 },
+              { x: 'Wed', y: 'Mem', value: 95 },
+            ]}
+            onSelect={(c) => toast.show('info', `${c.x} ${c.y}: ${c.value}`)}
           />
           <Bar
             data={[
@@ -665,6 +701,29 @@ function ChartsDemo() {
               { x: 'Fri', y: 7 },
             ]}
           />
+          <Line
+            series={[
+              {
+                id: 'req',
+                label: 'Requests',
+                points: [
+                  { x: 'Mon', y: 4 },
+                  { x: 'Tue', y: 9 },
+                  { x: 'Wed', y: 6 },
+                ],
+              },
+              {
+                id: 'err',
+                label: 'Errors',
+                color: 'var(--ot-maroon)',
+                points: [
+                  { x: 'Mon', y: 1 },
+                  { x: 'Tue', y: 2 },
+                  { x: 'Wed', y: 1 },
+                ],
+              },
+            ]}
+          />
           <Scatter
             points={[
               { x: 1, y: 2, label: 'Gadget A' },
@@ -672,6 +731,27 @@ function ChartsDemo() {
               { x: 3, y: 3, label: 'Gadget C' },
               { x: 4, y: 8, label: 'Gadget D' },
               { x: 5, y: 6, label: 'Gadget E' },
+            ]}
+          />
+          <Scatter
+            series={[
+              {
+                id: 'rop',
+                label: 'ROP',
+                points: [
+                  { x: 1, y: 2, label: 'Gadget A' },
+                  { x: 2, y: 5, label: 'Gadget B' },
+                ],
+              },
+              {
+                id: 'heap',
+                label: 'Heap',
+                color: 'var(--ot-maroon)',
+                points: [
+                  { x: 3, y: 3, label: 'Chunk A' },
+                  { x: 4, y: 8, label: 'Chunk B' },
+                ],
+              },
             ]}
           />
         </div>
@@ -686,11 +766,11 @@ function ChartsDemo() {
           selectedId={selectedNode}
           onSelect={setSelectedNode}
           nodes={[
-            { id: 'app', label: 'App', sub: 'entrypoint' },
-            { id: 'auth', label: 'Auth', sub: 'login flow' },
-            { id: 'api', label: 'API', sub: 'rest' },
-            { id: 'db', label: 'Database', sub: 'postgres' },
-            { id: 'cache', label: 'Cache', sub: 'redis' },
+            { id: 'app', label: 'App', sub: 'entrypoint', group: 'frontend' },
+            { id: 'auth', label: 'Auth', sub: 'login flow', group: 'backend' },
+            { id: 'api', label: 'API', sub: 'rest', group: 'backend' },
+            { id: 'db', label: 'Database', sub: 'postgres', group: 'data' },
+            { id: 'cache', label: 'Cache', sub: 'redis', group: 'data' },
           ]}
           edges={[
             ['app', 'auth'],
@@ -707,6 +787,7 @@ function ChartsDemo() {
 function NavigationDemo() {
   const toast = useToast();
   const [collapsed, setCollapsed] = useState(false);
+  const [section, setSection] = useState('code');
   const [tab, setTab] = useState('overview');
   return (
     <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
@@ -727,12 +808,18 @@ function NavigationDemo() {
         />
         <SubmenuBar
           label="Project section"
+          onSelect={setSection}
           links={[
-            { id: 'code', label: 'Code', active: true, count: 12 },
-            { id: 'issues', label: 'Issues', count: 3 },
-            { id: 'pulls', label: 'Pulls' },
+            { id: 'code', label: 'Code', active: section === 'code', count: 12 },
+            { id: 'issues', label: 'Issues', active: section === 'issues', count: 3 },
+            { id: 'pulls', label: 'Pulls', active: section === 'pulls' },
           ]}
         />
+        <div className="rounded-ot-md border border-ot-border bg-ot-bg p-4 text-sm text-ot-muted">
+          {section === 'code' && 'Code: browse files, branches, and commits.'}
+          {section === 'issues' && 'Issues: 3 open, triaged by severity.'}
+          {section === 'pulls' && 'Pulls: nothing awaiting review.'}
+        </div>
         <div className="max-w-sm">
           <SearchBar shortcut="Ctrl K" onClear={() => toast.show('info', 'Search cleared.')} />
         </div>

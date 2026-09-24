@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Charts round 2: `Treemap` (squarified layout), `WordCloud` (deterministic scale), `Heatmap` (intensity grid).
+- Interactive legends: `Pie` segment toggle with recompute, multi-series `Line`/`Scatter` with toggles, `GraphViewer` node-group legend.
+- Rich hover tooltips on `Line`/`Scatter`; legacy single-series props keep working.
+- Interactive navigation demo (stateful Code/Issues/Pulls).
+
 ## [0.12.0] — charts + graph
 
 ### Added
