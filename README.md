@@ -73,4 +73,4 @@ Work happens on `dev` (or `feat/*`), releases merge to `main` with a version bum
 
 ## Status
 
-v0.12.0 — charts + graph (`Pie`, `Bar`, `Line`, `Scatter`, `GraphViewer`). 88 tests green. See `CHANGELOG.md`.
+v0.13.0 — charts round 2 (Treemap, WordCloud, Heatmap, legends, tooltips, motion). 106 tests green. See `CHANGELOG.md`.

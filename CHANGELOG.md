@@ -5,31 +5,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Added
-
-- Animated chart domains: Line/Scatter/Bar rescale with a tween toward visible data; `useTweenedNumber` hook (reduced-motion aware).
-- Draggable `WordCloud` words with persistent offsets.
-- Axis labels show final values while dots glide; `formatTick` helper.
-- Proximity repulsion between dragged words; snap-back guard stays.
-- `Bar` hidden columns collapse fully (flex, margin, opacity) so survivors fill the void.
-- Collision guard on word drop: overlapping words snap back.
-- `formatTick` keeps axis labels clean during tweens.
+## [0.13.0] — charts round 2
 
 ### Added
 
-- Charts round 2: `Treemap` (squarified layout), `WordCloud` (deterministic scale), `Heatmap` (intensity grid).
-- Interactive legends: `Pie` segment toggle with recompute, multi-series `Line`/`Scatter` with toggles, `GraphViewer` node-group legend.
+- Charts round 2: `Treemap` (squarified layout), `WordCloud` (deterministic scale, draggable words, proximity repulsion, snap-back guard), `Heatmap` (intensity grid).
+- Interactive legends: `Pie` segment toggle with recompute, multi-series `Line`/`Scatter` with toggles, `Bar` per-bar toggle, `GraphViewer` node-group legend.
 - Rich hover tooltips on `Line`/`Scatter`; legacy single-series props keep working.
-- Dedicated chart motion (`ot-duration-chart` 700ms + gentle `ot-ease-smooth`): grow, draw, pop, fade, sweep, and resize utilities shared by every chart.
-- Animated hide everywhere: Pie segments sweep away, Bar collapses, Line/Scatter series and graph groups fade out before unmounting.
-- `Bar` legend with per-bar toggle.
-- Chart exit motion matches enter motion (`ot-chart-fade-out`, 700ms): Line/Scatter series and graph groups fade out before unmounting.
+- Dedicated chart motion (`ot-duration-chart` 700ms + gentle `ot-ease-smooth`): grow, draw, pop, fade, sweep, resize, and dot-slide utilities.
+- Animated show/hide everywhere: sweep, collapse, fade-out before unmount, locked-then-tweened domains, collapsing Bar columns, backwards fill for staggers.
+- Animated chart domains: Line/Scatter/Bar rescale with a tween toward visible data; `useTweenedNumber` hook (reduced-motion aware).
+- Axis labels show final values while dots glide; `formatTick` helper.
+- Interactive navigation demo (stateful Code/Issues/Pulls).
 
 ### Fixed
 
 - Locked chart/graph scale across legend toggles so survivors never jump; rapid re-show cancels pending hides.
 - Line dots slide in along the line direction instead of popping.
-- Interactive navigation demo (stateful Code/Issues/Pulls).
+- Demo CI installs root dependencies first so linked UI source resolves peers.
 
 ## [0.12.0] — charts + graph
 
