@@ -152,6 +152,9 @@ code,
 @keyframes ot-fade-up {
   from { opacity: 0; transform: translateY(6px); }
 }
+@keyframes ot-dot-slide {
+  from { opacity: 0; transform: translate(var(--ot-dot-dx, 0px), var(--ot-dot-dy, 0px)); }
+}
 
 .ot-anim-fade-in { animation: ot-fade-in var(--ot-duration-base) var(--ot-ease-out); }
 .ot-anim-fade-out { animation: ot-fade-out var(--ot-duration-fast) var(--ot-ease-in) forwards; }
@@ -174,6 +177,7 @@ code,
 .ot-chart-grow-up { animation: ot-grow-up var(--ot-duration-chart) var(--ot-ease-smooth) backwards; transform-origin: bottom; }
 .ot-chart-line-draw { stroke-dasharray: 1; animation: ot-line-draw var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
 .ot-chart-pop { animation: ot-pop var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
+.ot-chart-dot-slide { animation: ot-dot-slide var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
 .ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
 .ot-chart-fade-out { animation: ot-fade-out var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
 .ot-chart-sweep { transition: stroke-dasharray var(--ot-duration-chart) var(--ot-ease-smooth), stroke-dashoffset var(--ot-duration-chart) var(--ot-ease-smooth); }
@@ -200,6 +204,7 @@ code,
   .ot-chart-grow-up,
   .ot-chart-line-draw,
   .ot-chart-pop,
+  .ot-chart-dot-slide,
   .ot-chart-fade,
   .ot-chart-fade-out {
     animation: none;

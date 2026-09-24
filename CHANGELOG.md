@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - Locked chart/graph scale across legend toggles so survivors never jump; rapid re-show cancels pending hides.
+- Line dots slide in along the line direction instead of popping.
 - Interactive navigation demo (stateful Code/Issues/Pulls).
 
 ## [0.12.0] — charts + graph

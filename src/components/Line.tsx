@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { EmptyState } from './EmptyState.js';
 
 export interface LinePoint {
@@ -172,17 +173,31 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
                   <title>{`${c.seriesLabel} ${c.sx}: ${c.sy}`}</title>
                 </circle>
               ))}
-              {coords.map((c, ci) => (
-                <circle
-                  key={`dot-${c.index}`}
-                  cx={c.x}
-                  cy={c.y}
-                  r={3}
-                  pointerEvents="none"
-                  style={{ fill: c.color, animationDelay: `${Math.min(ci * 60, 420)}ms` }}
-                  className="ot-chart-pop"
-                />
-              ))}
+              {coords.map((c, ci) => {
+                const prev = coords[ci - 1];
+                const dx = prev ? c.x - prev.x : 0;
+                const dy = prev ? c.y - prev.y : 0;
+                const len = Math.hypot(dx, dy) || 1;
+                const dist = prev ? 14 : 0;
+                return (
+                  <circle
+                    key={`dot-${c.index}`}
+                    cx={c.x}
+                    cy={c.y}
+                    r={3}
+                    pointerEvents="none"
+                    style={
+                      {
+                        fill: c.color,
+                        animationDelay: `${Math.min(ci * 60, 420)}ms`,
+                        '--ot-dot-dx': `${((-dx / len) * dist).toFixed(1)}px`,
+                        '--ot-dot-dy': `${((-dy / len) * dist).toFixed(1)}px`,
+                      } as CSSProperties
+                    }
+                    className="ot-chart-dot-slide"
+                  />
+                );
+              })}
             </g>
           ))}
         </svg>
