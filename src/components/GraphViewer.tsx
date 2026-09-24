@@ -93,28 +93,41 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
   const [leavingGroups, setLeavingGroups] = useState<string[]>([]);
   const drag = useRef<{ sx: number; sy: number; px: number; py: number } | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
   const groups = [...new Set(nodes.map((n) => n.group).filter((g): g is string => !!g))];
   const groupColor = (group: string) => GROUP_COLORS[groups.indexOf(group) % GROUP_COLORS.length];
-  const shown = nodes.filter((n) => !n.group || !hiddenGroups.includes(n.group));
-  const pos = layout(shown, edges);
+  // Layout stays locked to ALL nodes so survivors never jump when a group hides.
+  const pos = layout(nodes, edges);
+  const renderedIds = new Set(
+    nodes.filter((n) => !n.group || !hiddenGroups.includes(n.group)).map((n) => n.id),
+  );
 
   useEffect(
     () => () => {
       timers.current.forEach(clearTimeout);
+      timers.current.clear();
     },
     [],
   );
 
   // Hiding fades nodes out before unmounting; showing remounts with a fade-in.
+  // Re-showing mid-fade cancels the pending hide so nothing vanishes unexpectedly.
   const toggleGroup = (group: string) => {
-    if (hiddenGroups.includes(group)) {
+    const pending = timers.current.get(group);
+    if (pending) {
+      clearTimeout(pending);
+      timers.current.delete(group);
+    }
+    if (hiddenGroups.includes(group) || leavingGroups.includes(group)) {
       setHiddenGroups((prev) => prev.filter((x) => x !== group));
+      setLeavingGroups((prev) => prev.filter((x) => x !== group));
       return;
     }
     setLeavingGroups((prev) => (prev.includes(group) ? prev : [...prev, group]));
-    timers.current.push(
+    timers.current.set(
+      group,
       setTimeout(() => {
+        timers.current.delete(group);
         setHiddenGroups((prev) => [...prev, group]);
         setLeavingGroups((prev) => prev.filter((x) => x !== group));
       }, 750),
@@ -142,7 +155,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
     <div className={`overflow-hidden rounded-ot-lg border border-ot-border bg-ot-bg font-sans ${className}`}>
       <div className="flex items-center gap-2 border-b border-ot-border bg-ot-surface px-3.5 py-2">
         <span className="text-[13px] text-ot-muted">
-          {shown.length} nodes · {edges.length} edges · {Math.round(zoom * 100)}%
+          {renderedIds.size} nodes · {edges.length} edges · {Math.round(zoom * 100)}%
         </span>
         <span className="ml-auto flex gap-1.5">
           <button
@@ -222,9 +235,9 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
         </defs>
         <g transform={`translate(${pan.x} ${pan.y}) scale(${zoom})`}>
           {edges.map(([from, to], i) => {
-            const a = pos.get(from);
-            const b = pos.get(to);
-            if (!a || !b) return null;
+            if (!renderedIds.has(from) || !renderedIds.has(to)) return null;
+            const a = pos.get(from)!;
+            const b = pos.get(to)!;
             const fading =
               leavingGroups.includes(nodes.find((n) => n.id === from)?.group ?? '') ||
               leavingGroups.includes(nodes.find((n) => n.id === to)?.group ?? '');
@@ -241,11 +254,13 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
               />
             );
           })}
-          {shown.map((n) => {
-            const p = pos.get(n.id)!;
-            const selected = selectedId === n.id;
-            const leaving = !!n.group && leavingGroups.includes(n.group);
-            return (
+          {nodes
+            .filter((n) => renderedIds.has(n.id))
+            .map((n) => {
+              const p = pos.get(n.id)!;
+              const selected = selectedId === n.id;
+              const leaving = !!n.group && leavingGroups.includes(n.group);
+              return (
               <g
                 key={n.id}
                 role="button"

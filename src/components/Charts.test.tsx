@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { Bar } from './Bar.js';
 import { Line } from './Line.js';
 import { Pie } from './Pie.js';
@@ -91,6 +91,31 @@ describe('Line', () => {
     expect(container.querySelectorAll('circle[style]').length).toBe(3);
     expect(container.querySelector('polyline')).toBeInTheDocument();
     expect(container.querySelector('polyline')).toHaveClass('ot-chart-line-draw');
+  });
+
+  it('cancels a pending hide when re-shown mid-fade', () => {
+    vi.useFakeTimers();
+    try {
+      render(
+        <Line
+          series={[
+            { id: 'a', label: 'Alpha', points: [{ x: 'Mon', y: 1 }] },
+            { id: 'b', label: 'Beta', points: [{ x: 'Mon', y: 5 }] },
+          ]}
+        />,
+      );
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle Beta' }));
+      act(() => {
+        vi.advanceTimersByTime(100);
+      });
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle Beta' }));
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+      expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'true');
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('supports multiple series with legend toggle and rich tooltip', async () => {

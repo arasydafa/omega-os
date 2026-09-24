@@ -49,11 +49,12 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
   const [hidden, setHidden] = useState<string[]>([]);
   const [leaving, setLeaving] = useState<string[]>([]);
   const [hover, setHover] = useState<Placed | null>(null);
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
 
   useEffect(
     () => () => {
       timers.current.forEach(clearTimeout);
+      timers.current.clear();
     },
     [],
   );
@@ -65,14 +66,23 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
   }
 
   // Hiding plays a fade-out before unmounting; showing remounts with a pop-in.
+  // Re-showing mid-fade cancels the pending hide so nothing vanishes unexpectedly.
   const toggle = (id: string) => {
-    if (hidden.includes(id)) {
+    const pending = timers.current.get(id);
+    if (pending) {
+      clearTimeout(pending);
+      timers.current.delete(id);
+    }
+    if (hidden.includes(id) || leaving.includes(id)) {
       setHidden((prev) => prev.filter((x) => x !== id));
+      setLeaving((prev) => prev.filter((x) => x !== id));
       return;
     }
     setLeaving((prev) => (prev.includes(id) ? prev : [...prev, id]));
-    timers.current.push(
+    timers.current.set(
+      id,
       setTimeout(() => {
+        timers.current.delete(id);
         setHidden((prev) => [...prev, id]);
         setLeaving((prev) => prev.filter((x) => x !== id));
       }, 750),
