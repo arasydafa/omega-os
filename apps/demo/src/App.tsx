@@ -10,9 +10,11 @@ import {
   Breadcrumbs,
   Button,
   Card,
+  Carousel,
   Checkbox,
   Combobox,
   CopyButton,
+  DatePicker,
   Drawer,
   Dropdown,
   EmptyState,
@@ -36,14 +38,18 @@ import {
   Select,
   Sidebar,
   Skeleton,
+  Slider,
   Spinner,
+  Stepper,
   SubmenuBar,
   Switch,
   Table,
   Tabs,
   Textarea,
+  Timeline,
   ToasterProvider,
   Tooltip,
+  TreeView,
   Treemap,
   WordCloud,
   iconComponentName,
@@ -180,6 +186,8 @@ export default function App() {
         <ComplementsDemo />
 
         <PrimitivesDemo />
+
+        <ComplexDemo />
 
         <ViewersDemo />
 
@@ -671,6 +679,65 @@ function PrimitivesDemo() {
         Side panel with focus trap, ESC, and overlay click — same contract as Modal.
       </Drawer>
     </>
+  );
+}
+
+function ComplexDemo() {
+  const [step, setStep] = useState('b');
+  const [volume, setVolume] = useState(30);
+  const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  return (
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Complex</h2>
+      <p className="mb-4 text-sm text-ot-muted">Stepper, slider, timeline, tree, carousel, date picker.</p>
+      <div className="grid gap-4">
+        <Stepper
+          current={step}
+          onStep={setStep}
+          steps={[
+            { id: 'a', label: 'Alpha', description: 'Done' },
+            { id: 'b', label: 'Beta', description: 'Current' },
+            { id: 'c', label: 'Gamma', description: 'Next' },
+          ]}
+        />
+        <div className="grid gap-4 md:grid-cols-2">
+          <Slider label="Volume" value={volume} onChange={setVolume} />
+          <DatePicker label="Due date" defaultValue="2026-09-10" />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Timeline
+            items={[
+              { id: '1', time: '09:00', title: 'Build started', tone: 'info' },
+              { id: '2', time: '09:04', title: 'Tests passed', tone: 'success' },
+              { id: '3', time: '09:05', title: 'Deployed', description: 'Production', tone: 'navy' },
+            ]}
+          />
+          <TreeView
+            selectedId={selectedNode}
+            onSelect={setSelectedNode}
+            defaultExpanded={['src']}
+            nodes={[
+              {
+                id: 'src',
+                label: 'src',
+                children: [
+                  { id: 'app', label: 'App.tsx' },
+                  {
+                    id: 'components',
+                    label: 'components',
+                    children: [{ id: 'btn', label: 'Button.tsx' }],
+                  },
+                ],
+              },
+            ]}
+          />
+        </div>
+        <Carousel autoplay={5000}>
+          <div className="grid place-items-center bg-navy-bg p-10 text-lg font-bold text-navy-text">Slide one</div>
+          <div className="grid place-items-center bg-maroon-bg p-10 text-lg font-bold text-danger">Slide two</div>
+        </Carousel>
+      </div>
+    </section>
   );
 }
 
