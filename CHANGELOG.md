@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Theme reveal is now a declarative CSS wipe (`::view-transition-new(root)`
+  keyframes from `--ot-reveal-x/y`) instead of a WAAPI animation raced after
+  `transition.ready` — identical in dev and production builds, and instant
+  under `prefers-reduced-motion`.
+
 ## [1.0.0] — first stable
 
 No code changes since 0.18.0. Pilot repo (vstack) migrated and merged,

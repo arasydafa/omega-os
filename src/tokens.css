@@ -231,15 +231,27 @@ code,
   }
 }
 
-/* View-transition theme reveal: the circular wipe is driven from JS,
-   these rules kill the default crossfade so only the wipe plays. */
-::view-transition-old(root),
-::view-transition-new(root) {
+/* View-transition theme reveal: declarative circular wipe from
+   --ot-reveal-x / --ot-reveal-y (set by toggleThemeReveal before starting
+   the transition). Pure CSS, so dev and production builds behave identically.
+   150vmax always covers the viewport diagonal from any origin point.
+   Under prefers-reduced-motion the duration token is 0ms, so this plays instantly. */
+::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 ::view-transition-new(root) {
+  mix-blend-mode: normal;
   z-index: 9999;
+  animation: ot-reveal var(--ot-duration-reveal) var(--ot-ease-smooth);
+}
+@keyframes ot-reveal {
+  from {
+    clip-path: circle(0px at var(--ot-reveal-x, 50vw) var(--ot-reveal-y, 0px));
+  }
+  to {
+    clip-path: circle(150vmax at var(--ot-reveal-x, 50vw) var(--ot-reveal-y, 0px));
+  }
 }
 
 /* Thin scrollbar that follows the theme */
