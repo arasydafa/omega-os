@@ -9,7 +9,11 @@
     "jsx": "react-jsx",
     "resolveJsonModule": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "types": ["react", "react-dom", "vite/client"]
+    "types": ["react", "react-dom", "vite/client", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@omega-os/ui": ["../../src/index.ts"]
+    }
   },
   "include": ["src", "vite.config.ts"]
 }

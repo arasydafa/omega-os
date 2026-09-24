@@ -21,18 +21,18 @@ Design system foundation for all Omega Throne webs: tools, opensource, portfolio
 1. Import tokens in `src/index.css`:
 
 ```css
-@import '@omega-os/ui/src/tokens.css';
+@import '@omega-os/ui/tokens.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-2. Register the preset in `tailwind.config.js`:
+2. Register the preset in `tailwind.config.js` (include the UI source so library classes are generated):
 
 ```js
 export default {
   presets: [require('@omega-os/ui/tailwind.preset.js')],
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  content: ['./index.html', './src/**/*.{ts,tsx}', './node_modules/@omega-os/ui/dist/**/*.js'],
 };
 ```
 
