@@ -491,7 +491,7 @@ function DataDemo() {
   return (
     <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
       <h2 className="mb-1 text-lg font-bold">Data</h2>
-      <p className="mb-4 text-sm text-ot-muted">Click a row to select. Toggle loading for skeletons.</p>
+      <p className="mb-4 text-sm text-ot-muted">Click a row to select. Click headers to sort. Toggle loading for skeletons.</p>
       <div className="mb-3 flex flex-wrap gap-2.5">
         <Button variant="secondary" size="sm" onClick={() => setLoading((v) => !v)}>
           {loading ? 'Stop loading' : 'Show skeletons'}
@@ -499,8 +499,8 @@ function DataDemo() {
       </div>
       <Table<DemoTool>
         columns={[
-          { key: 'name', header: 'Tool', render: (r) => <span className="font-semibold">{r.name}</span> },
-          { key: 'status', header: 'Status', render: (r) => statusBadge(r.status) },
+          { key: 'name', header: 'Tool', sortable: true, render: (r) => <span className="font-semibold">{r.name}</span> },
+          { key: 'status', header: 'Status', sortable: true, sortValue: (r) => r.status, render: (r) => statusBadge(r.status) },
           {
             key: 'actions',
             header: 'Actions',
