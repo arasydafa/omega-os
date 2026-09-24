@@ -5,14 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Added
-
-- Primitives batch: `CopyButton`, `Kbd`, `Progress`, `Accordion`, `Drawer`, `Combobox` (`FileViewer` now reuses `CopyButton`).
+## [0.14.0] — input + primitives
 
 ### Added
 
 - `FileUpload` (dropzone + browse, type/size/count validation, removable list).
 - Drag-and-drop sortable showcase in the demo app (dnd-kit patterns).
+- Primitives batch: `CopyButton`, `Kbd`, `Progress`, `Accordion`, `Drawer`, `Combobox` (`FileViewer` now reuses `CopyButton`).
 
 ## [0.13.0] — charts round 2
 
