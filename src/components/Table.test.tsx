@@ -44,6 +44,22 @@ describe('Table', () => {
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
   });
 
+  it('sorts asc, desc, then off on repeated header clicks', async () => {
+    const user = userEvent.setup();
+    const cols = [{ ...COLUMNS[0], sortable: true }, COLUMNS[1]];
+    render(<Table columns={cols} rows={ROWS} keyOf={(r: Row) => r.id} />);
+    const header = screen.getByRole('button', { name: /Tool/ });
+    expect(header.closest('th')).toHaveAttribute('aria-sort', 'none');
+    await user.click(header);
+    expect(header.closest('th')).toHaveAttribute('aria-sort', 'ascending');
+    expect(screen.getAllByRole('row')[1]).toHaveTextContent('omega-docs');
+    await user.click(header);
+    expect(header.closest('th')).toHaveAttribute('aria-sort', 'descending');
+    expect(screen.getAllByRole('row')[1]).toHaveTextContent('vstack');
+    await user.click(header);
+    expect(header.closest('th')).toHaveAttribute('aria-sort', 'none');
+  });
+
   it('uses the column skeleton override when provided', () => {
     const cols = [
       COLUMNS[0],

@@ -19,6 +19,9 @@ export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button
 export { Card } from './components/Card.js';
 export type { CardPadding, CardProps } from './components/Card.js';
 
+export { AvatarGroup } from './components/AvatarGroup.js';
+export type { AvatarGroupProps, AvatarPerson } from './components/AvatarGroup.js';
+
 export { Avatar } from './components/Avatar.js';
 export type { AvatarProps, AvatarSize } from './components/Avatar.js';
 
