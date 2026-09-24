@@ -17,7 +17,9 @@
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.2.5",
-    "@fontsource/plus-jakarta-sans": "^5.2.5"
+    "@fontsource/plus-jakarta-sans": "^5.2.5",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "peerDependencies": {
     "lucide-react": ">=0.400.0",

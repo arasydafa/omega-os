@@ -19,6 +19,9 @@ export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button
 export { Card } from './components/Card.js';
 export type { CardPadding, CardProps } from './components/Card.js';
 
+export { AvatarGroup } from './components/AvatarGroup.js';
+export type { AvatarGroupProps, AvatarPerson } from './components/AvatarGroup.js';
+
 export { Avatar } from './components/Avatar.js';
 export type { AvatarProps, AvatarSize } from './components/Avatar.js';
 
@@ -33,6 +36,9 @@ export type { CheckboxProps, RadioProps, SwitchProps } from './components/Choice
 
 export { Carousel } from './components/Carousel.js';
 export type { CarouselProps } from './components/Carousel.js';
+
+export { CommandPalette, fuzzyScore } from './components/CommandPalette.js';
+export type { CommandPaletteProps, PaletteItem } from './components/CommandPalette.js';
 
 export { Combobox } from './components/Combobox.js';
 export type { ComboboxOption, ComboboxProps } from './components/Combobox.js';
@@ -78,6 +84,12 @@ export type { LinePoint, LineProps } from './components/Line.js';
 
 export { Kbd } from './components/Kbd.js';
 export type { KbdProps } from './components/Kbd.js';
+
+export { LogViewer } from './components/LogViewer.js';
+export type { LogLine, LogLevel, LogViewerProps } from './components/LogViewer.js';
+
+export { Markdown } from './components/Markdown.js';
+export type { MarkdownProps } from './components/Markdown.js';
 
 export { Modal } from './components/Modal.js';
 export type { ModalProps } from './components/Modal.js';
