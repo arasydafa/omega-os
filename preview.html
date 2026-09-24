@@ -104,9 +104,10 @@ table.demo tbody tr:hover{background:var(--ot-surface)}
 .icon-cell{border:1px solid var(--ot-border);border-radius:12px;background:var(--ot-bg);padding:10px 8px;text-align:center;font-size:11px;color:var(--ot-muted)}
 .icon-cell svg{width:18px;height:18px;color:var(--ot-text);display:block;margin:0 auto 6px}
 .icon-cell code{font-family:var(--ot-font-mono);font-size:10px;color:var(--ot-text);word-break:break-all}
-/* View-transition circular reveal for theme toggle */
-::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-::view-transition-new(root){z-index:9999}
+/* View-transition circular reveal for theme toggle (declarative wipe) */
+::view-transition-old(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){mix-blend-mode:normal;z-index:9999;animation:ot-reveal var(--ot-duration-reveal) var(--ot-ease-smooth)}
+@keyframes ot-reveal{from{clip-path:circle(0px at var(--ot-reveal-x,50vw) var(--ot-reveal-y,0px))}to{clip-path:circle(150vmax at var(--ot-reveal-x,50vw) var(--ot-reveal-y,0px))}}
 /* Sidebar collapse + submenu */
 #sideDemo{transition:max-width .25s}
 #sideDemo .nav-item{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;cursor:pointer}
@@ -369,17 +370,12 @@ function toggleThemeReveal(x, y, apply) {
     applied = true;
     apply();
   }
+  var root = document.documentElement;
+  root.style.setProperty('--ot-reveal-x', x + 'px');
+  root.style.setProperty('--ot-reveal-y', y + 'px');
   try {
     if (document.startViewTransition) {
-      var t = document.startViewTransition(applyOnce);
-      t.ready.then(function () {
-        var tokens = readRevealTokens();
-        var r = Math.hypot(innerWidth, innerHeight);
-        document.documentElement.animate(
-          { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)'] },
-          { duration: tokens.duration, easing: tokens.easing, pseudoElement: '::view-transition-new(root)' }
-        );
-      }).catch(applyOnce);
+      document.startViewTransition(applyOnce);
       return;
     }
   } catch (_) {}

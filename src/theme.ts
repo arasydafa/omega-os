@@ -2,10 +2,17 @@
  * Circular Reveal Effect for theme toggling.
  *
  * Expands a circle from the clicked point (Theme Toggle Ripple origin)
- * that wipes the page from the old theme to the new one. Driven by the
- * View Transitions API with an instant-toggled fallback, so behavior is
- * identical everywhere the package is used. Duration and easing come
- * from `--ot-duration-reveal` / `--ot-ease-smooth` with safe fallbacks.
+ * that wipes the page from the old theme to the new one. Declarative:
+ * this function only sets `--ot-reveal-x` / `--ot-reveal-y` and starts a
+ * same-document view transition — the wipe itself is the
+ * `::view-transition-new(root)` animation in tokens.css. No WAAPI timing
+ * race, so behavior is identical in dev and production builds. Duration
+ * and easing come from `--ot-duration-reveal` / `--ot-ease-smooth`
+ * (0ms under prefers-reduced-motion, i.e. instant).
+ *
+ * `REVEAL_DURATION_FALLBACK`, `REVEAL_EASING_FALLBACK`, and
+ * `readRevealTokens` stay exported for consumers driving custom
+ * animations; the built-in wipe reads the tokens directly in CSS.
  */
 
 export const REVEAL_DURATION_FALLBACK = 650;
@@ -26,12 +33,8 @@ export function readRevealTokens(root: HTMLElement = document.documentElement): 
   };
 }
 
-interface ViewTransitionLike {
-  ready: Promise<void>;
-}
-
 interface VTDocument {
-  startViewTransition?: (cb: () => void) => ViewTransitionLike;
+  startViewTransition?: (cb: () => void) => unknown;
 }
 
 /**
@@ -46,24 +49,13 @@ export function toggleThemeReveal(x: number, y: number, apply: () => void): void
     applied = true;
     apply();
   };
+  const root = document.documentElement;
+  root.style.setProperty('--ot-reveal-x', `${x}px`);
+  root.style.setProperty('--ot-reveal-y', `${y}px`);
   const doc = document as unknown as VTDocument;
   try {
     if (doc.startViewTransition) {
-      const t = doc.startViewTransition(applyOnce);
-      t.ready.then(() => {
-        const { duration, easing } = readRevealTokens();
-        const r = Math.hypot(window.innerWidth, window.innerHeight);
-        document.documentElement.animate(
-          {
-            clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`],
-          },
-          {
-            duration,
-            easing,
-            pseudoElement: '::view-transition-new(root)',
-          },
-        );
-      }).catch(applyOnce);
+      doc.startViewTransition(applyOnce);
       return;
     }
   } catch {

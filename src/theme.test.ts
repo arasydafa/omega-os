@@ -4,6 +4,8 @@ import { toggleThemeReveal } from './theme.js';
 describe('toggleThemeReveal', () => {
   afterEach(() => {
     document.documentElement.classList.remove('test-dark-xyz');
+    document.documentElement.style.removeProperty('--ot-reveal-x');
+    document.documentElement.style.removeProperty('--ot-reveal-y');
     delete (document as unknown as Record<string, unknown>).startViewTransition;
     vi.restoreAllMocks();
   });
@@ -15,34 +17,18 @@ describe('toggleThemeReveal', () => {
     expect(document.documentElement.classList.contains('test-dark-xyz')).toBe(true);
   });
 
-  it('runs the circular wipe from the click point when supported', async () => {
-    const animate = vi.fn(() => ({}));
-    const el = document.documentElement as unknown as Record<string, unknown>;
-    const prevAnimate = el.animate;
-    el.animate = animate;
-    try {
-      const startViewTransition = vi.fn((cb: () => void) => {
-        cb();
-        return { ready: Promise.resolve() };
-      });
-      (document as unknown as Record<string, unknown>).startViewTransition = startViewTransition;
-      const apply = vi.fn();
-      toggleThemeReveal(10, 20, apply);
-      await Promise.resolve();
-      expect(startViewTransition).toHaveBeenCalledTimes(1);
-      expect(apply).toHaveBeenCalledTimes(1);
-      expect(animate).toHaveBeenCalledTimes(1);
-      const [frames, opts] = animate.mock.calls[0] as unknown as [
-        { clipPath: string[] },
-        { pseudoElement: string },
-      ];
-      expect(frames.clipPath[0]).toBe('circle(0px at 10px 20px)');
-      expect(frames.clipPath[1]).toMatch(/^circle\(\d+(\.\d+)?px at 10px 20px\)$/);
-      expect(opts.pseudoElement).toBe('::view-transition-new(root)');
-    } finally {
-      if (prevAnimate === undefined) delete el.animate;
-      else el.animate = prevAnimate;
-    }
+  it('publishes the click point as CSS vars for the declarative wipe', () => {
+    const startViewTransition = vi.fn((cb: () => void) => {
+      cb();
+      return {};
+    });
+    (document as unknown as Record<string, unknown>).startViewTransition = startViewTransition;
+    const apply = vi.fn();
+    toggleThemeReveal(10, 20, apply);
+    expect(startViewTransition).toHaveBeenCalledTimes(1);
+    expect(apply).toHaveBeenCalledTimes(1);
+    expect(document.documentElement.style.getPropertyValue('--ot-reveal-x')).toBe('10px');
+    expect(document.documentElement.style.getPropertyValue('--ot-reveal-y')).toBe('20px');
   });
 
   it('still applies exactly once when the API throws mid-flight', () => {
