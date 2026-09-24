@@ -79,7 +79,9 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
     );
   };
 
-  const flat = visible.flatMap((s) => s.points.map((p) => ({ ...p })));
+  const flat = all
+    .filter((s) => s.points.length > 0)
+    .flatMap((s) => s.points.map((p) => ({ ...p })));
   const xs = flat.map((p) => p.x);
   const ys = flat.map((p) => p.y);
   const minX = xs.length ? Math.min(...xs) : 0;
@@ -98,7 +100,7 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
           width="100%"
           viewBox={`0 0 ${width} ${height}`}
           role="img"
-          aria-label={label ?? `Scatter plot with ${flat.length} points`}
+          aria-label={label ?? `Scatter plot with ${visible.flatMap((s) => s.points).length} points`}
           className="block"
         >
           {[0, 0.25, 0.5, 0.75, 1].map((f) => (

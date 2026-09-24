@@ -81,13 +81,16 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
     return <EmptyState title="No data" description="Add points to render the chart." className={className} />;
   }
 
-  const ys = visible.flatMap((s) => s.points.map((p) => p.y));
+  // Scale stays locked to ALL series (including hidden ones) so survivors
+  // never jump when a sibling is toggled.
+  const scaled = all.filter((s) => s.points.length > 0);
+  const ys = scaled.flatMap((s) => s.points.map((p) => p.y));
   const min = ys.length ? Math.min(...ys) : 0;
   const max = ys.length ? Math.max(...ys) : 1;
   const span = max - min || 1;
   const innerW = width - PAD * 2;
   const innerH = height - PAD * 2;
-  const longest = Math.max(...visible.map((s) => s.points.length), 1);
+  const longest = Math.max(...scaled.map((s) => s.points.length), 1);
   const step = longest > 1 ? innerW / (longest - 1) : 0;
 
   const placed: Placed[][] = visible.map((s) => {

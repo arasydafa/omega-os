@@ -104,6 +104,7 @@ describe('Line', () => {
       />,
     );
     expect(screen.getByRole('button', { name: 'Toggle Alpha' })).toHaveAttribute('aria-pressed', 'true');
+    const before = document.querySelector('polyline')!.getAttribute('points');
     await user.click(screen.getByRole('button', { name: 'Toggle Beta' }));
     expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
     await waitFor(
@@ -112,6 +113,8 @@ describe('Line', () => {
       },
       { timeout: 2500 },
     );
+    // Survivors keep their geometry — no rescale jump.
+    expect(document.querySelector('polyline')!.getAttribute('points')).toBe(before);
     await user.hover(document.querySelector('circle')!);
     expect(screen.getByRole('tooltip')).toHaveTextContent('Alpha');
   });
