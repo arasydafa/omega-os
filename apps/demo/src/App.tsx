@@ -2,6 +2,7 @@ import { useState } from 'react';
 import uiPkg from '@omega-os/ui/package.json';
 import { DndDemo } from './DndDemo.js';
 import {
+  Accordion,
   Alert,
   Avatar,
   Badge,
@@ -10,6 +11,9 @@ import {
   Button,
   Card,
   Checkbox,
+  Combobox,
+  CopyButton,
+  Drawer,
   Dropdown,
   EmptyState,
   FileUpload,
@@ -18,12 +22,14 @@ import {
   Heatmap,
   Image,
   Input,
+  Kbd,
   Line,
   Modal,
   Navbar,
   OMEGA_ICONS,
   Pagination,
   Pie,
+  Progress,
   Radio,
   Scatter,
   SearchBar,
@@ -172,6 +178,8 @@ export default function App() {
         <DataDemo />
 
         <ComplementsDemo />
+
+        <PrimitivesDemo />
 
         <ViewersDemo />
 
@@ -615,6 +623,56 @@ function IconsDemo() {
 
 const DEMO_PHOTO =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect width='96' height='96' fill='%231E3A5F'/><text x='48' y='62' font-size='36' text-anchor='middle' fill='white' font-family='sans-serif'>OT</text></svg>";
+
+function PrimitivesDemo() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  return (
+    <>
+      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+        <h2 className="mb-1 text-lg font-bold">Primitives</h2>
+        <p className="mb-4 text-sm text-ot-muted">
+          Copy <CopyButton text="omega-os" /> with <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> and progress states.
+        </p>
+        <div className="grid gap-4">
+          <Progress value={65} label="Uploading bundle" />
+          <Progress value={0} indeterminate label="Syncing" />
+          <Combobox
+            label="Assignee"
+            placeholder="Search members…"
+            options={[
+              { value: 'omega', label: 'Omega Throne' },
+              { value: 'vstack', label: 'VStack Maintainer' },
+            ]}
+          />
+          <Accordion
+            items={[
+              { id: 'a', title: 'What is OmegaOS?', content: 'A design system for every Omega Throne web.' },
+              { id: 'b', title: 'Dark mode?', content: 'Toggle the header button — the wipe starts from your click.' },
+            ]}
+          />
+          <div>
+            <Button variant="secondary" size="sm" onClick={() => setDrawerOpen(true)}>
+              Open drawer
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <Drawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        title="Details"
+        footer={
+          <Button size="sm" variant="secondary" onClick={() => setDrawerOpen(false)}>
+            Close
+          </Button>
+        }
+      >
+        Side panel with focus trap, ESC, and overlay click — same contract as Modal.
+      </Drawer>
+    </>
+  );
+}
 
 function ViewersDemo() {
   const toast = useToast();
