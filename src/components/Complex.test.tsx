@@ -114,4 +114,26 @@ describe('DatePicker', () => {
     expect(screen.getByRole('gridcell', { name: '13 September 2026' })).toBeDisabled();
     expect(screen.getByRole('gridcell', { name: '11 September 2026' })).not.toBeDisabled();
   });
+
+  it('drills down through month and year pickers', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<DatePicker label="Due" defaultValue="2026-09-10" onChange={onChange} />);
+    await user.click(screen.getByRole('textbox', { name: 'Due' }));
+    await user.click(screen.getByRole('button', { name: 'Choose month' }));
+    await user.click(screen.getByRole('button', { name: 'Desember 2026' }));
+    await user.click(screen.getByRole('gridcell', { name: '25 Desember 2026' }));
+    expect(onChange).toHaveBeenCalledWith('2026-12-25');
+  });
+
+  it('picks a year then a month', async () => {
+    const user = userEvent.setup();
+    render(<DatePicker label="Due" defaultValue="2026-09-10" />);
+    await user.click(screen.getByRole('textbox', { name: 'Due' }));
+    await user.click(screen.getByRole('button', { name: 'Choose month' }));
+    await user.click(screen.getByRole('button', { name: 'Choose year' }));
+    await user.click(screen.getByRole('button', { name: 'Year 2027' }));
+    await user.click(screen.getByRole('button', { name: 'Januari 2027' }));
+    expect(screen.getByRole('grid', { name: 'Januari 2027' })).toBeInTheDocument();
+  });
 });

@@ -69,6 +69,11 @@ export function DatePicker({
     return { year: base.getFullYear(), month: base.getMonth() };
   });
   const [focusDay, setFocusDay] = useState<Date | null>(selected);
+  const [mode, setMode] = useState<'day' | 'month' | 'year'>('day');
+  const [yearBase, setYearBase] = useState(() => {
+    const base = (selected ?? today).getFullYear();
+    return base - (base % 12);
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -95,6 +100,20 @@ export function DatePicker({
   const minD = parseISO(min);
   const maxD = parseISO(max);
   const inRange = (d: Date) => (!minD || d >= minD) && (!maxD || d <= maxD);
+  const monthInRange = (year: number, month: number) => {
+    const start = new Date(year, month, 1);
+    const end = new Date(year, month + 1, 0);
+    return (!maxD || start <= maxD) && (!minD || end >= minD);
+  };
+  const yearInRange = (year: number) => {
+    const start = new Date(year, 0, 1);
+    const end = new Date(year, 11, 31);
+    return (!maxD || start <= maxD) && (!minD || end >= minD);
+  };
+  const monthNames = (() => {
+    const fmt = new Intl.DateTimeFormat(locale, { month: 'short' });
+    return Array.from({ length: 12 }, (_, m) => fmt.format(new Date(2024, m, 1)));
+  })();
 
   const monthLabel = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(
     new Date(view.year, view.month, 1),
@@ -154,12 +173,16 @@ export function DatePicker({
           onFocus={() => {
             if (!disabled) {
               setFocusDay(selected);
+              setMode('day');
               setOpen(true);
             }
           }}
           onClick={() => {
             // Focus already opens; keep idempotent so focus+click never toggles shut.
-            if (!disabled) setOpen(true);
+            if (!disabled) {
+              setMode('day');
+              setOpen(true);
+            }
           }}
           aria-invalid={error ? true : undefined}
           aria-haspopup="dialog"
@@ -188,24 +211,88 @@ export function DatePicker({
             className="ot-anim-pop-in absolute inset-x-0 top-[calc(100%+8px)] z-ot-dropdown rounded-ot-md border border-ot-border bg-ot-surface p-3 shadow-ot-md"
           >
             <div className="mb-2 flex items-center justify-between">
-              <button
-                type="button"
-                aria-label="Previous month"
-                onClick={() => moveMonth(-1)}
-                className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
-              >
-                <ChevronLeft size={16} aria-hidden />
-              </button>
-              <p className="font-sans text-sm font-semibold capitalize text-ot-text">{monthLabel}</p>
-              <button
-                type="button"
-                aria-label="Next month"
-                onClick={() => moveMonth(1)}
-                className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
-              >
-                <ChevronRight size={16} aria-hidden />
-              </button>
+              {mode === 'day' ? (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Previous month"
+                    onClick={() => moveMonth(-1)}
+                    className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
+                  >
+                    <ChevronLeft size={16} aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Choose month"
+                    onClick={() => setMode('month')}
+                    className="rounded-ot-sm px-2 py-1 font-sans text-sm font-semibold capitalize text-ot-text transition-colors hover:bg-ot-surface-2"
+                  >
+                    {monthLabel}
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next month"
+                    onClick={() => moveMonth(1)}
+                    className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
+                  >
+                    <ChevronRight size={16} aria-hidden />
+                  </button>
+                </>
+              ) : mode === 'month' ? (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Previous year"
+                    onClick={() => setView((v) => ({ ...v, year: v.year - 1 }))}
+                    className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
+                  >
+                    <ChevronLeft size={16} aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Choose year"
+                    onClick={() => {
+                      setYearBase(view.year - (view.year % 12));
+                      setMode('year');
+                    }}
+                    className="rounded-ot-sm px-2 py-1 font-sans text-sm font-semibold text-ot-text transition-colors hover:bg-ot-surface-2"
+                  >
+                    {view.year}
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next year"
+                    onClick={() => setView((v) => ({ ...v, year: v.year + 1 }))}
+                    className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
+                  >
+                    <ChevronRight size={16} aria-hidden />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Previous years"
+                    onClick={() => setYearBase((b) => b - 12)}
+                    className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
+                  >
+                    <ChevronLeft size={16} aria-hidden />
+                  </button>
+                  <p className="font-sans text-sm font-semibold text-ot-text">
+                    {yearBase} – {yearBase + 11}
+                  </p>
+                  <button
+                    type="button"
+                    aria-label="Next years"
+                    onClick={() => setYearBase((b) => b + 12)}
+                    className="grid h-8 w-8 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
+                  >
+                    <ChevronRight size={16} aria-hidden />
+                  </button>
+                </>
+              )}
             </div>
+            {mode === 'day' ? (
             <div role="grid" aria-label={monthLabel} className="grid grid-cols-7 gap-0.5">
               {weekdays.map((w, i) => (
                 <span key={i} className="py-1 text-center font-sans text-xs text-ot-muted" aria-hidden>
@@ -240,6 +327,51 @@ export function DatePicker({
                 ),
               )}
             </div>
+            ) : mode === 'month' ? (
+            <div role="grid" aria-label={`Months of ${view.year}`} className="grid grid-cols-3 gap-1">
+              {monthNames.map((name, m) => {
+                const current = m === view.month;
+                return (
+                  <button
+                    key={m}
+                    type="button"
+                    disabled={!monthInRange(view.year, m)}
+                    onClick={() => {
+                      setView((v) => ({ ...v, month: m }));
+                      setMode('day');
+                    }}
+                    aria-label={`${new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(view.year, m, 1))} ${view.year}`}
+                    className={`h-10 rounded-ot-sm font-sans text-[13px] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
+                      current ? 'bg-navy font-semibold text-white' : 'text-ot-text hover:bg-ot-surface-2'
+                    }`}
+                  >
+                    {name}
+                  </button>
+                );
+              })}
+            </div>
+            ) : (
+            <div role="grid" aria-label={`Years ${yearBase} to ${yearBase + 11}`} className="grid grid-cols-3 gap-1">
+              {Array.from({ length: 12 }, (_, i) => yearBase + i).map((y) => (
+                <button
+                  key={y}
+                  type="button"
+                  disabled={!yearInRange(y)}
+                  onClick={() => {
+                    setView((v) => ({ ...v, year: y }));
+                    setMode('month');
+                  }}
+                  aria-label={`Year ${y}`}
+                  aria-current={y === today.getFullYear() ? 'date' : undefined}
+                  className={`h-10 rounded-ot-sm font-sans text-[13px] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
+                    y === view.year ? 'bg-navy font-semibold text-white' : 'text-ot-text hover:bg-ot-surface-2'
+                  }`}
+                >
+                  {y}
+                </button>
+              ))}
+            </div>
+            )}
           </div>
         ) : null}
       </div>

@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Complex batch: `Slider`, `Stepper`, `Timeline`, `TreeView`, `Carousel`, `DatePicker` (custom calendar, id-ID default, keyboard model).
+- `DatePicker` month/year drill-down with range-aware grids.
 
 ## [0.14.0] — input + primitives
 
