@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { EmptyState } from './EmptyState.js';
+import { useTweenedNumber } from './useTweenedNumber.js';
 
 export interface LinePoint {
   x: number | string;
@@ -88,20 +89,21 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
   const visible = all.filter((s) => !hidden.includes(s.id) && s.points.length > 0);
   const multi = all.length > 1;
 
+  // Domain tweens toward the shown series so survivors rescale smoothly
+  // instead of teleporting when a sibling is toggled.
+  const pool = all.filter((s) => !hidden.includes(s.id) && !leaving.includes(s.id) && s.points.length > 0);
+  const poolYs = pool.flatMap((s) => s.points.map((p) => p.y));
+  const min = useTweenedNumber(poolYs.length ? Math.min(...poolYs) : 0);
+  const max = useTweenedNumber(poolYs.length ? Math.max(...poolYs) : 1);
+  const longest = useTweenedNumber(Math.max(...pool.map((s) => s.points.length), 1));
+
   if (all.length === 0) {
     return <EmptyState title="No data" description="Add points to render the chart." className={className} />;
   }
 
-  // Scale stays locked to ALL series (including hidden ones) so survivors
-  // never jump when a sibling is toggled.
-  const scaled = all.filter((s) => s.points.length > 0);
-  const ys = scaled.flatMap((s) => s.points.map((p) => p.y));
-  const min = ys.length ? Math.min(...ys) : 0;
-  const max = ys.length ? Math.max(...ys) : 1;
   const span = max - min || 1;
   const innerW = width - PAD * 2;
   const innerH = height - PAD * 2;
-  const longest = Math.max(...scaled.map((s) => s.points.length), 1);
   const step = longest > 1 ? innerW / (longest - 1) : 0;
 
   const placed: Placed[][] = visible.map((s) => {

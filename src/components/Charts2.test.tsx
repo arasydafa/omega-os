@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { Heatmap } from './Heatmap.js';
@@ -62,6 +62,22 @@ describe('WordCloud', () => {
     const omega = screen.getByText('omega');
     const ui = screen.getByText('ui');
     expect(parseFloat(omega.style.fontSize)).toBeGreaterThan(parseFloat(ui.style.fontSize));
+  });
+
+  it('drags a word to a new offset', () => {
+    render(<WordCloud words={[{ text: 'omega', weight: 10 }]} />);
+    const word = screen.getByText('omega');
+    const zone = screen.getByRole('img');
+    fireEvent(
+      word,
+      new MouseEvent('pointerdown', { clientX: 0, clientY: 0, bubbles: true }),
+    );
+    fireEvent(
+      zone,
+      new MouseEvent('pointermove', { clientX: 12, clientY: 8, bubbles: true }),
+    );
+    fireEvent(zone, new MouseEvent('pointerup', { bubbles: true }));
+    expect(word.style.transform).toContain('translate(12px, 8px)');
   });
 });
 

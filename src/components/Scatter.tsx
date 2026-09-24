@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { EmptyState } from './EmptyState.js';
+import { useTweenedNumber } from './useTweenedNumber.js';
 
 export interface ScatterPoint {
   x: number;
@@ -61,6 +62,16 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
   const visible = all.filter((s) => !hidden.includes(s.id) && s.points.length > 0);
   const multi = all.length > 1;
 
+  // Domain tweens toward the shown series so survivors rescale smoothly
+  // instead of teleporting when a sibling is toggled.
+  const pool = all.filter((s) => !hidden.includes(s.id) && !leaving.includes(s.id) && s.points.length > 0);
+  const poolXs = pool.flatMap((s) => s.points.map((p) => p.x));
+  const poolYs = pool.flatMap((s) => s.points.map((p) => p.y));
+  const minX = useTweenedNumber(poolXs.length ? Math.min(...poolXs) : 0);
+  const maxX = useTweenedNumber(poolXs.length ? Math.max(...poolXs) : 1);
+  const minY = useTweenedNumber(poolYs.length ? Math.min(...poolYs) : 0);
+  const maxY = useTweenedNumber(poolYs.length ? Math.max(...poolYs) : 1);
+
   if (all.length === 0) {
     return <EmptyState title="No data" description="Add points to render the chart." className={className} />;
   }
@@ -89,15 +100,6 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
     );
   };
 
-  const flat = all
-    .filter((s) => s.points.length > 0)
-    .flatMap((s) => s.points.map((p) => ({ ...p })));
-  const xs = flat.map((p) => p.x);
-  const ys = flat.map((p) => p.y);
-  const minX = xs.length ? Math.min(...xs) : 0;
-  const maxX = xs.length ? Math.max(...xs) : 1;
-  const minY = ys.length ? Math.min(...ys) : 0;
-  const maxY = ys.length ? Math.max(...ys) : 1;
   const spanX = maxX - minX || 1;
   const spanY = maxY - minY || 1;
   const innerW = width - PAD * 2;

@@ -24,7 +24,7 @@ export function Bar({ data, height = 180, showLegend = true, label, className = 
   }
   const toggle = (name: string) =>
     setHidden((prev) => (prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]));
-  const max = Math.max(...data.map((d) => d.value), 0);
+  const max = Math.max(...data.filter((d) => !hidden.includes(d.label)).map((d) => d.value), 0);
   const safeMax = max > 0 ? max : 1;
   return (
     <figure className={`font-sans ${className}`}>

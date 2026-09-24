@@ -75,6 +75,22 @@ describe('Bar', () => {
     await user.click(screen.getByRole('button', { name: 'Toggle B' }));
     expect(screen.getByRole('button', { name: 'Toggle B' })).toHaveAttribute('aria-pressed', 'false');
   });
+
+  it('rescales survivors to the visible maximum', async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <Bar
+        data={[
+          { label: 'A', value: 10 },
+          { label: 'B', value: 5 },
+        ]}
+      />,
+    );
+    const bars = () => container.querySelectorAll('div[title]');
+    expect((bars()[1] as HTMLElement).style.height).toBe('50%');
+    await user.click(screen.getByRole('button', { name: 'Toggle A' }));
+    expect((bars()[1] as HTMLElement).style.height).toBe('100%');
+  });
 });
 
 describe('Line', () => {
@@ -123,8 +139,8 @@ describe('Line', () => {
     render(
       <Line
         series={[
-          { id: 'a', label: 'Alpha', points: [{ x: 'Mon', y: 1 }] },
-          { id: 'b', label: 'Beta', points: [{ x: 'Mon', y: 5 }] },
+          { id: 'a', label: 'Alpha', points: [{ x: 'Mon', y: 4 }, { x: 'Tue', y: 2 }] },
+          { id: 'b', label: 'Beta', points: [{ x: 'Mon', y: 8 }] },
         ]}
       />,
     );
@@ -134,12 +150,12 @@ describe('Line', () => {
     expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
     await waitFor(
       () => {
-        expect(document.querySelectorAll('circle').length).toBe(2);
+        expect(document.querySelectorAll('circle').length).toBe(4);
       },
       { timeout: 2500 },
     );
-    // Survivors keep their geometry — no rescale jump.
-    expect(document.querySelector('polyline')!.getAttribute('points')).toBe(before);
+    // Survivors rescale smoothly to the visible domain instead of teleporting.
+    expect(document.querySelector('polyline')!.getAttribute('points')).not.toBe(before);
     await user.hover(document.querySelector('circle')!);
     expect(screen.getByRole('tooltip')).toHaveTextContent('Alpha');
   });
