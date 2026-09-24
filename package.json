@@ -1,6 +1,6 @@
 {
   "name": "@omega-os/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OmegaOS Design System — modern minimalist tokens (Plus Jakarta Sans + JetBrains Mono, navy/maroon/grey, light + dark, rounded, lucide icons only)",
   "author": "Arasy Dafa Sulistya Kurniawan",
   "type": "module",

@@ -5,6 +5,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.0.1] — declarative theme reveal
+
 ### Fixed
 
 - Theme reveal is now a declarative CSS wipe (`::view-transition-new(root)`

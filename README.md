@@ -114,7 +114,7 @@ bump + changelog + tag. See `docs/VERSIONING.md`.
 
 ## Status
 
-v1.0.0 — first stable (pilot vstack migrated). 141 tests green. See `CHANGELOG.md`.
+v1.0.1 — declarative theme reveal (identical dev/prod). 141 tests green. See `CHANGELOG.md`.
 
 ## License
 
