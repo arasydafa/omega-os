@@ -29,6 +29,12 @@ export interface ScatterProps {
 
 const PAD = 28;
 
+/** Axis ticks stay clean while the domain tweens through fractional values. */
+export function formatTick(v: number): string {
+  if (!Number.isFinite(v)) return '—';
+  return Number.isInteger(v) ? String(v) : String(parseFloat(v.toFixed(2)));
+}
+
 const PALETTE = [
   'var(--ot-navy)',
   'var(--ot-maroon)',
@@ -136,10 +142,10 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
             </g>
           ))}
           <text x={PAD} y={height - 8} fontSize={10} className="fill-ot-muted">
-            {minX}
+            {formatTick(minX)}
           </text>
           <text x={width - PAD} y={height - 8} fontSize={10} textAnchor="end" className="fill-ot-muted">
-            {maxX}
+            {formatTick(maxX)}
           </text>
           {visible.map((s) => {
             const color = s.color ?? PALETTE[all.findIndex((o) => o.id === s.id) % PALETTE.length];

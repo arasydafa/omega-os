@@ -181,7 +181,7 @@ code,
 .ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
 .ot-chart-fade-out { animation: ot-fade-out var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
 .ot-chart-sweep { transition: stroke-dasharray var(--ot-duration-chart) var(--ot-ease-smooth), stroke-dashoffset var(--ot-duration-chart) var(--ot-ease-smooth); }
-.ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth), opacity var(--ot-duration-chart) var(--ot-ease-smooth); }
+.ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth), opacity var(--ot-duration-chart) var(--ot-ease-smooth), flex-grow var(--ot-duration-chart) var(--ot-ease-smooth), flex-basis var(--ot-duration-chart) var(--ot-ease-smooth), margin-right var(--ot-duration-chart) var(--ot-ease-smooth); }
 
 @media (prefers-reduced-motion: reduce) {
   :root {

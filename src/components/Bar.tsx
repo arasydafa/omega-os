@@ -26,18 +26,29 @@ export function Bar({ data, height = 180, showLegend = true, label, className = 
     setHidden((prev) => (prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]));
   const max = Math.max(...data.filter((d) => !hidden.includes(d.label)).map((d) => d.value), 0);
   const safeMax = max > 0 ? max : 1;
+  const showing = data.filter((d) => !hidden.includes(d.label));
+  const lastId = showing.length > 0 ? showing[showing.length - 1].label : null;
   return (
     <figure className={`font-sans ${className}`}>
       <div
         role="img"
         aria-label={label ?? `Bar chart with ${data.length} bars, maximum ${max}`}
-        className="flex items-end gap-3 border-b border-ot-border pb-px"
+        className="flex items-end border-b border-ot-border pb-px"
         style={{ height }}
       >
         {data.map((d, i) => {
           const off = hidden.includes(d.label);
           return (
-            <div key={i} className="flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-1.5">
+            <div
+              key={d.label}
+              style={{
+                flexGrow: off ? 0 : 1,
+                flexBasis: off ? 0 : undefined,
+                opacity: off ? 0 : 1,
+                marginRight: off || d.label === lastId ? 0 : 12,
+              }}
+              className="ot-chart-resize flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-1.5 overflow-hidden"
+            >
               <span className={`font-mono text-[11px] text-ot-muted transition-opacity ${off ? 'opacity-0' : ''}`}>
                 {d.value}
               </span>
@@ -55,12 +66,24 @@ export function Bar({ data, height = 180, showLegend = true, label, className = 
           );
         })}
       </div>
-      <figcaption className="mt-2 flex gap-3">
-        {data.map((d, i) => (
-          <span key={i} className="min-w-0 flex-1 truncate text-center text-xs text-ot-muted">
-            {d.label}
-          </span>
-        ))}
+      <figcaption className="mt-2 flex">
+        {data.map((d) => {
+          const off = hidden.includes(d.label);
+          return (
+            <span
+              key={d.label}
+              style={{
+                flexGrow: off ? 0 : 1,
+                flexBasis: off ? 0 : undefined,
+                opacity: off ? 0 : 1,
+                marginRight: off || d.label === lastId ? 0 : 12,
+              }}
+              className="ot-chart-resize min-w-0 flex-1 truncate overflow-hidden text-center text-xs text-ot-muted"
+            >
+              {d.label}
+            </span>
+          );
+        })}
       </figcaption>
       {showLegend ? (
         <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5 text-[13px]">

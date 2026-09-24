@@ -4,6 +4,16 @@ import { describe, expect, it, vi } from 'vitest';
 import { Heatmap } from './Heatmap.js';
 import { Treemap, squarifyLayout } from './Treemap.js';
 import { WordCloud, wordFontSize } from './WordCloud.js';
+import { formatTick } from './Scatter.js';
+
+describe('formatTick', () => {
+  it('keeps integers clean and trims tweened floats', () => {
+    expect(formatTick(4)).toBe('4');
+    expect(formatTick(2.3)).toBe('2.3');
+    expect(formatTick(2.3000000000000003)).toBe('2.3');
+    expect(formatTick(NaN)).toBe('—');
+  });
+});
 
 describe('squarifyLayout', () => {
   it('preserves total area', () => {
@@ -78,6 +88,35 @@ describe('WordCloud', () => {
     );
     fireEvent(zone, new MouseEvent('pointerup', { bubbles: true }));
     expect(word.style.transform).toContain('translate(12px, 8px)');
+  });
+
+  it('snaps back when dropped onto another word', () => {
+    const rect = (x: number) => ({ left: x, right: x + 50, top: 0, bottom: 20 }) as DOMRect;
+    // Pretend the dragged word already sits on top of the second word.
+    const spy = vi
+      .spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: Element) {
+        return this.textContent === 'omega' ? rect(90) : rect(100);
+      });
+    try {
+      render(
+        <WordCloud
+          words={[
+            { text: 'omega', weight: 10 },
+            { text: 'ui', weight: 9 },
+          ]}
+        />,
+      );
+      const word = screen.getByText('omega');
+      const zone = screen.getByRole('img');
+      fireEvent(word, new MouseEvent('pointerdown', { clientX: 0, clientY: 0, bubbles: true }));
+      // Drop onto the second word's box.
+      fireEvent(zone, new MouseEvent('pointermove', { clientX: 110, clientY: 5, bubbles: true }));
+      fireEvent(zone, new MouseEvent('pointerup', { bubbles: true }));
+      expect(word.style.transform).toContain('translate(0px, 0px)');
+    } finally {
+      spy.mockRestore();
+    }
   });
 });
 

@@ -9,6 +9,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Animated chart domains: Line/Scatter/Bar rescale with a tween toward visible data; `useTweenedNumber` hook (reduced-motion aware).
 - Draggable `WordCloud` words with persistent offsets.
+- `Bar` hidden columns collapse fully (flex, margin, opacity) so survivors fill the void.
+- Collision guard on word drop: overlapping words snap back.
+- `formatTick` keeps axis labels clean during tweens.
 
 ### Added
 

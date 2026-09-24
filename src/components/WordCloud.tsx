@@ -45,6 +45,7 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
   const [offsets, setOffsets] = useState<Record<string, { x: number; y: number }>>({});
   const [dragging, setDragging] = useState<string | null>(null);
   const dragRef = useRef<{ text: string; sx: number; sy: number; ox: number; oy: number } | null>(null);
+  const wordRefs = useRef(new Map<string, HTMLElement>());
   if (valid.length === 0) {
     return <EmptyState title="No data" description="Add words to render the cloud." className={className} />;
   }
@@ -69,8 +70,27 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
     setOffsets((prev) => ({ ...prev, [d.text]: { x, y } }));
   };
   const drop = () => {
+    const d = dragRef.current;
     dragRef.current = null;
     setDragging(null);
+    if (!d) return;
+    // No overlapping text: snap back when dropped onto another word.
+    const el = wordRefs.current.get(d.text);
+    const rect = el?.getBoundingClientRect();
+    if (!rect) return;
+    let hit = false;
+    wordRefs.current.forEach((other, text) => {
+      if (text === d.text || hit) return;
+      const o = other.getBoundingClientRect();
+      if (rect.left < o.right && rect.right > o.left && rect.top < o.bottom && rect.bottom > o.top) {
+        hit = true;
+      }
+    });
+    if (hit) setOffsets((prev) => ({ ...prev, [d.text]: { x: 0, y: 0 } }));
+  };
+  const remember = (text: string) => (el: HTMLElement | null) => {
+    if (el) wordRefs.current.set(text, el);
+    else wordRefs.current.delete(text);
   };
 
   return (
@@ -91,6 +111,8 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
           animationDelay: `${Math.min(i * 30, 300)}ms`,
         };
         const interactive = `touch-none select-none ${dragging === w.text ? 'cursor-grabbing' : 'cursor-grab'}`;
+        // Snap-back glides via transform transition; dragging stays 1:1.
+        const glide = dragging === w.text ? '' : 'transition-transform duration-200';
         return onSelect ? (
           <button
             key={w.text}
@@ -100,7 +122,8 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
             }}
             title={`${w.text}: ${w.weight}`}
             style={style}
-            className={`ot-chart-fade font-semibold leading-none transition-opacity hover:opacity-70 ${interactive}`}
+            ref={remember(w.text)}
+            className={`ot-chart-fade font-semibold leading-none transition-opacity hover:opacity-70 ${interactive} ${glide}`}
             {...grab(w.text)}
           >
             {w.text}
@@ -110,7 +133,8 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
             key={w.text}
             title={`${w.text}: ${w.weight}`}
             style={style}
-            className={`ot-chart-fade font-semibold leading-none ${interactive}`}
+            ref={remember(w.text)}
+            className={`ot-chart-fade font-semibold leading-none ${interactive} ${glide}`}
             {...grab(w.text)}
           >
             {w.text}

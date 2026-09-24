@@ -67,8 +67,8 @@ export type { PaginationProps } from './components/Pagination.js';
 export { Pie } from './components/Pie.js';
 export type { PieDatum, PieProps } from './components/Pie.js';
 
-export { Scatter } from './components/Scatter.js';
-export type { ScatterPoint, ScatterProps } from './components/Scatter.js';
+export { Scatter, formatTick } from './components/Scatter.js';
+export type { ScatterPoint, ScatterProps, ScatterSeries } from './components/Scatter.js';
 
 export { SearchBar } from './components/SearchBar.js';
 export type { SearchBarProps } from './components/SearchBar.js';
