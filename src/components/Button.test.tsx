@@ -23,6 +23,11 @@ describe('Button', () => {
     expect(btn).toHaveClass('h-8');
   });
 
+  it('renders the solid variant with surface fill', () => {
+    render(<Button variant="solid">Chips</Button>);
+    expect(screen.getByRole('button', { name: 'Chips' })).toHaveClass('bg-ot-surface-2');
+  });
+
   it('renders the lucide icon slot', () => {
     render(<Button icon={<Plus data-testid="plus-icon" />}>Add</Button>);
     expect(screen.getByTestId('plus-icon')).toBeInTheDocument();

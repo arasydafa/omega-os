@@ -13,6 +13,7 @@ import {
   Card,
   Carousel,
   Checkbox,
+  CodeBlock,
   Combobox,
   CommandPalette,
   CopyButton,
@@ -136,6 +137,7 @@ export default function App() {
           <div className="flex flex-wrap gap-2.5">
             <Button icon={<Plus size={16} />}>Primary</Button>
             <Button variant="secondary" icon={<Settings size={16} />}>Secondary</Button>
+            <Button variant="solid" icon={<Plus size={16} />}>Solid</Button>
             <Button variant="danger" icon={<Trash2 size={16} />}>Danger</Button>
             <Button variant="secondary" size="sm">Small</Button>
             <Button loading>Loading</Button>
@@ -841,6 +843,22 @@ function ViewersDemo() {
   apply();
 }`}
         />
+        <div className="grid gap-4 md:grid-cols-2">
+          <CodeBlock
+            language="asm"
+            code={`sub rsp, 8        ; RSP = RSP - 8
+mov [rsp], rax    ; Write RAX to stack`}
+          />
+          <CodeBlock
+            language="diagram"
+            code={`+---------------------------+
+|    Function A Frame       |
+|   +-------------------+   |
+|   | Return Address     |<--+
+|   +-------------------+   | We overwrite this!
++---------------------------+`}
+          />
+        </div>
       </div>
     </section>
   );
