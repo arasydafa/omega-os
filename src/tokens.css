@@ -176,7 +176,7 @@ code,
 .ot-chart-pop { animation: ot-pop var(--ot-duration-chart) var(--ot-ease-smooth); }
 .ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth); }
 .ot-chart-sweep { transition: stroke-dasharray var(--ot-duration-chart) var(--ot-ease-smooth), stroke-dashoffset var(--ot-duration-chart) var(--ot-ease-smooth); }
-.ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth); }
+.ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth), opacity var(--ot-duration-chart) var(--ot-ease-smooth); }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
