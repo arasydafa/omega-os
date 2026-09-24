@@ -37,6 +37,9 @@ export type { OmegaIconName } from './icons.js';
 export { EmptyState } from './components/EmptyState.js';
 export type { EmptyStateProps } from './components/EmptyState.js';
 
+export { FileUpload, formatBytes } from './components/FileUpload.js';
+export type { FileUploadProps, UploadItem } from './components/FileUpload.js';
+
 export { FileViewer } from './components/FileViewer.js';
 export type { FileViewerProps } from './components/FileViewer.js';
 
