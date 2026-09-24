@@ -13,6 +13,7 @@ import {
   Card,
   Carousel,
   Checkbox,
+  CodeBlock,
   Combobox,
   CommandPalette,
   CopyButton,
@@ -842,6 +843,22 @@ function ViewersDemo() {
   apply();
 }`}
         />
+        <div className="grid gap-4 md:grid-cols-2">
+          <CodeBlock
+            language="asm"
+            code={`sub rsp, 8        ; RSP = RSP - 8
+mov [rsp], rax    ; Write RAX to stack`}
+          />
+          <CodeBlock
+            language="diagram"
+            code={`+---------------------------+
+|    Function A Frame       |
+|   +-------------------+   |
+|   | Return Address     |<--+
+|   +-------------------+   | We overwrite this!
++---------------------------+`}
+          />
+        </div>
       </div>
     </section>
   );
