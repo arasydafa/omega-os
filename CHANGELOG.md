@@ -5,13 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Added
-
-- `CodeBlock` (bare snippets with language badge + copy, e.g. `asm` / `diagram`).
+## [0.18.0] — solid button + code block
 
 ### Added
 
 - `Button` `solid` variant (surface fill for tool chips and tertiary actions).
+- `CodeBlock` (bare snippets with language badge + copy, e.g. `asm` / `diagram`).
 
 ## [0.17.0] — real packaging
 

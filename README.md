@@ -73,4 +73,4 @@ Work happens on `dev` (or `feat/*`), releases merge to `main` with a version bum
 
 ## Status
 
-v0.17.0 — real packaging (`dist` build, `exports` map, verify, published-path demo). See `CHANGELOG.md`.
+v0.18.0 — solid button + code block. 141 tests green. See `CHANGELOG.md`.
