@@ -43,8 +43,14 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
   }
   const toggle = (name: string) =>
     setHidden((prev) => (prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]));
+  // Hidden segments shrink to zero instead of unmounting, so the
+  // dasharray transition sweeps them away smoothly.
   const visible = data.filter((d) => !hidden.includes(d.label));
   const total = visible.reduce((sum, d) => sum + Math.max(d.value, 0), 0);
+  const drawn = data.map((d) => ({
+    ...d,
+    drawValue: hidden.includes(d.label) ? 0 : d.value,
+  }));
   const legend = (
     <div className="flex flex-wrap gap-x-2 gap-y-1.5 text-[13px]">
       {data.map((d) => {
@@ -82,7 +88,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
       </figure>
     );
   }
-  const colored = visible.map((d) => {
+  const colored = drawn.map((d) => {
     const i = data.findIndex((o) => o.label === d.label);
     return { ...d, color: d.color ?? PALETTE[i % PALETTE.length] };
   });
@@ -101,7 +107,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
           <>
             <circle cx={100} cy={100} r={R} fill="none" strokeWidth={28} className="stroke-ot-surface-2" />
             {colored.map((d) => {
-              const pct = (Math.max(d.value, 0) / total) * 100;
+              const pct = total > 0 ? (Math.max(d.drawValue, 0) / total) * 100 : 0;
               const el = (
                 <circle
                   key={d.label}
@@ -129,9 +135,9 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
           </>
         ) : (
           colored.map((d) => {
-            const start = (acc / total) * 360;
-            acc += Math.max(d.value, 0);
-            const end = (acc / total) * 360;
+            const start = total > 0 ? (acc / total) * 360 : 0;
+            acc += Math.max(d.drawValue, 0);
+            const end = total > 0 ? (acc / total) * 360 : 0;
             const [x1, y1] = polar(100, 100, 78, start);
             const [x2, y2] = polar(100, 100, 78, end);
             return (

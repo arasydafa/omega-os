@@ -7,6 +7,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Animated hide everywhere: Pie segments sweep away, Bar collapses, Line/Scatter series and graph groups fade out before unmounting.
+- `Bar` legend with per-bar toggle.
+
+### Added
+
 - Dedicated chart motion (`ot-duration-chart` 700ms + gentle `ot-ease-smooth`): grow, draw, pop, fade, sweep, and resize utilities shared by every chart.
 
 ### Added

@@ -90,12 +90,36 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [hiddenGroups, setHiddenGroups] = useState<string[]>([]);
+  const [leavingGroups, setLeavingGroups] = useState<string[]>([]);
   const drag = useRef<{ sx: number; sy: number; px: number; py: number } | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const groups = [...new Set(nodes.map((n) => n.group).filter((g): g is string => !!g))];
   const groupColor = (group: string) => GROUP_COLORS[groups.indexOf(group) % GROUP_COLORS.length];
   const shown = nodes.filter((n) => !n.group || !hiddenGroups.includes(n.group));
   const pos = layout(shown, edges);
+
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout);
+    },
+    [],
+  );
+
+  // Hiding fades nodes out before unmounting; showing remounts with a fade-in.
+  const toggleGroup = (group: string) => {
+    if (hiddenGroups.includes(group)) {
+      setHiddenGroups((prev) => prev.filter((x) => x !== group));
+      return;
+    }
+    setLeavingGroups((prev) => (prev.includes(group) ? prev : [...prev, group]));
+    timers.current.push(
+      setTimeout(() => {
+        setHiddenGroups((prev) => [...prev, group]);
+        setLeavingGroups((prev) => prev.filter((x) => x !== group));
+      }, 200),
+    );
+  };
   const maxX = Math.max(PAD * 2 + NW, ...[...pos.values()].map((p) => p.x + NW + PAD));
   const W = Math.max(maxX, 480);
 
@@ -153,16 +177,14 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
       {groups.length > 0 ? (
         <div className="flex flex-wrap gap-x-2 gap-y-1.5 border-b border-ot-border bg-ot-surface px-3.5 py-2 text-[13px]">
           {groups.map((g) => {
-            const off = hiddenGroups.includes(g);
+            const off = hiddenGroups.includes(g) || leavingGroups.includes(g);
             return (
               <button
                 key={g}
                 type="button"
                 aria-pressed={!off}
                 aria-label={`Toggle ${g} nodes`}
-                onClick={() =>
-                  setHiddenGroups((prev) => (prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]))
-                }
+                onClick={() => toggleGroup(g)}
                 className={`inline-flex items-center gap-1.5 rounded-ot-sm px-1.5 py-0.5 transition-opacity ${
                   off ? 'opacity-50' : 'text-ot-muted hover:bg-ot-surface-2'
                 }`}
@@ -203,6 +225,9 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
             const a = pos.get(from);
             const b = pos.get(to);
             if (!a || !b) return null;
+            const fading =
+              leavingGroups.includes(nodes.find((n) => n.id === from)?.group ?? '') ||
+              leavingGroups.includes(nodes.find((n) => n.id === to)?.group ?? '');
             return (
               <line
                 key={i}
@@ -210,7 +235,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
                 y1={a.y + NH / 2}
                 x2={b.x}
                 y2={b.y + NH / 2}
-                className="stroke-ot-border"
+                className={`stroke-ot-border ${fading ? 'ot-anim-fade-out' : ''}`}
                 strokeWidth={1.5}
                 markerEnd="url(#ot-edge-arrow)"
               />
@@ -219,6 +244,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
           {shown.map((n) => {
             const p = pos.get(n.id)!;
             const selected = selectedId === n.id;
+            const leaving = !!n.group && leavingGroups.includes(n.group);
             return (
               <g
                 key={n.id}
@@ -232,7 +258,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
                     onSelect?.(n.id);
                   }
                 }}
-                className="cursor-pointer ot-chart-fade outline-none"
+                className={`cursor-pointer outline-none ${leaving ? 'ot-anim-fade-out' : 'ot-chart-fade'}`}
               >
                 <rect
                   x={p.x}

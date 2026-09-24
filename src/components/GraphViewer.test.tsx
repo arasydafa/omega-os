@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { GraphViewer } from './GraphViewer.js';
@@ -50,7 +50,10 @@ describe('GraphViewer', () => {
     render(<GraphViewer nodes={grouped} edges={EDGES} />);
     expect(screen.getByRole('button', { name: 'Toggle core nodes' })).toHaveAttribute('aria-pressed', 'true');
     await user.click(screen.getByRole('button', { name: 'Toggle store nodes' }));
-    expect(screen.queryByText('DB')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Toggle store nodes' })).toHaveAttribute('aria-pressed', 'false');
+    await waitFor(() => {
+      expect(screen.queryByText('DB')).not.toBeInTheDocument();
+    });
     expect(screen.getByText('App')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { Bar } from './Bar.js';
@@ -61,6 +61,20 @@ describe('Bar', () => {
     expect((bars[1] as HTMLElement).style.height).toBe('50%');
     expect((bars[0] as HTMLElement).className).toContain('ot-chart-grow-up');
   });
+
+  it('toggles bars from the legend with animation', async () => {
+    const user = userEvent.setup();
+    render(
+      <Bar
+        data={[
+          { label: 'A', value: 10 },
+          { label: 'B', value: 5 },
+        ]}
+      />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Toggle B' }));
+    expect(screen.getByRole('button', { name: 'Toggle B' })).toHaveAttribute('aria-pressed', 'false');
+  });
 });
 
 describe('Line', () => {
@@ -92,6 +106,9 @@ describe('Line', () => {
     expect(screen.getByRole('button', { name: 'Toggle Alpha' })).toHaveAttribute('aria-pressed', 'true');
     await user.click(screen.getByRole('button', { name: 'Toggle Beta' }));
     expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
+    await waitFor(() => {
+      expect(document.querySelectorAll('circle').length).toBe(2);
+    });
     await user.hover(document.querySelector('circle')!);
     expect(screen.getByRole('tooltip')).toHaveTextContent('Alpha');
   });
@@ -123,6 +140,9 @@ describe('Scatter', () => {
     );
     await user.click(screen.getByRole('button', { name: 'Toggle Beta' }));
     expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
+    await waitFor(() => {
+      expect(document.querySelectorAll('circle').length).toBe(2);
+    });
     await user.hover(document.querySelector('circle')!);
     expect(screen.getByRole('tooltip')).toHaveTextContent('(1, 2)');
   });

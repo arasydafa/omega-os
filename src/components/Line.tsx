@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EmptyState } from './EmptyState.js';
 
 export interface LinePoint {
@@ -49,16 +49,37 @@ interface Placed {
 export function Line({ points, series, width = 320, height = 180, showArea = true, label, className = '' }: LineProps) {
   const all: LineSeries[] = series ?? (points ? [{ id: 'line', label: 'Value', points }] : []);
   const [hidden, setHidden] = useState<string[]>([]);
+  const [leaving, setLeaving] = useState<string[]>([]);
   const [hover, setHover] = useState<Placed | null>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout);
+    },
+    [],
+  );
+
+  // Hiding plays a fade-out before unmounting; showing remounts with a draw-in.
+  const toggle = (id: string) => {
+    if (hidden.includes(id)) {
+      setHidden((prev) => prev.filter((x) => x !== id));
+      return;
+    }
+    setLeaving((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    timers.current.push(
+      setTimeout(() => {
+        setHidden((prev) => [...prev, id]);
+        setLeaving((prev) => prev.filter((x) => x !== id));
+      }, 200),
+    );
+  };
   const visible = all.filter((s) => !hidden.includes(s.id) && s.points.length > 0);
   const multi = all.length > 1;
 
   if (all.length === 0) {
     return <EmptyState title="No data" description="Add points to render the chart." className={className} />;
   }
-
-  const toggle = (id: string) =>
-    setHidden((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
   const ys = visible.flatMap((s) => s.points.map((p) => p.y));
   const min = ys.length ? Math.min(...ys) : 0;
@@ -105,7 +126,10 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
             />
           ))}
           {placed.map((coords, si) => (
-            <g key={visible[si].id}>
+            <g
+              key={visible[si].id}
+              className={leaving.includes(visible[si].id) ? 'ot-anim-fade-out' : undefined}
+            >
               {showArea ? (
                 <polygon
                   points={`${PAD},${height - PAD} ${coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(' ')} ${PAD + innerW},${height - PAD}`}
@@ -163,7 +187,7 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
       {multi ? (
         <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5 text-[13px]">
           {all.map((s) => {
-            const off = hidden.includes(s.id);
+            const off = hidden.includes(s.id) || leaving.includes(s.id);
             const color = s.color ?? PALETTE[all.findIndex((o) => o.id === s.id) % PALETTE.length];
             return (
               <button

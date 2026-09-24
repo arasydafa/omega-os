@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EmptyState } from './EmptyState.js';
 
 export interface ScatterPoint {
@@ -47,7 +47,16 @@ interface Placed {
 export function Scatter({ points, series, width = 320, height = 220, label, className = '' }: ScatterProps) {
   const all: ScatterSeries[] = series ?? (points ? [{ id: 'scatter', label: 'Points', points }] : []);
   const [hidden, setHidden] = useState<string[]>([]);
+  const [leaving, setLeaving] = useState<string[]>([]);
   const [hover, setHover] = useState<Placed | null>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout);
+    },
+    [],
+  );
   const visible = all.filter((s) => !hidden.includes(s.id) && s.points.length > 0);
   const multi = all.length > 1;
 
@@ -55,8 +64,20 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
     return <EmptyState title="No data" description="Add points to render the chart." className={className} />;
   }
 
-  const toggle = (id: string) =>
-    setHidden((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  // Hiding plays a fade-out before unmounting; showing remounts with a pop-in.
+  const toggle = (id: string) => {
+    if (hidden.includes(id)) {
+      setHidden((prev) => prev.filter((x) => x !== id));
+      return;
+    }
+    setLeaving((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    timers.current.push(
+      setTimeout(() => {
+        setHidden((prev) => [...prev, id]);
+        setLeaving((prev) => prev.filter((x) => x !== id));
+      }, 200),
+    );
+  };
 
   const flat = visible.flatMap((s) => s.points.map((p) => ({ ...p })));
   const xs = flat.map((p) => p.x);
@@ -109,7 +130,7 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
           {visible.map((s) => {
             const color = s.color ?? PALETTE[all.findIndex((o) => o.id === s.id) % PALETTE.length];
             return (
-              <g key={s.id}>
+              <g key={s.id} className={leaving.includes(s.id) ? 'ot-anim-fade-out' : undefined}>
                 {s.points.map((p, i) => {
                   const cx = PAD + ((p.x - minX) / spanX) * innerW;
                   const cy = PAD + innerH - ((p.y - minY) / spanY) * innerH;
@@ -156,7 +177,7 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
       {multi ? (
         <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1.5 text-[13px]">
           {all.map((s) => {
-            const off = hidden.includes(s.id);
+            const off = hidden.includes(s.id) || leaving.includes(s.id);
             const color = s.color ?? PALETTE[all.findIndex((o) => o.id === s.id) % PALETTE.length];
             return (
               <button
