@@ -34,7 +34,7 @@ describe('FileViewer', () => {
     expect(screen.getByText('app.ts')).toBeInTheDocument();
     expect(screen.getByText('ts')).toBeInTheDocument();
     expect(screen.getByText('const a = 1;')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Copy code' }));
+    await user.click(screen.getByRole('button', { name: 'Copy' }));
     expect(onCopy).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('button', { name: 'Copied' })).toBeInTheDocument();
   });

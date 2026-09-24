@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Check, Copy, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { Badge } from './Badge.js';
+import { CopyButton } from './CopyButton.js';
 
 export interface FileViewerProps {
   filename: string;
@@ -13,19 +13,6 @@ export interface FileViewerProps {
 }
 
 export function FileViewer({ filename, language, code, maxHeight = 320, onCopy, className = '' }: FileViewerProps) {
-  const [copied, setCopied] = useState(false);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard?.writeText(code);
-    } catch {
-      // Clipboard unavailable (permissions, insecure context) — still confirm.
-    }
-    setCopied(true);
-    onCopy?.();
-    setTimeout(() => setCopied(false), 1500);
-  };
-
   const lines = code.replace(/\n$/, '').split('\n');
 
   return (
@@ -34,14 +21,7 @@ export function FileViewer({ filename, language, code, maxHeight = 320, onCopy, 
         <FileText size={15} aria-hidden className="shrink-0 text-ot-muted" />
         <span className="min-w-0 flex-1 truncate font-mono text-[13px] font-medium text-ot-text">{filename}</span>
         {language ? <Badge tone="navy">{language}</Badge> : null}
-        <button
-          type="button"
-          onClick={() => void copy()}
-          aria-label={copied ? 'Copied' : 'Copy code'}
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-ot-sm text-ot-muted transition-colors hover:bg-ot-surface-2 hover:text-ot-text"
-        >
-          {copied ? <Check size={15} aria-hidden /> : <Copy size={15} aria-hidden />}
-        </button>
+        <CopyButton text={code} onCopy={onCopy} />
       </div>
       <pre
         className="scrollbar-thin overflow-auto p-0 font-mono text-[13px] leading-6 text-ot-text"

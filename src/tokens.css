@@ -155,6 +155,16 @@ code,
 @keyframes ot-dot-slide {
   from { opacity: 0; transform: translate(var(--ot-dot-dx, 0px), var(--ot-dot-dy, 0px)); }
 }
+@keyframes ot-progress-slide {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+@keyframes ot-drawer-in {
+  from { transform: translateX(var(--ot-drawer-x, 100%)); }
+}
+@keyframes ot-drawer-out {
+  to { transform: translateX(var(--ot-drawer-x, 100%)); }
+}
 
 .ot-anim-fade-in { animation: ot-fade-in var(--ot-duration-base) var(--ot-ease-out); }
 .ot-anim-fade-out { animation: ot-fade-out var(--ot-duration-fast) var(--ot-ease-in) forwards; }
@@ -180,6 +190,11 @@ code,
 .ot-chart-dot-slide { animation: ot-dot-slide var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
 .ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
 .ot-chart-fade-out { animation: ot-fade-out var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
+.ot-anim-progress-slide { animation: ot-progress-slide 1200ms linear infinite; }
+.ot-drawer-in-right { --ot-drawer-x: 100%; animation: ot-drawer-in var(--ot-duration-slow) var(--ot-ease-out); }
+.ot-drawer-in-left { --ot-drawer-x: -100%; animation: ot-drawer-in var(--ot-duration-slow) var(--ot-ease-out); }
+.ot-drawer-out-right { --ot-drawer-x: 100%; animation: ot-drawer-out var(--ot-duration-slow) var(--ot-ease-in) forwards; }
+.ot-drawer-out-left { --ot-drawer-x: -100%; animation: ot-drawer-out var(--ot-duration-slow) var(--ot-ease-in) forwards; }
 .ot-chart-sweep { transition: stroke-dasharray var(--ot-duration-chart) var(--ot-ease-smooth), stroke-dashoffset var(--ot-duration-chart) var(--ot-ease-smooth); }
 .ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth), opacity var(--ot-duration-chart) var(--ot-ease-smooth), flex-grow var(--ot-duration-chart) var(--ot-ease-smooth), flex-basis var(--ot-duration-chart) var(--ot-ease-smooth), margin-right var(--ot-duration-chart) var(--ot-ease-smooth); }
 
@@ -206,7 +221,12 @@ code,
   .ot-chart-pop,
   .ot-chart-dot-slide,
   .ot-chart-fade,
-  .ot-chart-fade-out {
+  .ot-chart-fade-out,
+  .ot-anim-progress-slide,
+  .ot-drawer-in-right,
+  .ot-drawer-in-left,
+  .ot-drawer-out-right,
+  .ot-drawer-out-left {
     animation: none;
   }
 }

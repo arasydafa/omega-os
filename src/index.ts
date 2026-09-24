@@ -1,6 +1,9 @@
 // @omega-os/ui — React components + design tokens.
 // Icon rule: lucide-react only, never emoji.
 
+export { Accordion } from './components/Accordion.js';
+export type { AccordionItemDef, AccordionProps } from './components/Accordion.js';
+
 export { Alert } from './components/Alert.js';
 export type { AlertProps, AlertTone } from './components/Alert.js';
 
@@ -27,6 +30,15 @@ export type { SpinnerProps } from './components/Spinner.js';
 
 export { Checkbox, Radio, Switch } from './components/Choice.js';
 export type { CheckboxProps, RadioProps, SwitchProps } from './components/Choice.js';
+
+export { Combobox } from './components/Combobox.js';
+export type { ComboboxOption, ComboboxProps } from './components/Combobox.js';
+
+export { CopyButton } from './components/CopyButton.js';
+export type { CopyButtonProps, CopyButtonSize } from './components/CopyButton.js';
+
+export { Drawer } from './components/Drawer.js';
+export type { DrawerProps, DrawerSide } from './components/Drawer.js';
 
 export { Dropdown } from './components/Dropdown.js';
 export type { DropdownItemDef, DropdownProps } from './components/Dropdown.js';
@@ -58,6 +70,9 @@ export type { InputProps, SelectProps, TextareaProps } from './components/Input.
 export { Line } from './components/Line.js';
 export type { LinePoint, LineProps } from './components/Line.js';
 
+export { Kbd } from './components/Kbd.js';
+export type { KbdProps } from './components/Kbd.js';
+
 export { Modal } from './components/Modal.js';
 export type { ModalProps } from './components/Modal.js';
 
@@ -66,6 +81,9 @@ export type { NavbarLink, NavbarProps } from './components/Navbar.js';
 
 export { Pagination, pageSlots } from './components/Pagination.js';
 export type { PaginationProps } from './components/Pagination.js';
+
+export { Progress } from './components/Progress.js';
+export type { ProgressProps, ProgressTone } from './components/Progress.js';
 
 export { Pie } from './components/Pie.js';
 export type { PieDatum, PieProps } from './components/Pie.js';
