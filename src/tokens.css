@@ -171,10 +171,10 @@ code,
 .ot-transition-slow { transition: all var(--ot-duration-slow) var(--ot-ease-out); }
 
 /* Chart motion: slow, gentle start and end. Shared by every chart. */
-.ot-chart-grow-up { animation: ot-grow-up var(--ot-duration-chart) var(--ot-ease-smooth); transform-origin: bottom; }
+.ot-chart-grow-up { animation: ot-grow-up var(--ot-duration-chart) var(--ot-ease-smooth) backwards; transform-origin: bottom; }
 .ot-chart-line-draw { stroke-dasharray: 1; animation: ot-line-draw var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
-.ot-chart-pop { animation: ot-pop var(--ot-duration-chart) var(--ot-ease-smooth); }
-.ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth); }
+.ot-chart-pop { animation: ot-pop var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
+.ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth) backwards; }
 .ot-chart-fade-out { animation: ot-fade-out var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
 .ot-chart-sweep { transition: stroke-dasharray var(--ot-duration-chart) var(--ot-ease-smooth), stroke-dashoffset var(--ot-duration-chart) var(--ot-ease-smooth); }
 .ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth), opacity var(--ot-duration-chart) var(--ot-ease-smooth); }
