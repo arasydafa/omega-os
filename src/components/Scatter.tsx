@@ -73,10 +73,15 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
   const pool = all.filter((s) => !hidden.includes(s.id) && !leaving.includes(s.id) && s.points.length > 0);
   const poolXs = pool.flatMap((s) => s.points.map((p) => p.x));
   const poolYs = pool.flatMap((s) => s.points.map((p) => p.y));
-  const minX = useTweenedNumber(poolXs.length ? Math.min(...poolXs) : 0);
-  const maxX = useTweenedNumber(poolXs.length ? Math.max(...poolXs) : 1);
-  const minY = useTweenedNumber(poolYs.length ? Math.min(...poolYs) : 0);
-  const maxY = useTweenedNumber(poolYs.length ? Math.max(...poolYs) : 1);
+  // Axis labels show final values directly — only the dots glide.
+  const rawMinX = poolXs.length ? Math.min(...poolXs) : 0;
+  const rawMaxX = poolXs.length ? Math.max(...poolXs) : 1;
+  const rawMinY = poolYs.length ? Math.min(...poolYs) : 0;
+  const rawMaxY = poolYs.length ? Math.max(...poolYs) : 1;
+  const minX = useTweenedNumber(rawMinX);
+  const maxX = useTweenedNumber(rawMaxX);
+  const minY = useTweenedNumber(rawMinY);
+  const maxY = useTweenedNumber(rawMaxY);
 
   if (all.length === 0) {
     return <EmptyState title="No data" description="Add points to render the chart." className={className} />;
@@ -142,10 +147,10 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
             </g>
           ))}
           <text x={PAD} y={height - 8} fontSize={10} className="fill-ot-muted">
-            {formatTick(minX)}
+            {formatTick(rawMinX)}
           </text>
           <text x={width - PAD} y={height - 8} fontSize={10} textAnchor="end" className="fill-ot-muted">
-            {formatTick(maxX)}
+            {formatTick(rawMaxX)}
           </text>
           {visible.map((s) => {
             const color = s.color ?? PALETTE[all.findIndex((o) => o.id === s.id) % PALETTE.length];

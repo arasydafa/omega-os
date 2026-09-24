@@ -3,8 +3,27 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { Heatmap } from './Heatmap.js';
 import { Treemap, squarifyLayout } from './Treemap.js';
-import { WordCloud, wordFontSize } from './WordCloud.js';
+import { WordCloud, repelOverlaps, wordFontSize } from './WordCloud.js';
 import { formatTick } from './Scatter.js';
+
+describe('repelOverlaps', () => {
+  it('pushes along the smallest-penetration axis', () => {
+    const out = repelOverlaps(
+      { left: 90, top: 0, right: 140, bottom: 20 },
+      [{ text: 'ui', box: { left: 100, top: 0, right: 150, bottom: 20 } }],
+    );
+    // Vertical overlap (20) beats horizontal (40): push is vertical.
+    expect(out.ui).toEqual({ x: 0, y: -30 });
+  });
+
+  it('leaves separated words alone', () => {
+    const out = repelOverlaps(
+      { left: 0, top: 0, right: 50, bottom: 20 },
+      [{ text: 'ui', box: { left: 100, top: 0, right: 150, bottom: 20 } }],
+    );
+    expect(out).toEqual({});
+  });
+});
 
 describe('formatTick', () => {
   it('keeps integers clean and trims tweened floats', () => {

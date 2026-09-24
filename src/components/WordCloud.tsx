@@ -40,9 +40,43 @@ export function wordTilt(index: number): number {
   return (((index * 37) % 5) - 2) * 6;
 }
 
+export interface Box {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
+/**
+ * Pushes overlapping boxes away along the smallest-penetration axis.
+ * Pure function — the component feeds it live rects on every pointer move.
+ */
+export function repelOverlaps(
+  moving: Box,
+  others: { text: string; box: Box }[],
+  gap = 10,
+): Record<string, { x: number; y: number }> {
+  const out: Record<string, { x: number; y: number }> = {};
+  for (const o of others) {
+    const ox = Math.min(moving.right, o.box.right) - Math.max(moving.left, o.box.left);
+    const oy = Math.min(moving.bottom, o.box.bottom) - Math.max(moving.top, o.box.top);
+    if (ox > 0 && oy > 0) {
+      if (ox < oy) {
+        const dir = (moving.left + moving.right) / 2 < (o.box.left + o.box.right) / 2 ? 1 : -1;
+        out[o.text] = { x: dir * (ox + gap), y: 0 };
+      } else {
+        const dir = (moving.top + moving.bottom) / 2 < (o.box.top + o.box.bottom) / 2 ? 1 : -1;
+        out[o.text] = { x: 0, y: dir * (oy + gap) };
+      }
+    }
+  }
+  return out;
+}
+
 export function WordCloud({ words, onSelect, label, className = '' }: WordCloudProps) {
   const valid = words.filter((w) => w.weight > 0);
   const [offsets, setOffsets] = useState<Record<string, { x: number; y: number }>>({});
+  const [push, setPush] = useState<Record<string, { x: number; y: number }>>({});
   const [dragging, setDragging] = useState<string | null>(null);
   const dragRef = useRef<{ text: string; sx: number; sy: number; ox: number; oy: number } | null>(null);
   const wordRefs = useRef(new Map<string, HTMLElement>());
@@ -68,11 +102,22 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
     const x = d.ox + (e.clientX ?? 0) - d.sx;
     const y = d.oy + (e.clientY ?? 0) - d.sy;
     setOffsets((prev) => ({ ...prev, [d.text]: { x, y } }));
+    const el = wordRefs.current.get(d.text);
+    const rect = el?.getBoundingClientRect();
+    if (!rect) return;
+    const others: { text: string; box: Box }[] = [];
+    wordRefs.current.forEach((other, text) => {
+      if (text === d.text) return;
+      const o = other.getBoundingClientRect();
+      others.push({ text, box: { left: o.left, top: o.top, right: o.right, bottom: o.bottom } });
+    });
+    setPush(repelOverlaps({ left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom }, others));
   };
   const drop = () => {
     const d = dragRef.current;
     dragRef.current = null;
     setDragging(null);
+    setPush({});
     if (!d) return;
     // No overlapping text: snap back when dropped onto another word.
     const el = wordRefs.current.get(d.text);
@@ -104,10 +149,13 @@ export function WordCloud({ words, onSelect, label, className = '' }: WordCloudP
     >
       {sorted.map((w, i) => {
         const o = offsets[w.text] ?? { x: 0, y: 0 };
+        const pushed = push[w.text] ?? { x: 0, y: 0 };
+        const tx = o.x + pushed.x;
+        const ty = o.y + pushed.y;
         const style = {
           fontSize: wordFontSize(w.weight, min, max),
           color: w.color ?? PALETTE[i % PALETTE.length],
-          transform: `translate(${o.x}px, ${o.y}px) rotate(${wordTilt(i)}deg)`,
+          transform: `translate(${tx}px, ${ty}px) rotate(${wordTilt(i)}deg)`,
           animationDelay: `${Math.min(i * 30, 300)}ms`,
         };
         const interactive = `touch-none select-none ${dragging === w.text ? 'cursor-grabbing' : 'cursor-grab'}`;
