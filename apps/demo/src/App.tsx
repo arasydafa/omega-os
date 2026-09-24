@@ -498,6 +498,7 @@ function DataDemo() {
         </Button>
       </div>
       <Table<DemoTool>
+        filterable
         columns={[
           { key: 'name', header: 'Tool', sortable: true, render: (r) => <span className="font-semibold">{r.name}</span> },
           { key: 'status', header: 'Status', sortable: true, sortValue: (r) => r.status, render: (r) => statusBadge(r.status) },
