@@ -29,8 +29,7 @@ describe('GraphViewer', () => {
     expect(onSelect).toHaveBeenCalledWith('auth');
   });
 
-  it('zooms in steps, traps wheel scroll, and resets', async () => {
-    const user = userEvent.setup();
+  it('zooms in steps, traps wheel scroll, and resets', async () => {    const user = userEvent.setup();
     render(<GraphViewer nodes={NODES} edges={EDGES} />);
     expect(screen.getByText(/100%/)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Zoom in' }));
@@ -43,5 +42,15 @@ describe('GraphViewer', () => {
     expect(prevented).toBe(false);
     await user.click(screen.getByRole('button', { name: 'Reset view' }));
     expect(screen.getByText(/100%/)).toBeInTheDocument();
+  });
+
+  it('toggles node groups from the legend', async () => {
+    const user = userEvent.setup();
+    const grouped = NODES.map((n, i) => ({ ...n, group: i < 2 ? 'core' : 'store' }));
+    render(<GraphViewer nodes={grouped} edges={EDGES} />);
+    expect(screen.getByRole('button', { name: 'Toggle core nodes' })).toHaveAttribute('aria-pressed', 'true');
+    await user.click(screen.getByRole('button', { name: 'Toggle store nodes' }));
+    expect(screen.queryByText('DB')).not.toBeInTheDocument();
+    expect(screen.getByText('App')).toBeInTheDocument();
   });
 });

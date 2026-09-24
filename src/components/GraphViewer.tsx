@@ -5,6 +5,8 @@ export interface GraphNode {
   id: string;
   label: string;
   sub?: string;
+  /** Optional grouping key — renders a toggleable legend. */
+  group?: string;
 }
 
 export type GraphEdge = readonly [string, string];
@@ -26,6 +28,14 @@ const GAP_Y = 16;
 const PAD = 24;
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2;
+
+const GROUP_COLORS = [
+  'var(--ot-navy)',
+  'var(--ot-maroon)',
+  'var(--ot-info)',
+  'var(--ot-warning)',
+  'var(--ot-success)',
+];
 
 function layout(nodes: GraphNode[], edges: GraphEdge[]): Map<string, { x: number; y: number; depth: number }> {
   const incoming = new Map<string, number>();
@@ -79,9 +89,13 @@ function layout(nodes: GraphNode[], edges: GraphEdge[]): Map<string, { x: number
 export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, className = '' }: GraphViewerProps) {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [hiddenGroups, setHiddenGroups] = useState<string[]>([]);
   const drag = useRef<{ sx: number; sy: number; px: number; py: number } | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
-  const pos = layout(nodes, edges);
+  const groups = [...new Set(nodes.map((n) => n.group).filter((g): g is string => !!g))];
+  const groupColor = (group: string) => GROUP_COLORS[groups.indexOf(group) % GROUP_COLORS.length];
+  const shown = nodes.filter((n) => !n.group || !hiddenGroups.includes(n.group));
+  const pos = layout(shown, edges);
   const maxX = Math.max(PAD * 2 + NW, ...[...pos.values()].map((p) => p.x + NW + PAD));
   const W = Math.max(maxX, 480);
 
@@ -104,7 +118,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
     <div className={`overflow-hidden rounded-ot-lg border border-ot-border bg-ot-bg font-sans ${className}`}>
       <div className="flex items-center gap-2 border-b border-ot-border bg-ot-surface px-3.5 py-2">
         <span className="text-[13px] text-ot-muted">
-          {nodes.length} nodes · {edges.length} edges · {Math.round(zoom * 100)}%
+          {shown.length} nodes · {edges.length} edges · {Math.round(zoom * 100)}%
         </span>
         <span className="ml-auto flex gap-1.5">
           <button
@@ -136,6 +150,30 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
           </button>
         </span>
       </div>
+      {groups.length > 0 ? (
+        <div className="flex flex-wrap gap-x-2 gap-y-1.5 border-b border-ot-border bg-ot-surface px-3.5 py-2 text-[13px]">
+          {groups.map((g) => {
+            const off = hiddenGroups.includes(g);
+            return (
+              <button
+                key={g}
+                type="button"
+                aria-pressed={!off}
+                aria-label={`Toggle ${g} nodes`}
+                onClick={() =>
+                  setHiddenGroups((prev) => (prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]))
+                }
+                className={`inline-flex items-center gap-1.5 rounded-ot-sm px-1.5 py-0.5 transition-opacity ${
+                  off ? 'opacity-50' : 'text-ot-muted hover:bg-ot-surface-2'
+                }`}
+              >
+                <span aria-hidden className="h-3 w-3 rounded-full" style={{ background: groupColor(g) }} />
+                {g}
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
       <svg
         ref={svgRef}
         width="100%"
@@ -178,7 +216,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
               />
             );
           })}
-          {nodes.map((n) => {
+          {shown.map((n) => {
             const p = pos.get(n.id)!;
             const selected = selectedId === n.id;
             return (
@@ -208,6 +246,16 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
                     strokeWidth: selected ? 2 : 1,
                   }}
                 />
+                {n.group ? (
+                  <rect
+                    x={p.x}
+                    y={p.y + 8}
+                    width={4}
+                    height={NH - 16}
+                    rx={2}
+                    style={{ fill: groupColor(n.group) }}
+                  />
+                ) : null}
                 <text x={p.x + 12} y={p.y + (n.sub ? 21 : 31)} fontSize={13} fontWeight={600} className="fill-ot-text">
                   {n.label.length > 20 ? `${n.label.slice(0, 19)}…` : n.label}
                 </text>

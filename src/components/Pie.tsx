@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { EmptyState } from './EmptyState.js';
 
 export interface PieDatum {
@@ -35,11 +36,56 @@ function polar(cx: number, cy: number, r: number, deg: number): [number, number]
 }
 
 export function Pie({ data, size = 200, hole = true, showLegend = true, label, className = '' }: PieProps) {
-  const total = data.reduce((sum, d) => sum + Math.max(d.value, 0), 0);
-  if (total <= 0) {
+  const [hidden, setHidden] = useState<string[]>([]);
+  const rawTotal = data.reduce((sum, d) => sum + Math.max(d.value, 0), 0);
+  if (rawTotal <= 0) {
     return <EmptyState title="No data" description="Add values to render the chart." className={className} />;
   }
-  const colored = data.map((d, i) => ({ ...d, color: d.color ?? PALETTE[i % PALETTE.length] }));
+  const toggle = (name: string) =>
+    setHidden((prev) => (prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]));
+  const visible = data.filter((d) => !hidden.includes(d.label));
+  const total = visible.reduce((sum, d) => sum + Math.max(d.value, 0), 0);
+  const legend = (
+    <div className="flex flex-wrap gap-x-2 gap-y-1.5 text-[13px]">
+      {data.map((d) => {
+        const off = hidden.includes(d.label);
+        const pct = total > 0 && !off ? Math.round((Math.max(d.value, 0) / total) * 100) : 0;
+        return (
+          <button
+            key={d.label}
+            type="button"
+            aria-pressed={!off}
+            aria-label={`Toggle ${d.label}`}
+            onClick={() => toggle(d.label)}
+            className={`inline-flex items-center gap-1.5 rounded-ot-sm px-1.5 py-0.5 transition-opacity ${
+              off ? 'opacity-50' : 'text-ot-muted hover:bg-ot-surface'
+            }`}
+          >
+            <span
+              aria-hidden
+              className="h-3 w-3 rounded-full"
+              style={{ background: d.color ?? PALETTE[data.findIndex((o) => o.label === d.label) % PALETTE.length] }}
+            />
+            {d.label} <b className="text-ot-text">{pct}%</b>
+          </button>
+        );
+      })}
+    </div>
+  );
+  if (total <= 0) {
+    return (
+      <figure className={`font-sans ${className}`}>
+        <p className="rounded-ot-md border border-dashed border-ot-border p-4 text-center text-sm text-ot-muted">
+          All series hidden — toggle the legend to show them.
+        </p>
+        {showLegend ? legend : null}
+      </figure>
+    );
+  }
+  const colored = visible.map((d) => {
+    const i = data.findIndex((o) => o.label === d.label);
+    return { ...d, color: d.color ?? PALETTE[i % PALETTE.length] };
+  });
   let acc = 0;
 
   return (
@@ -99,16 +145,7 @@ export function Pie({ data, size = 200, hole = true, showLegend = true, label, c
           })
         )}
       </svg>
-      {showLegend ? (
-        <figcaption className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
-          {colored.map((d, i) => (
-            <span key={i} className="inline-flex items-center gap-1.5 text-ot-muted">
-              <span aria-hidden className="h-3 w-3 rounded-full" style={{ background: d.color }} />
-              {d.label} <b className="text-ot-text">{Math.round((Math.max(d.value, 0) / total) * 100)}%</b>
-            </span>
-          ))}
-        </figcaption>
-      ) : null}
+      {showLegend ? <figcaption className="mt-3">{legend}</figcaption> : null}
       <table className="sr-only">
         <tbody>
           {colored.map((d, i) => (

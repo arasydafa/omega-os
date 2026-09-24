@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { Bar } from './Bar.js';
 import { Line } from './Line.js';
@@ -25,6 +26,22 @@ describe('Pie', () => {
   it('shows empty state without data', () => {
     render(<Pie data={[]} />);
     expect(screen.getByText('No data')).toBeInTheDocument();
+  });
+
+  it('toggles a segment from the legend and recomputes', async () => {
+    const user = userEvent.setup();
+    render(
+      <Pie
+        data={[
+          { label: 'Tools', value: 6 },
+          { label: 'Docs', value: 3 },
+        ]}
+      />,
+    );
+    expect(screen.getByText('67%')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Toggle Docs' }));
+    expect(screen.getByText('100%')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Toggle Docs' })).toHaveAttribute('aria-pressed', 'false');
   });
 });
 
@@ -56,8 +73,25 @@ describe('Line', () => {
         ]}
       />,
     );
-    expect(container.querySelectorAll('circle').length).toBe(3);
+    expect(container.querySelectorAll('circle[style]').length).toBe(3);
     expect(container.querySelector('polyline')).toBeInTheDocument();
+  });
+
+  it('supports multiple series with legend toggle and rich tooltip', async () => {
+    const user = userEvent.setup();
+    render(
+      <Line
+        series={[
+          { id: 'a', label: 'Alpha', points: [{ x: 'Mon', y: 1 }] },
+          { id: 'b', label: 'Beta', points: [{ x: 'Mon', y: 5 }] },
+        ]}
+      />,
+    );
+    expect(screen.getByRole('button', { name: 'Toggle Alpha' })).toHaveAttribute('aria-pressed', 'true');
+    await user.click(screen.getByRole('button', { name: 'Toggle Beta' }));
+    expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
+    await user.hover(document.querySelector('circle')!);
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Alpha');
   });
 });
 
@@ -71,7 +105,23 @@ describe('Scatter', () => {
         ]}
       />,
     );
-    expect(container.querySelectorAll('circle').length).toBe(2);
+    expect(container.querySelectorAll('circle[style]').length).toBe(2);
     expect(container.querySelector('title')?.textContent).toContain('Gadget A');
+  });
+
+  it('supports series with legend toggle and rich tooltip', async () => {
+    const user = userEvent.setup();
+    render(
+      <Scatter
+        series={[
+          { id: 'a', label: 'Alpha', points: [{ x: 1, y: 2 }] },
+          { id: 'b', label: 'Beta', points: [{ x: 4, y: 8 }] },
+        ]}
+      />,
+    );
+    await user.click(screen.getByRole('button', { name: 'Toggle Beta' }));
+    expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
+    await user.hover(document.querySelector('circle')!);
+    expect(screen.getByRole('tooltip')).toHaveTextContent('(1, 2)');
   });
 });
