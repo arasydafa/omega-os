@@ -1,3 +1,24 @@
+# Dependencies
 node_modules/
+
+# Build outputs
 dist/
-.turbo/
+apps/demo/dist/
+
+# Vite / TS caches
+.vite/
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# Env (never commit secrets)
+.env
+.env.local
+.env.*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -2,6 +2,7 @@
   "name": "@omega-os/ui",
   "version": "1.0.0",
   "description": "OmegaOS Design System — modern minimalist tokens (Plus Jakarta Sans + JetBrains Mono, navy/maroon/grey, light + dark, rounded, lucide icons only)",
+  "author": "Arasy Dafa Sulistya Kurniawan",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -66,5 +67,13 @@
     "tailwindcss",
     "tokens"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arasydafa/omega-os.git"
+  },
+  "homepage": "https://arasydafa.github.io/omega-os/",
+  "bugs": {
+    "url": "https://github.com/arasydafa/omega-os/issues"
+  }
 }

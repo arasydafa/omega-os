@@ -8,6 +8,7 @@
     "dev": "vite",
     "prebuild": "npm --prefix ../.. run build",
     "build": "tsc --noEmit && vite build",
+    "build:pages": "tsc --noEmit && vite build --base=/omega-os/",
     "preview": "vite preview"
   },
   "dependencies": {
