@@ -5,6 +5,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Real packaging: `dist` build (types + JS + tokens), `exports` map, `files` allowlist, `sideEffects` CSS flag, `verify` script, demo resolves published paths with auto-build prereqs.
+
 ## [0.16.0] — power batch
 
 ### Added

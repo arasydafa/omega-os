@@ -19,6 +19,9 @@ jobs:
       - run: npm run check
       - run: npm run lint
       - run: npm test
+      - run: npm run build
+      - run: npm run verify
+      - run: npm pack --dry-run
 
   demo:
     runs-on: ubuntu-latest

@@ -10,8 +10,8 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    // Plain JS config files run in Node.
-    files: ['**/*.config.js', 'eslint.rules/*.cjs', 'tailwind.preset.js'],
+    // Plain JS config and script files run in Node.
+    files: ['**/*.config.js', 'eslint.rules/*.cjs', 'scripts/**/*.cjs', 'tailwind.preset.js'],
     languageOptions: { globals: globals.node },
     rules: { '@typescript-eslint/no-require-imports': 'off' },
   },
