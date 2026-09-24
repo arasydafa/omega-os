@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import uiPkg from '@omega-os/ui/package.json';
+import { DndDemo } from './DndDemo.js';
 import {
   Alert,
   Avatar,
@@ -11,6 +12,7 @@ import {
   Checkbox,
   Dropdown,
   EmptyState,
+  FileUpload,
   FileViewer,
   GraphViewer,
   Heatmap,
@@ -155,6 +157,7 @@ export default function App() {
           <div className="grid gap-3.5">
             <Input label="Tool name" placeholder="e.g. vstack" helper="Lowercase, no spaces." />
             <Input label="Required field" error="This field is required." />
+            <UploadDemo />
             <Select label="Category">
               <option>Security tools</option>
               <option>Portfolio</option>
@@ -173,6 +176,8 @@ export default function App() {
         <ViewersDemo />
 
         <ChartsDemo />
+
+        <DndDemo />
 
         <NavigationDemo />
 
@@ -323,6 +328,18 @@ function FoundationsDemo() {
         </div>
       </section>
     </>
+  );
+}
+
+function UploadDemo() {
+  const toast = useToast();
+  return (
+    <FileUpload
+      label="Attachments"
+      helper="PNG or JPG up to 5 MB."
+      accept=".png,.jpg,image/png,image/jpeg"
+      onFiles={(files) => toast.show('success', `${files.length} file(s) ready to upload.`)}
+    />
   );
 }
 

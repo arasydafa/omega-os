@@ -5,6 +5,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- `FileUpload` (dropzone + browse, type/size/count validation, removable list).
+- Drag-and-drop sortable showcase in the demo app (dnd-kit patterns).
+
 ## [0.13.0] — charts round 2
 
 ### Added
