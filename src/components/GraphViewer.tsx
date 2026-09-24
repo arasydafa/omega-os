@@ -117,7 +117,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
       setTimeout(() => {
         setHiddenGroups((prev) => [...prev, group]);
         setLeavingGroups((prev) => prev.filter((x) => x !== group));
-      }, 200),
+      }, 750),
     );
   };
   const maxX = Math.max(PAD * 2 + NW, ...[...pos.values()].map((p) => p.x + NW + PAD));
@@ -235,7 +235,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
                 y1={a.y + NH / 2}
                 x2={b.x}
                 y2={b.y + NH / 2}
-                className={`stroke-ot-border ${fading ? 'ot-anim-fade-out' : ''}`}
+                className={`stroke-ot-border ${fading ? 'ot-chart-fade-out' : ''}`}
                 strokeWidth={1.5}
                 markerEnd="url(#ot-edge-arrow)"
               />
@@ -258,7 +258,7 @@ export function GraphViewer({ nodes, edges, selectedId, onSelect, height = 320, 
                     onSelect?.(n.id);
                   }
                 }}
-                className={`cursor-pointer outline-none ${leaving ? 'ot-anim-fade-out' : 'ot-chart-fade'}`}
+                className={`cursor-pointer outline-none ${leaving ? 'ot-chart-fade-out' : 'ot-chart-fade'}`}
               >
                 <rect
                   x={p.x}

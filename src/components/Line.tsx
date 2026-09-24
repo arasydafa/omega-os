@@ -71,7 +71,7 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
       setTimeout(() => {
         setHidden((prev) => [...prev, id]);
         setLeaving((prev) => prev.filter((x) => x !== id));
-      }, 200),
+      }, 750),
     );
   };
   const visible = all.filter((s) => !hidden.includes(s.id) && s.points.length > 0);
@@ -128,7 +128,7 @@ export function Line({ points, series, width = 320, height = 180, showArea = tru
           {placed.map((coords, si) => (
             <g
               key={visible[si].id}
-              className={leaving.includes(visible[si].id) ? 'ot-anim-fade-out' : undefined}
+              className={leaving.includes(visible[si].id) ? 'ot-chart-fade-out' : undefined}
             >
               {showArea ? (
                 <polygon

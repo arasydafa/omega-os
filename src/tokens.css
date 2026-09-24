@@ -175,6 +175,7 @@ code,
 .ot-chart-line-draw { stroke-dasharray: 1; animation: ot-line-draw var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
 .ot-chart-pop { animation: ot-pop var(--ot-duration-chart) var(--ot-ease-smooth); }
 .ot-chart-fade { animation: ot-fade-in var(--ot-duration-chart) var(--ot-ease-smooth); }
+.ot-chart-fade-out { animation: ot-fade-out var(--ot-duration-chart) var(--ot-ease-smooth) forwards; }
 .ot-chart-sweep { transition: stroke-dasharray var(--ot-duration-chart) var(--ot-ease-smooth), stroke-dashoffset var(--ot-duration-chart) var(--ot-ease-smooth); }
 .ot-chart-resize { transition: height var(--ot-duration-chart) var(--ot-ease-smooth), width var(--ot-duration-chart) var(--ot-ease-smooth), opacity var(--ot-duration-chart) var(--ot-ease-smooth); }
 
@@ -199,7 +200,8 @@ code,
   .ot-chart-grow-up,
   .ot-chart-line-draw,
   .ot-chart-pop,
-  .ot-chart-fade {
+  .ot-chart-fade,
+  .ot-chart-fade-out {
     animation: none;
   }
 }

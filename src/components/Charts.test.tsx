@@ -106,9 +106,12 @@ describe('Line', () => {
     expect(screen.getByRole('button', { name: 'Toggle Alpha' })).toHaveAttribute('aria-pressed', 'true');
     await user.click(screen.getByRole('button', { name: 'Toggle Beta' }));
     expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
-    await waitFor(() => {
-      expect(document.querySelectorAll('circle').length).toBe(2);
-    });
+    await waitFor(
+      () => {
+        expect(document.querySelectorAll('circle').length).toBe(2);
+      },
+      { timeout: 2500 },
+    );
     await user.hover(document.querySelector('circle')!);
     expect(screen.getByRole('tooltip')).toHaveTextContent('Alpha');
   });
@@ -140,9 +143,12 @@ describe('Scatter', () => {
     );
     await user.click(screen.getByRole('button', { name: 'Toggle Beta' }));
     expect(screen.getByRole('button', { name: 'Toggle Beta' })).toHaveAttribute('aria-pressed', 'false');
-    await waitFor(() => {
-      expect(document.querySelectorAll('circle').length).toBe(2);
-    });
+    await waitFor(
+      () => {
+        expect(document.querySelectorAll('circle').length).toBe(2);
+      },
+      { timeout: 2500 },
+    );
     await user.hover(document.querySelector('circle')!);
     expect(screen.getByRole('tooltip')).toHaveTextContent('(1, 2)');
   });

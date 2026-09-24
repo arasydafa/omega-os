@@ -75,7 +75,7 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
       setTimeout(() => {
         setHidden((prev) => [...prev, id]);
         setLeaving((prev) => prev.filter((x) => x !== id));
-      }, 200),
+      }, 750),
     );
   };
 
@@ -130,7 +130,7 @@ export function Scatter({ points, series, width = 320, height = 220, label, clas
           {visible.map((s) => {
             const color = s.color ?? PALETTE[all.findIndex((o) => o.id === s.id) % PALETTE.length];
             return (
-              <g key={s.id} className={leaving.includes(s.id) ? 'ot-anim-fade-out' : undefined}>
+              <g key={s.id} className={leaving.includes(s.id) ? 'ot-chart-fade-out' : undefined}>
                 {s.points.map((p, i) => {
                   const cx = PAD + ((p.x - minX) / spanX) * innerW;
                   const cy = PAD + innerH - ((p.y - minY) / spanY) * innerH;

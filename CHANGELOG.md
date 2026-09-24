@@ -7,6 +7,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Chart exit motion matches enter motion (`ot-chart-fade-out`, 700ms): Line/Scatter series and graph groups fade out before unmounting.
+
+### Added
+
 - Animated hide everywhere: Pie segments sweep away, Bar collapses, Line/Scatter series and graph groups fade out before unmounting.
 - `Bar` legend with per-bar toggle.
 

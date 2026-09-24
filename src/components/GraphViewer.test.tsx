@@ -51,9 +51,12 @@ describe('GraphViewer', () => {
     expect(screen.getByRole('button', { name: 'Toggle core nodes' })).toHaveAttribute('aria-pressed', 'true');
     await user.click(screen.getByRole('button', { name: 'Toggle store nodes' }));
     expect(screen.getByRole('button', { name: 'Toggle store nodes' })).toHaveAttribute('aria-pressed', 'false');
-    await waitFor(() => {
-      expect(screen.queryByText('DB')).not.toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(screen.queryByText('DB')).not.toBeInTheDocument();
+      },
+      { timeout: 2500 },
+    );
     expect(screen.getByText('App')).toBeInTheDocument();
   });
 });
