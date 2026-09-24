@@ -73,4 +73,4 @@ Work happens on `dev` (or `feat/*`), releases merge to `main` with a version bum
 
 ## Status
 
-v0.15.0 — complex batch (`Slider`, `Stepper`, `Timeline`, `TreeView`, `Carousel`, `DatePicker`). 126 tests green. See `CHANGELOG.md`.
+v0.16.0 — power batch (`CommandPalette`, `LogViewer`, `AvatarGroup`, `Markdown`, `Table` sort+filter). 136 tests green. See `CHANGELOG.md`.
