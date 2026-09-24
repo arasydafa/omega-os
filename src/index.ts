@@ -31,11 +31,17 @@ export type { SpinnerProps } from './components/Spinner.js';
 export { Checkbox, Radio, Switch } from './components/Choice.js';
 export type { CheckboxProps, RadioProps, SwitchProps } from './components/Choice.js';
 
+export { Carousel } from './components/Carousel.js';
+export type { CarouselProps } from './components/Carousel.js';
+
 export { Combobox } from './components/Combobox.js';
 export type { ComboboxOption, ComboboxProps } from './components/Combobox.js';
 
 export { CopyButton } from './components/CopyButton.js';
 export type { CopyButtonProps, CopyButtonSize } from './components/CopyButton.js';
+
+export { DatePicker } from './components/DatePicker.js';
+export type { DatePickerProps } from './components/DatePicker.js';
 
 export { Drawer } from './components/Drawer.js';
 export type { DrawerProps, DrawerSide } from './components/Drawer.js';
@@ -97,6 +103,12 @@ export type { SearchBarProps } from './components/SearchBar.js';
 export { Sidebar } from './components/Sidebar.js';
 export type { SidebarChild, SidebarItemDef, SidebarProps } from './components/Sidebar.js';
 
+export { Slider } from './components/Slider.js';
+export type { SliderProps } from './components/Slider.js';
+
+export { Stepper } from './components/Stepper.js';
+export type { StepDef, StepperProps } from './components/Stepper.js';
+
 export { Skeleton } from './components/Skeleton.js';
 export type { SkeletonProps } from './components/Skeleton.js';
 
@@ -112,6 +124,9 @@ export type { TabDef, TabsProps } from './components/Tabs.js';
 export { Treemap, squarifyLayout } from './components/Treemap.js';
 export type { TreemapDatum, TreemapProps } from './components/Treemap.js';
 
+export { TreeView } from './components/TreeView.js';
+export type { TreeNodeDef, TreeViewProps } from './components/TreeView.js';
+
 export { WordCloud, wordFontSize, wordTilt } from './components/WordCloud.js';
 export type { WordCloudProps, WordDatum } from './components/WordCloud.js';
 
@@ -120,6 +135,9 @@ export type { ToastApi, ToastKind, ToastOptions } from './components/Toast.js';
 
 export { REVEAL_DURATION_FALLBACK, REVEAL_EASING_FALLBACK, readRevealTokens, toggleThemeReveal } from './theme.js';
 export type { RevealTokens } from './theme.js';
+
+export { Timeline } from './components/Timeline.js';
+export type { TimelineItemDef, TimelineProps, TimelineTone } from './components/Timeline.js';
 
 export { Tooltip } from './components/Tooltip.js';
 export type { TooltipPosition, TooltipProps } from './components/Tooltip.js';
