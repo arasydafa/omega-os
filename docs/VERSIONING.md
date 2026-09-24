@@ -17,11 +17,14 @@ changes during `0.x` bump `MINOR`, not `MAJOR`.
 
 ## Going 1.0
 
-`1.0.0` requires ALL of:
+Personal-project rules (Omega Throne scope): `1.0.0` requires ALL of:
 
-1. Used by at least one real repo (e.g. vstack migrated).
-2. Core component API stable for 1–2 releases with no renames.
-3. External consumers exist (opensource users beyond Omega Throne).
+1. Pilot repo migrated and merged (e.g. vstack on OmegaOS).
+2. Full test suite and build green on `main`.
+3. Changelog up to date (every user-visible change under a version heading).
+
+No external-consumers or multi-release API-freeze requirement —
+those apply only if the package is ever published for public use.
 
 ## Release discipline
 
