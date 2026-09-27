@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
+
 export interface ModalProps {
   open: boolean;
   onClose: () => void;
@@ -12,7 +14,16 @@ export interface ModalProps {
   footer?: ReactNode;
   /** Leading icon next to the title. Use lucide-react, never emoji. */
   icon?: ReactNode;
+  /** Panel width. Defaults to 'md' (420px, legacy). */
+  size?: ModalSize;
 }
+
+const MODAL_WIDTH: Record<ModalSize, string> = {
+  sm: 'max-w-[380px]',
+  md: 'max-w-[420px]',
+  lg: 'max-w-[640px]',
+  xl: 'max-w-[896px]',
+};
 
 function focusables(root: HTMLElement): HTMLElement[] {
   return Array.from(
@@ -22,7 +33,7 @@ function focusables(root: HTMLElement): HTMLElement[] {
   );
 }
 
-export function Modal({ open, onClose, title, children, footer, icon }: ModalProps) {
+export function Modal({ open, onClose, title, children, footer, icon, size = 'md' }: ModalProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const prevFocus = useRef<Element | null>(null);
@@ -94,7 +105,7 @@ export function Modal({ open, onClose, title, children, footer, icon }: ModalPro
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className={`w-full max-w-[420px] overflow-hidden rounded-ot-lg border border-ot-border bg-ot-surface font-sans outline-none shadow-ot-lg ${
+        className={`w-full ${MODAL_WIDTH[size]} overflow-hidden rounded-ot-lg border border-ot-border bg-ot-surface font-sans outline-none shadow-ot-lg ${
           closing ? 'ot-anim-pop-out' : 'ot-anim-pop-in'
         }`}
       >

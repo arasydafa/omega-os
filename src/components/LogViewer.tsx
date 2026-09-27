@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDownToLine, Copy, Trash2 } from 'lucide-react';
 
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+export type LogLevel = 'debug' | 'info' | 'success' | 'warn' | 'error';
 
 export interface LogLine {
   id: string;
@@ -24,6 +24,7 @@ export interface LogViewerProps {
 const LEVEL_COLOR: Record<LogLevel, string> = {
   debug: 'text-ot-muted',
   info: 'text-ot-text',
+  success: 'text-success',
   warn: 'text-warning',
   error: 'text-danger',
 };
@@ -116,7 +117,7 @@ export function LogViewer({ lines, maxLines = 2000, follow, defaultFollow = true
           shown.map((l) => (
             <p key={l.id} className="whitespace-pre-wrap break-all">
               {l.time ? <span className="text-ot-muted">[{l.time}] </span> : null}
-              <span className={`mr-2 inline-block w-12 font-semibold ${LEVEL_COLOR[l.level]}`}>{l.level.toUpperCase()}</span>
+              <span className={`mr-2 inline-block w-16 font-semibold ${LEVEL_COLOR[l.level]}`}>{l.level.toUpperCase()}</span>
               <span className={LEVEL_COLOR[l.level]}>{l.text}</span>
             </p>
           ))

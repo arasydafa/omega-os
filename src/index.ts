@@ -95,7 +95,7 @@ export { Markdown } from './components/Markdown.js';
 export type { MarkdownProps } from './components/Markdown.js';
 
 export { Modal } from './components/Modal.js';
-export type { ModalProps } from './components/Modal.js';
+export type { ModalProps, ModalSize } from './components/Modal.js';
 
 export { Navbar } from './components/Navbar.js';
 export type { NavbarLink, NavbarProps } from './components/Navbar.js';
@@ -153,6 +153,9 @@ export type { RevealTokens } from './theme.js';
 
 export { Timeline } from './components/Timeline.js';
 export type { TimelineItemDef, TimelineProps, TimelineTone } from './components/Timeline.js';
+
+export { TimingBar } from './components/TimingBar.js';
+export type { TimingBarProps, TimingSegment, TimingSegmentTone } from './components/TimingBar.js';
 
 export { Tooltip } from './components/Tooltip.js';
 export type { TooltipPosition, TooltipProps } from './components/Tooltip.js';

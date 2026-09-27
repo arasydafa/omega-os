@@ -29,4 +29,10 @@ describe('LogViewer', () => {
     await user.click(screen.getByRole('button', { name: 'Clear logs' }));
     expect(onClear).toHaveBeenCalledTimes(1);
   });
+
+  it('renders the success level', () => {
+    render(<LogViewer lines={[{ id: '9', level: 'success', text: 'Deployed ok', time: '09:10' }]} />);
+    expect(screen.getByText('Deployed ok')).toBeInTheDocument();
+    expect(screen.getByText('SUCCESS')).toBeInTheDocument();
+  });
 });
