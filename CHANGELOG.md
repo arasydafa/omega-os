@@ -5,6 +5,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.1.0] — LogViewer success, Modal sizes, TimingBar
+
+### Added
+
+- `LogViewer` `success` level (green `text-success`), filterable like the other levels.
+- `Modal` `size` prop (`sm` 380px / `md` 420px default / `lg` 640px / `xl` 896px).
+- `TimingBar` stacked segment bar (per-segment labels, legend, total, empty state) for encrypt/transmit/decrypt-style breakdowns.
+
+### Fixed
+
+- `LogViewer` level column widened (`w-12` → `w-16`) so `SUCCESS` never wraps.
+
+### Changed
+
+- Dev toolchain on React 19 (`react`/`react-dom` 19, `@types/react` 19, Testing Library 16); peer stays `>=18`, and the demo app is bumped too.
+
 ## [1.0.1] — declarative theme reveal
 
 ### Fixed
