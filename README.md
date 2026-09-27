@@ -12,7 +12,7 @@ default with dark via `class="dark"`, rounded everything, lucide icons only.
 
 ## Features
 
-- 40+ components, 141 tests: layout (Navbar, Sidebar), overlays (Modal,
+- 40+ components, 145 tests: layout (Navbar, Sidebar), overlays (Modal,
   Drawer, Toast), data display (Table, Pagination, custom SVG Charts,
   GraphViewer), forms, navigation, and viewers (FileViewer, CodeBlock).
 - Theme tokens as CSS variables (`--ot-*`) + Tailwind preset with semantic
@@ -114,7 +114,7 @@ bump + changelog + tag. See `docs/VERSIONING.md`.
 
 ## Status
 
-v1.0.1 — declarative theme reveal (identical dev/prod). 141 tests green. See `CHANGELOG.md`.
+v1.1.0 — LogViewer success tone, Modal sizes, TimingBar. 145 tests green. See `CHANGELOG.md`.
 
 ## License
 
