@@ -52,6 +52,7 @@ import {
   Tabs,
   Textarea,
   Timeline,
+  TimingBar,
   ToasterProvider,
   Tooltip,
   TreeView,
@@ -370,6 +371,7 @@ function UploadDemo() {
 function OverlayDemo() {
   const toast = useToast();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalSize, setModalSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('md');
   return (
     <>
       <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
@@ -386,6 +388,16 @@ function OverlayDemo() {
           <Button variant="danger" icon={<Trash2 size={16} />} onClick={() => setModalOpen(true)}>
             Open modal
           </Button>
+          <Select
+            aria-label="Modal size"
+            value={modalSize}
+            onChange={(e) => setModalSize(e.target.value as typeof modalSize)}
+          >
+            <option value="sm">sm</option>
+            <option value="md">md</option>
+            <option value="lg">lg</option>
+            <option value="xl">xl</option>
+          </Select>
           <Dropdown
             trigger={
               <Button variant="secondary">
@@ -420,6 +432,7 @@ function OverlayDemo() {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         title="Delete tool?"
+        size={modalSize}
         footer={
           <>
             <Button variant="secondary" size="sm" onClick={() => setModalOpen(false)}>
@@ -653,6 +666,14 @@ function PrimitivesDemo() {
         <div className="grid gap-4">
           <Progress value={65} label="Uploading bundle" />
           <Progress value={0} indeterminate label="Syncing" />
+          <TimingBar
+            label="Encrypt/transmit/decrypt breakdown"
+            segments={[
+              { id: 'enc', label: 'Encrypt', value: 1.2, tone: 'navy' },
+              { id: 'tx', label: 'Transmit', value: 8.4, tone: 'warning' },
+              { id: 'dec', label: 'Decrypt', value: 0.9, tone: 'success' },
+            ]}
+          />
           <Combobox
             label="Assignee"
             placeholder="Search members…"
@@ -722,8 +743,9 @@ function CommandDemo() {
             lines={[
               { id: '1', level: 'info', text: 'Build started', time: '09:00' },
               { id: '2', level: 'info', text: 'Tests passed (106)', time: '09:04' },
-              { id: '3', level: 'warn', text: 'Cache miss on install step', time: '09:04' },
-              { id: '4', level: 'error', text: 'Deploy failed: timeout', time: '09:05' },
+              { id: '3', level: 'success', text: 'Deployed ok', time: '09:04' },
+              { id: '4', level: 'warn', text: 'Cache miss on install step', time: '09:04' },
+              { id: '5', level: 'error', text: 'Deploy failed: timeout', time: '09:05' },
             ]}
           />
           <Markdown
