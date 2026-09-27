@@ -26,6 +26,21 @@ describe('Modal', () => {
     expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
   });
 
+  it('applies size variants to the panel width', () => {
+    const { rerender } = render(
+      <Modal open onClose={() => {}} title="Title">
+        Body
+      </Modal>,
+    );
+    expect(screen.getByRole('dialog')).toHaveClass('max-w-[420px]');
+    rerender(
+      <Modal open onClose={() => {}} title="Title" size="lg">
+        Body
+      </Modal>,
+    );
+    expect(screen.getByRole('dialog')).toHaveClass('max-w-[640px]');
+  });
+
   it('closes via close button, ESC, and overlay click — but not content click', async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
