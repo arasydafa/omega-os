@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import uiPkg from '@omega-os/ui/package.json';
 import {
@@ -7,6 +7,7 @@ import {
   CommandPalette,
   Kbd,
   Sidebar,
+  Spinner,
   ToasterProvider,
   toggleThemeReveal,
 } from '@omega-os/ui';
@@ -29,6 +30,7 @@ import {
   Sun,
 } from 'lucide-react';
 import type { SidebarItemDef } from '@omega-os/ui';
+import { PAGE_INDEX } from './search-index.js';
 
 function routeIcon(id: string) {
   switch (id) {
@@ -51,6 +53,15 @@ function routeIcon(id: string) {
     default:
       return <Folder size={16} />;
   }
+}
+
+export function PageLoading() {
+  return (
+    <div className="mx-auto grid w-full max-w-4xl place-items-center gap-3 rounded-ot-lg border border-ot-border bg-ot-surface p-10 text-center">
+      <Spinner size={20} label="Loading page" />
+      <p className="text-sm text-ot-muted">Loading page…</p>
+    </div>
+  );
 }
 
 export function DocsLayout() {
@@ -224,28 +235,14 @@ export function DocsLayout() {
   );
 
   const paletteItems = useMemo(
-    () => [
-      { id: 'home', label: 'Home', group: 'Pages', keywords: 'home start', onSelect: () => go('/') },
-      { id: 'components', label: 'All components', group: 'Pages', keywords: 'components index directory', onSelect: () => go('/components') },
-      { id: 'showcase', label: 'Showcase', group: 'Pages', keywords: 'showcase all examples anchors', onSelect: () => go('/showcase') },
-      ...navGroups.flatMap((g) =>
-        g.items
-          .filter((item) => item.id !== 'home' && item.id !== 'showcase' && item.id !== 'all')
-          .map((item) => ({
-            id: `page-${item.id}`,
-            label: String(item.label),
-            group: g.label,
-            keywords: `${String(item.label)} ${g.label}`,
-            onSelect: () => go(
-              g.label === 'Foundations'
-                ? `/foundations/${item.id}`
-                : item.id === 'bar' || item.id === 'line' || item.id === 'pie' || item.id === 'scatter' || item.id === 'treemap' || item.id === 'wordcloud'
-                  ? `/components/charts/${item.id}`
-                  : `/components/${item.id}`,
-            ),
-          })),
-      ),
-    ],
+    () =>
+      PAGE_INDEX.map((entry) => ({
+        id: entry.id,
+        label: entry.label,
+        group: entry.group,
+        keywords: `${entry.label} ${entry.group} ${entry.keywords}`,
+        onSelect: () => go(entry.to),
+      })),
     [],
   );
 
@@ -358,7 +355,9 @@ export function DocsLayout() {
           </aside>
 
           <main className="min-w-0 flex-1">
-            <Outlet />
+            <Suspense fallback={<PageLoading />}>
+              <Outlet />
+            </Suspense>
           </main>
         </div>
 

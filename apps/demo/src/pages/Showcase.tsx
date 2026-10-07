@@ -8,7 +8,6 @@ import {
   ComplementsDemo,
   DataDemo,
   FoundationsDemo,
-  IconsDemo,
   NavigationDemo,
   OverlayDemo,
   PrimitivesDemo,
@@ -16,6 +15,7 @@ import {
 } from './showcase-sections.js';
 import { DndDemo } from '../DndDemo.js';
 import { DOC_GROUPS, scrollToId } from '../docs.js';
+import { IconsDemo } from './IconsDemo.js';
 
 const ALERTS: AlertTone[] = ['info', 'warning', 'success', 'danger'];
 

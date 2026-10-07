@@ -7,6 +7,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Demo docs: route-based code splitting. Every docs page loads on demand
+  (initial bundle down from 1.4 MB to about 340 KB) with a loading state.
+- Demo docs search now matches page content. The `Ctrl+K` index covers
+  variants, props, and rules, so queries like maroon or sortable land
+  on the right page.
 - Demo docs: `HashRouter` multi-page docs (`/` Home, `/components`
   index, `/foundations/*`, `/components/*` per component, `/showcase`
   full examples, 404) with grouped left sidebar, `Ctrl+K` page search,

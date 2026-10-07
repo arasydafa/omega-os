@@ -1,6 +1,6 @@
 import { Badge } from '@omega-os/ui';
 import { ComponentPage } from '../ComponentPage.js';
-import { IconsDemo } from '../showcase-sections.js';
+import { IconsDemo } from '../IconsDemo.js';
 
 export function IconsPage() {
   return (
