@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import uiPkg from '@omega-os/ui/package.json';
 import { DndDemo } from './DndDemo.js';
+import { ALL_SECTION_IDS, DOC_GROUPS, scrollToId, useScrollSpy } from './docs.js';
 import {
   Accordion,
   Alert,
@@ -64,19 +65,28 @@ import {
 } from '@omega-os/ui';
 import type { AlertTone } from '@omega-os/ui';
 import {
+  Activity,
   Bell,
   BookOpen,
   Check,
   ChevronDown,
+  Command,
   Copy,
   Crown,
+  Database,
+  FileText,
   Folder,
+  Github,
+  Globe,
   Home,
+  Layers,
   LayoutDashboard,
+  List,
   Moon,
   PanelLeft,
   Pencil,
   Plus,
+  Search,
   Settings,
   Sun,
   Trash2,
@@ -86,9 +96,37 @@ import * as lucideSet from 'lucide-react';
 
 const ALERTS: AlertTone[] = ['info', 'warning', 'success', 'danger'];
 
+function groupIcon(id: string) {
+  switch (id) {
+    case 'foundations':
+      return <BookOpen size={16} />;
+    case 'components':
+      return <Layers size={16} />;
+    case 'overlays':
+      return <Bell size={16} />;
+    case 'data':
+      return <Database size={16} />;
+    case 'navigation':
+      return <Globe size={16} />;
+    case 'viewers':
+      return <FileText size={16} />;
+    case 'charts':
+      return <Activity size={16} />;
+    case 'icons':
+      return <Command size={16} />;
+    default:
+      return <Folder size={16} />;
+  }
+}
+
 export default function App() {
   const [dark, setDark] = useState(false);
   const [icon, setIcon] = useState<'sun' | 'moon'>('moon');
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [docsCollapsed, setDocsCollapsed] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const activeId = useScrollSpy(ALL_SECTION_IDS);
+  const activeGroup = DOC_GROUPS.find((g) => g.sections.some((s) => s.id === activeId)) ?? DOC_GROUPS[0];
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const x = e.clientX || window.innerWidth - 60;
@@ -101,114 +139,380 @@ export default function App() {
     });
   };
 
+  const sidebarItems = useMemo(
+    () =>
+      DOC_GROUPS.map((g) => ({
+        id: g.id,
+        label: g.label,
+        icon: groupIcon(g.id),
+        active: g.sections.some((s) => s.id === activeId),
+        onClick: () => scrollToId(g.sections[0].id),
+        children: g.sections.map((s) => ({
+          id: s.id,
+          label: s.label,
+          active: s.id === activeId,
+          onClick: () => {
+            scrollToId(s.id);
+            setMobileNavOpen(false);
+          },
+        })),
+      })),
+    [activeId],
+  );
+
+  const paletteItems = useMemo(
+    () => [
+      ...DOC_GROUPS.flatMap((g) =>
+        g.sections.map((s) => ({
+          id: `doc-${s.id}`,
+          label: s.label,
+          group: g.label,
+          keywords: `${s.label} ${g.label} ${s.id}`,
+          onSelect: () => {
+            setPaletteOpen(false);
+            scrollToId(s.id);
+          },
+        })),
+      ),
+      {
+        id: 'tool-vstack',
+        label: 'VStack',
+        group: 'Tools',
+        onSelect: () => {
+          setPaletteOpen(false);
+          scrollToId('data-table');
+        },
+      },
+      {
+        id: 'tool-lab',
+        label: 'CI-CD Lab',
+        group: 'Tools',
+        onSelect: () => {
+          setPaletteOpen(false);
+          scrollToId('complex');
+        },
+      },
+    ],
+    [],
+  );
+
   return (
     <ToasterProvider>
-    <div className="min-h-screen bg-ot-bg font-sans text-ot-text">
-      <header
-        className="sticky top-0 z-10 border-b border-ot-border backdrop-blur"
-        style={{ background: 'color-mix(in srgb, var(--ot-bg) 85%, transparent)' }}
-      >
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3.5">
-          <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-ot-md bg-navy text-white">
-              <Crown size={22} />
-            </span>
-            <div>
-              <h1 className="text-xl font-extrabold tracking-tight">OmegaOS UI</h1>
-              <p className="text-xs text-ot-muted">Component showcase — v{uiPkg.version}</p>
+      <div className="min-h-screen bg-ot-bg font-sans text-ot-text">
+        <header
+          className="sticky top-0 z-10 border-b border-ot-border backdrop-blur"
+          style={{ background: 'color-mix(in srgb, var(--ot-bg) 85%, transparent)' }}
+        >
+          <div className="mx-auto flex max-w-7xl items-center gap-3 px-5 py-3">
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Open docs navigation"
+              className="grid h-10 w-10 place-items-center rounded-ot-md border border-ot-border bg-ot-surface text-ot-muted lg:hidden"
+            >
+              <List size={18} />
+            </button>
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-ot-md bg-navy text-white">
+                <Crown size={22} />
+              </span>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="truncate text-lg font-extrabold tracking-tight">OmegaOS UI</h1>
+                  <Badge tone="grey">v{uiPkg.version}</Badge>
+                </div>
+                <p className="hidden truncate text-xs text-ot-muted sm:block">
+                  Design system docs — navy/maroon, light + dark, lucide only
+                </p>
+              </div>
+            </div>
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPaletteOpen(true)}
+                className="hidden h-10 min-w-0 items-center gap-2.5 rounded-ot-md border border-ot-border bg-ot-bg px-3 text-sm text-ot-muted transition-colors hover:text-ot-text md:inline-flex md:w-64"
+              >
+                <Search size={15} aria-hidden className="shrink-0" />
+                <span className="flex-1 truncate text-left">Search docs…</span>
+                <span className="flex shrink-0 items-center gap-1">
+                  <Kbd>Ctrl</Kbd>
+                  <Kbd>K</Kbd>
+                </span>
+              </button>
+              <a
+                href="https://github.com/arasydafa/omega-os"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open GitHub repository"
+                className="grid h-10 w-10 place-items-center rounded-ot-md border border-ot-border bg-ot-surface text-ot-muted transition-colors hover:text-ot-text"
+              >
+                <Github size={17} />
+              </a>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="inline-flex h-10 items-center gap-2 rounded-full border border-ot-border bg-ot-surface px-3.5 text-[13px] font-semibold transition-transform active:scale-90"
+              >
+                {icon === 'moon' ? <Moon size={15} /> : <Sun size={15} />}
+                {dark ? 'Light' : 'Dark'}
+              </button>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="inline-flex items-center gap-2 rounded-full border border-ot-border bg-ot-surface px-3.5 py-2 text-[13px] font-semibold transition-transform active:scale-90"
-          >
-            {icon === 'moon' ? <Moon size={15} /> : <Sun size={15} />}
-            {dark ? 'Light' : 'Dark'}
-          </button>
+          <div className="border-t border-ot-border lg:hidden">
+            <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-5 py-2">
+              {DOC_GROUPS.map((g) => (
+                <button
+                  key={g.id}
+                  type="button"
+                  onClick={() => scrollToId(g.sections[0].id)}
+                  className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    activeGroup.id === g.id
+                      ? 'border-transparent bg-navy-bg text-navy-text'
+                      : 'border-ot-border text-ot-muted'
+                  }`}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </header>
+
+        <div className="mx-auto max-w-7xl px-5 pb-4 pt-8">
+          <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-6 md:p-8">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+              <Badge tone="navy">Docs</Badge>
+              <Badge tone="grey">{OMEGA_ICONS.length} icons</Badge>
+              <Badge tone="success">145 tests</Badge>
+              <span className="text-ot-muted">Light default, dark via .dark</span>
+            </div>
+            <h2 className="mt-3 max-w-2xl text-3xl font-extrabold tracking-tight md:text-4xl">
+              Modern minimalist components for every Omega web.
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-ot-muted md:text-base">
+              Browse foundations, components, and patterns with live React examples. Press{' '}
+              <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd> to jump anywhere.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2.5">
+              <Button icon={<BookOpen size={16} />} onClick={() => scrollToId('typography')}>
+                Browse foundations
+              </Button>
+              <Button variant="secondary" icon={<Search size={16} />} onClick={() => setPaletteOpen(true)}>
+                Search docs
+              </Button>
+              <Button variant="ghost" icon={<Github size={16} />}>
+                <a href="https://github.com/arasydafa/omega-os" target="_blank" rel="noreferrer">
+                  GitHub
+                </a>
+              </Button>
+            </div>
+          </div>
         </div>
-      </header>
 
-      <main className="mx-auto grid max-w-5xl gap-4 px-5 py-8">
-        <FoundationsDemo />
+        <div className="mx-auto flex max-w-7xl gap-6 px-5 pb-16">
+          <aside className="hidden w-60 shrink-0 lg:block">
+            <div className="sticky top-32 grid max-h-[calc(100vh-9rem)] content-start gap-2 overflow-y-auto">
+              <Button
+                size="sm"
+                variant="secondary"
+                icon={<PanelLeft size={16} />}
+                onClick={() => setDocsCollapsed((v) => !v)}
+              >
+                {docsCollapsed ? 'Expand nav' : 'Collapse nav'}
+              </Button>
+              <Sidebar collapsed={docsCollapsed} items={sidebarItems} label="Docs sections" />
+            </div>
+          </aside>
 
-        <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
-          <h2 className="mb-1 text-lg font-bold">Buttons</h2>
-          <p className="mb-4 text-sm text-ot-muted">All rounded 12px, lucide icon required.</p>
-          <div className="flex flex-wrap gap-2.5">
-            <Button icon={<Plus size={16} />}>Primary</Button>
-            <Button variant="secondary" icon={<Settings size={16} />}>Secondary</Button>
-            <Button variant="solid" icon={<Plus size={16} />}>Solid</Button>
-            <Button variant="danger" icon={<Trash2 size={16} />}>Danger</Button>
-            <Button variant="secondary" size="sm">Small</Button>
-            <Button loading>Loading</Button>
+          <main className="grid min-w-0 flex-1 content-start gap-4">
+            <FoundationsDemo />
+
+            <section id="buttons" className="scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+              <h2 className="mb-1 text-lg font-bold">Buttons</h2>
+              <p className="mb-4 text-sm text-ot-muted">All rounded 12px, lucide icon required.</p>
+              <div className="flex flex-wrap gap-2.5">
+                <Button icon={<Plus size={16} />}>Primary</Button>
+                <Button variant="secondary" icon={<Settings size={16} />}>
+                  Secondary
+                </Button>
+                <Button variant="solid" icon={<Plus size={16} />}>
+                  Solid
+                </Button>
+                <Button variant="danger" icon={<Trash2 size={16} />}>
+                  Danger
+                </Button>
+                <Button variant="secondary" size="sm">
+                  Small
+                </Button>
+                <Button loading>Loading</Button>
+              </div>
+            </section>
+
+            <section id="badges" className="scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+              <h2 className="mb-1 text-lg font-bold">Badges</h2>
+              <p className="mb-4 text-sm text-ot-muted">Pill shape, one tone per meaning.</p>
+              <div className="flex flex-wrap gap-2.5">
+                <Badge tone="navy">Navy</Badge>
+                <Badge tone="grey">Draft</Badge>
+                <Badge tone="info">Info</Badge>
+                <Badge tone="warning">Warning</Badge>
+                <Badge tone="success" icon={<Check size={12} />}>
+                  Active
+                </Badge>
+                <Badge tone="danger">Error</Badge>
+              </div>
+            </section>
+
+            <section id="alerts" className="scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+              <h2 className="mb-1 text-lg font-bold">Alerts</h2>
+              <p className="mb-4 text-sm text-ot-muted">Info blue, warning yellow, success green, danger maroon.</p>
+              <div className="grid gap-2.5">
+                {ALERTS.map((tone) => (
+                  <Alert key={tone} tone={tone} title={`${tone[0].toUpperCase()}${tone.slice(1)}.`}>
+                    This is a live {tone} alert rendered by React.
+                  </Alert>
+                ))}
+              </div>
+            </section>
+
+            <section id="fields" className="scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+              <h2 className="mb-1 text-lg font-bold">Fields</h2>
+              <p className="mb-4 text-sm text-ot-muted">40px tall, 12px radius, navy focus ring.</p>
+              <div className="grid gap-3.5">
+                <Input label="Tool name" placeholder="e.g. vstack" helper="Lowercase, no spaces." />
+                <Input label="Required field" error="This field is required." />
+                <UploadDemo />
+                <Select label="Category">
+                  <option>Security tools</option>
+                  <option>Portfolio</option>
+                  <option>Opensource</option>
+                </Select>
+                <Textarea label="Description" placeholder="Short description…" />
+              </div>
+            </section>
+
+            <div id="overlays-demo" className="scroll-mt-36">
+              <OverlayDemo />
+            </div>
+
+            <div id="data-table" className="scroll-mt-36">
+              <DataDemo />
+            </div>
+
+            <div id="complements" className="scroll-mt-36">
+              <ComplementsDemo />
+            </div>
+
+            <div id="primitives" className="scroll-mt-36">
+              <PrimitivesDemo />
+            </div>
+
+            <div id="command" className="scroll-mt-36">
+              <CommandDemo onOpenPalette={() => setPaletteOpen(true)} />
+            </div>
+
+            <div id="complex" className="scroll-mt-36">
+              <ComplexDemo />
+            </div>
+
+            <div id="viewers-demo" className="scroll-mt-36">
+              <ViewersDemo />
+            </div>
+
+            <div id="charts-demo" className="scroll-mt-36">
+              <ChartsDemo />
+            </div>
+
+            <div id="playground" className="scroll-mt-36">
+              <DndDemo />
+            </div>
+
+            <div id="navigation-demo" className="scroll-mt-36">
+              <NavigationDemo />
+            </div>
+
+            <div id="icons-demo" className="scroll-mt-36">
+              <IconsDemo />
+            </div>
+          </main>
+
+          <aside className="hidden w-52 shrink-0 xl:block">
+            <div className="sticky top-32 rounded-ot-md border border-ot-border bg-ot-surface p-4">
+              <p className="text-xs font-bold uppercase tracking-wide text-ot-muted">On this page</p>
+              <p className="mt-1 text-[13px] font-semibold">{activeGroup.label}</p>
+              <div className="mt-2 grid gap-1">
+                {activeGroup.sections.map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => scrollToId(s.id)}
+                    className={`rounded-ot-sm px-2.5 py-1.5 text-left text-[13px] transition-colors ${
+                      s.id === activeId
+                        ? 'bg-navy-bg font-semibold text-navy-text'
+                        : 'text-ot-muted hover:bg-ot-bg hover:text-ot-text'
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-3 border-t border-ot-border pt-3 text-xs text-ot-muted">
+                {DOC_GROUPS.length} groups · {ALL_SECTION_IDS.length} sections
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <footer className="border-t border-ot-border">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-5 py-6 text-sm text-ot-muted">
+            <span className="grid h-8 w-8 place-items-center rounded-ot-sm bg-navy text-white">
+              <Crown size={16} />
+            </span>
+            <span>
+              <b className="text-ot-text">OmegaOS UI</b> v{uiPkg.version} — MIT. Tokens + Tailwind preset + lucide
+              only.
+            </span>
+            <span className="ml-auto flex flex-wrap gap-2">
+              <a className="underline" href="https://github.com/arasydafa/omega-os" target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+              <button type="button" className="underline" onClick={() => scrollToId('typography')}>
+                Foundations
+              </button>
+              <button type="button" className="underline" onClick={() => setPaletteOpen(true)}>
+                Search
+              </button>
+            </span>
           </div>
-        </section>
+        </footer>
 
-        <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
-          <h2 className="mb-1 text-lg font-bold">Badges</h2>
-          <p className="mb-4 text-sm text-ot-muted">Pill shape, one tone per meaning.</p>
-          <div className="flex flex-wrap gap-2.5">
-            <Badge tone="navy">Navy</Badge>
-            <Badge tone="grey">Draft</Badge>
-            <Badge tone="info">Info</Badge>
-            <Badge tone="warning">Warning</Badge>
-            <Badge tone="success" icon={<Check size={12} />}>Active</Badge>
-            <Badge tone="danger">Error</Badge>
+        <CommandPalette
+          open={paletteOpen}
+          onOpenChange={setPaletteOpen}
+          placeholder="Search docs, components, tools…"
+          label="Search docs"
+          items={paletteItems}
+        />
+
+        {mobileNavOpen ? (
+          <div className="fixed inset-0 z-ot-modal lg:hidden">
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setMobileNavOpen(false)}
+              aria-hidden
+            />
+            <div className="absolute inset-y-0 left-0 w-80 max-w-[85vw] overflow-y-auto border-r border-ot-border bg-ot-bg p-4">
+              <div className="mb-3 flex items-center justify-between">
+                <b className="text-sm">Docs sections</b>
+                <Button size="sm" variant="secondary" onClick={() => setMobileNavOpen(false)}>
+                  Close
+                </Button>
+              </div>
+              <Sidebar items={sidebarItems} label="Docs sections" />
+            </div>
           </div>
-        </section>
-
-        <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
-          <h2 className="mb-1 text-lg font-bold">Alerts</h2>
-          <p className="mb-4 text-sm text-ot-muted">Info blue, warning yellow, success green, danger maroon.</p>
-          <div className="grid gap-2.5">
-            {ALERTS.map((tone) => (
-              <Alert key={tone} tone={tone} title={`${tone[0].toUpperCase()}${tone.slice(1)}.`}>
-                This is a live {tone} alert rendered by React.
-              </Alert>
-            ))}
-          </div>
-        </section>
-
-        <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
-          <h2 className="mb-1 text-lg font-bold">Fields</h2>
-          <p className="mb-4 text-sm text-ot-muted">40px tall, 12px radius, navy focus ring.</p>
-          <div className="grid gap-3.5">
-            <Input label="Tool name" placeholder="e.g. vstack" helper="Lowercase, no spaces." />
-            <Input label="Required field" error="This field is required." />
-            <UploadDemo />
-            <Select label="Category">
-              <option>Security tools</option>
-              <option>Portfolio</option>
-              <option>Opensource</option>
-            </Select>
-            <Textarea label="Description" placeholder="Short description…" />
-          </div>
-        </section>
-
-        <OverlayDemo />
-
-        <DataDemo />
-
-        <ComplementsDemo />
-
-        <PrimitivesDemo />
-
-        <CommandDemo />
-
-        <ComplexDemo />
-
-        <ViewersDemo />
-
-        <ChartsDemo />
-
-        <DndDemo />
-
-        <NavigationDemo />
-
-        <IconsDemo />
-      </main>
-    </div>
+        ) : null}
+      </div>
     </ToasterProvider>
   );
 }
@@ -234,7 +538,7 @@ function FoundationsDemo() {
   );
   return (
     <>
-      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <section id="typography" className="scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Typography</h2>
         <p className="mb-4 text-sm text-ot-muted">Plus Jakarta Sans for UI, JetBrains Mono for code.</p>
         <div className="divide-y divide-dashed divide-ot-border">
@@ -282,7 +586,7 @@ function FoundationsDemo() {
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section id="colors" className="mt-4 scroll-mt-36 grid gap-4 md:grid-cols-3">
         <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
           <h2 className="mb-1 text-lg font-bold">Brand</h2>
           <p className="mb-4 text-sm text-ot-muted">Navy primary, maroon danger-only.</p>
@@ -298,10 +602,18 @@ function FoundationsDemo() {
             {swatch('#FFFFFF', 'White', '#FFFFFF')}
           </div>
           <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
-            <li><b className="text-ot-text">Navy</b> — primary buttons, active nav, links, focus.</li>
-            <li><b className="text-ot-text">Maroon</b> — destructive actions and errors only.</li>
-            <li><b className="text-ot-text">Dark grey</b> — borders, hover fills, secondary surfaces.</li>
-            <li><b className="text-ot-text">Black / white</b> — dark / light page base.</li>
+            <li>
+              <b className="text-ot-text">Navy</b> — primary buttons, active nav, links, focus.
+            </li>
+            <li>
+              <b className="text-ot-text">Maroon</b> — destructive actions and errors only.
+            </li>
+            <li>
+              <b className="text-ot-text">Dark grey</b> — borders, hover fills, secondary surfaces.
+            </li>
+            <li>
+              <b className="text-ot-text">Black / white</b> — dark / light page base.
+            </li>
           </ul>
         </div>
         <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
@@ -314,10 +626,18 @@ function FoundationsDemo() {
             {swatch('var(--ot-danger)', 'Danger maroon', '#7B1E26')}
           </div>
           <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
-            <li><b className="text-ot-text">Info</b> — neutral updates, tips, new features.</li>
-            <li><b className="text-ot-text">Warning</b> — caution, unsaved changes, destructive confirmations.</li>
-            <li><b className="text-ot-text">Success</b> — saved, deployed, completed.</li>
-            <li><b className="text-ot-text">Danger</b> — errors, failures, destructive results.</li>
+            <li>
+              <b className="text-ot-text">Info</b> — neutral updates, tips, new features.
+            </li>
+            <li>
+              <b className="text-ot-text">Warning</b> — caution, unsaved changes, destructive confirmations.
+            </li>
+            <li>
+              <b className="text-ot-text">Success</b> — saved, deployed, completed.
+            </li>
+            <li>
+              <b className="text-ot-text">Danger</b> — errors, failures, destructive results.
+            </li>
           </ul>
         </div>
         <div className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
@@ -332,24 +652,56 @@ function FoundationsDemo() {
             {swatch('var(--ot-muted)', 'muted', 'secondary text')}
           </div>
           <ul className="mt-4 grid gap-1 text-[13px] text-ot-muted">
-            <li><b className="text-ot-text">bg</b> — page background.</li>
-            <li><b className="text-ot-text">surface</b> — cards, panels, table headers.</li>
-            <li><b className="text-ot-text">surface-2</b> — hover fills, input backgrounds, skeletons.</li>
-            <li><b className="text-ot-text">border</b> — dividers, card outlines, thumbs.</li>
-            <li><b className="text-ot-text">text / muted</b> — primary vs secondary copy.</li>
+            <li>
+              <b className="text-ot-text">bg</b> — page background.
+            </li>
+            <li>
+              <b className="text-ot-text">surface</b> — cards, panels, table headers.
+            </li>
+            <li>
+              <b className="text-ot-text">surface-2</b> — hover fills, input backgrounds, skeletons.
+            </li>
+            <li>
+              <b className="text-ot-text">border</b> — dividers, card outlines, thumbs.
+            </li>
+            <li>
+              <b className="text-ot-text">text / muted</b> — primary vs secondary copy.
+            </li>
           </ul>
         </div>
       </section>
 
-      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <section id="radius" className="mt-4 scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Radius</h2>
         <p className="mb-4 text-sm text-ot-muted">No sharp corners — each size has one job.</p>
         <div className="flex flex-wrap gap-3">
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 8 }}>8 · inputs, badges</span>
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 12 }}>12 · buttons, alerts</span>
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 16 }}>16 · cards, modals</span>
-          <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 20 }}>20 · large panels</span>
-          <span className="grid h-[72px] w-[140px] place-items-center rounded-full bg-navy text-xs font-bold text-white">full · pills, avatars</span>
+          <span
+            className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white"
+            style={{ borderRadius: 8 }}
+          >
+            8 · inputs, badges
+          </span>
+          <span
+            className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white"
+            style={{ borderRadius: 12 }}
+          >
+            12 · buttons, alerts
+          </span>
+          <span
+            className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white"
+            style={{ borderRadius: 16 }}
+          >
+            16 · cards, modals
+          </span>
+          <span
+            className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white"
+            style={{ borderRadius: 20 }}
+          >
+            20 · large panels
+          </span>
+          <span className="grid h-[72px] w-[140px] place-items-center rounded-full bg-navy text-xs font-bold text-white">
+            full · pills, avatars
+          </span>
         </div>
       </section>
     </>
@@ -388,11 +740,7 @@ function OverlayDemo() {
           <Button variant="danger" icon={<Trash2 size={16} />} onClick={() => setModalOpen(true)}>
             Open modal
           </Button>
-          <Select
-            aria-label="Modal size"
-            value={modalSize}
-            onChange={(e) => setModalSize(e.target.value as typeof modalSize)}
-          >
+          <Select aria-label="Modal size" value={modalSize} onChange={(e) => setModalSize(e.target.value as typeof modalSize)}>
             <option value="sm">sm</option>
             <option value="md">md</option>
             <option value="lg">lg</option>
@@ -576,12 +924,7 @@ function DataDemo() {
         emptyDescription="Create one to get started."
       />
       <div className="mt-3">
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          onChange={setPage}
-          note={`${DEMO_TOOLS.length} tools, ${PAGE_SIZE} per page`}
-        />
+        <Pagination page={page} totalPages={totalPages} onChange={setPage} note={`${DEMO_TOOLS.length} tools, ${PAGE_SIZE} per page`} />
       </div>
       <div className="mt-4 grid gap-2.5 rounded-ot-md border border-ot-border bg-ot-bg p-4">
         <p className="text-sm font-semibold">Standalone states</p>
@@ -589,11 +932,7 @@ function DataDemo() {
           <Skeleton className="h-5 w-32" />
           <Skeleton className="h-5 w-20" />
         </div>
-        <EmptyState
-          title="Nothing here"
-          description="This is the standalone empty state."
-          action={<Button size="sm">Create new</Button>}
-        />
+        <EmptyState title="Nothing here" description="This is the standalone empty state." action={<Button size="sm">Create new</Button>} />
       </div>
     </section>
   );
@@ -637,10 +976,7 @@ function IconsDemo() {
         {OMEGA_ICONS.map((name) => {
           const Cmp = set[iconComponentName(name)];
           return (
-            <div
-              key={name}
-              className="grid place-items-center gap-1.5 rounded-ot-sm border border-ot-border bg-ot-bg px-2 py-2.5 text-center"
-            >
+            <div key={name} className="grid place-items-center gap-1.5 rounded-ot-sm border border-ot-border bg-ot-bg px-2 py-2.5 text-center">
               {Cmp ? <Cmp size={18} /> : <span className="text-xs text-danger">missing</span>}
               <code className="font-mono text-[10px] text-ot-muted [overflow-wrap:anywhere]">{name}</code>
             </div>
@@ -712,44 +1048,36 @@ function PrimitivesDemo() {
   );
 }
 
-function CommandDemo() {
+function CommandDemo({ onOpenPalette }: { onOpenPalette: () => void }) {
   const toast = useToast();
-  const [paletteOpen, setPaletteOpen] = useState(false);
   const act = (name: string) => () => toast.show('info', `${name} selected.`);
   return (
-    <>
-      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
-        <h2 className="mb-1 text-lg font-bold">Command + logs + docs</h2>
-        <p className="mb-4 text-sm text-ot-muted">
-          Press <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd> anywhere, or use the button.
-        </p>
-        <div className="mb-4 flex flex-wrap items-center gap-2.5">
-          <Button variant="secondary" size="sm" onClick={() => setPaletteOpen(true)}>
-            Open palette
-          </Button>
-          <AvatarGroup
-            avatars={[
-              { name: 'Omega Throne' },
-              { name: 'Vstack' },
-              { name: 'Docs' },
-              { name: 'Lab' },
-              { name: 'Extra' },
-            ]}
-            max={3}
-          />
-        </div>
-        <div className="grid gap-4">
-          <LogViewer
-            lines={[
-              { id: '1', level: 'info', text: 'Build started', time: '09:00' },
-              { id: '2', level: 'info', text: 'Tests passed (106)', time: '09:04' },
-              { id: '3', level: 'success', text: 'Deployed ok', time: '09:04' },
-              { id: '4', level: 'warn', text: 'Cache miss on install step', time: '09:04' },
-              { id: '5', level: 'error', text: 'Deploy failed: timeout', time: '09:05' },
-            ]}
-          />
-          <Markdown
-            source={`## Release notes
+    <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <h2 className="mb-1 text-lg font-bold">Command + logs + docs</h2>
+      <p className="mb-4 text-sm text-ot-muted">
+        Press <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd> anywhere, or use the button.
+      </p>
+      <div className="mb-4 flex flex-wrap items-center gap-2.5">
+        <Button variant="secondary" size="sm" onClick={onOpenPalette}>
+          Open palette
+        </Button>
+        <AvatarGroup
+          avatars={[{ name: 'Omega Throne' }, { name: 'Vstack' }, { name: 'Docs' }, { name: 'Lab' }, { name: 'Extra' }]}
+          max={3}
+        />
+      </div>
+      <div className="grid gap-4">
+        <LogViewer
+          lines={[
+            { id: '1', level: 'info', text: 'Build started', time: '09:00' },
+            { id: '2', level: 'info', text: 'Tests passed (106)', time: '09:04' },
+            { id: '3', level: 'success', text: 'Deployed ok', time: '09:04' },
+            { id: '4', level: 'warn', text: 'Cache miss on install step', time: '09:04' },
+            { id: '5', level: 'error', text: 'Deploy failed: timeout', time: '09:05' },
+          ]}
+        />
+        <Markdown
+          source={`## Release notes
 
 Ship with **confidence**: run \`npm test\` and read the [changelog](https://example.com).
 
@@ -758,20 +1086,20 @@ Ship with **confidence**: run \`npm test\` and read the [changelog](https://exam
 | 0.15.0 | Shipped |
 | 0.16.0 | Next |
 `}
-          />
+        />
+        <div className="flex flex-wrap gap-2.5">
+          <Button variant="secondary" size="sm" onClick={act('VStack')}>
+            VStack
+          </Button>
+          <Button variant="secondary" size="sm" onClick={act('CI-CD Lab')}>
+            CI-CD Lab
+          </Button>
+          <Button variant="secondary" size="sm" onClick={act('Docs')}>
+            Docs
+          </Button>
         </div>
-      </section>
-
-      <CommandPalette
-        open={paletteOpen}
-        onOpenChange={setPaletteOpen}
-        items={[
-          { id: 'vstack', label: 'VStack', group: 'Tools', hint: 'ROP', onSelect: act('VStack') },
-          { id: 'lab', label: 'CI-CD Lab', group: 'Tools', onSelect: act('CI-CD Lab') },
-          { id: 'docs', label: 'Docs', group: 'Help', onSelect: act('Docs') },
-        ]}
-      />
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -848,12 +1176,7 @@ function ViewersDemo() {
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           <Image src={DEMO_PHOTO} alt="Demo cover" aspect="16/10" />
-          <Image
-            src="https://example.com/missing.png"
-            alt="Missing cover"
-            aspect="16/10"
-            fallbackLabel="Cover unavailable"
-          />
+          <Image src="https://example.com/missing.png" alt="Missing cover" aspect="16/10" fallbackLabel="Cover unavailable" />
         </div>
         <FileViewer
           filename="theme.ts"
@@ -891,7 +1214,7 @@ function ChartsDemo() {
   const [selectedNode, setSelectedNode] = useState<string | null>('auth');
   return (
     <>
-      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <section id="charts-demo-inner" className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Charts</h2>
         <p className="mb-4 text-sm text-ot-muted">Custom theme-aware SVG. No charting dependency.</p>
         <div className="grid gap-4 md:grid-cols-2">
@@ -1008,7 +1331,7 @@ function ChartsDemo() {
         </div>
       </section>
 
-      <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+      <section id="graph-demo-inner" className="mt-4 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Graph</h2>
         <p className="mb-4 text-sm text-ot-muted">
           Drag to pan, scroll to zoom, click a node{selectedNode ? ` — selected: ${selectedNode}` : ''}.
@@ -1055,7 +1378,11 @@ function NavigationDemo() {
             </>
           }
           links={[{ label: 'Dashboard', active: true }, { label: 'Tools' }, { label: 'Docs' }]}
-          actions={<Button size="sm" icon={<Plus size={16} />}>New</Button>}
+          actions={
+            <Button size="sm" icon={<Plus size={16} />}>
+              New
+            </Button>
+          }
         />
         <SubmenuBar
           label="Project section"
@@ -1074,13 +1401,7 @@ function NavigationDemo() {
         <div className="max-w-sm">
           <SearchBar shortcut="Ctrl K" onClear={() => toast.show('info', 'Search cleared.')} />
         </div>
-        <Breadcrumbs
-          items={[
-            { label: 'Home', icon: <Home size={14} /> },
-            { label: 'Tools' },
-            { label: 'VStack' },
-          ]}
-        />
+        <Breadcrumbs items={[{ label: 'Home', icon: <Home size={14} /> }, { label: 'Tools' }, { label: 'VStack' }]} />
         <div className="flex flex-wrap items-start gap-4">
           <div className="grid gap-2">
             <Button size="sm" variant="secondary" icon={<PanelLeft size={16} />} onClick={() => setCollapsed((v) => !v)}>
