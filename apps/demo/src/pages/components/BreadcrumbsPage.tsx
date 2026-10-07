@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { Badge, Breadcrumbs } from '@omega-os/ui';
 import { Home } from 'lucide-react';
 import { ComponentPage } from '../ComponentPage.js';
 
 export function BreadcrumbsPage() {
+  const navigate = useNavigate();
   return (
     <ComponentPage
       title="Breadcrumbs"
@@ -34,14 +36,14 @@ import { Home } from 'lucide-react';
           title: 'Links',
           desc: 'Crumbs with href render anchors. Crumbs with onClick render buttons.',
           code: `items={[
-  { label: 'Home', href: '#/' },
+  { label: 'Home', href: '/' },
   { label: 'Projects', onClick: goProjects },
   { label: 'Website' },
 ]}`,
           demo: (
             <Breadcrumbs
               items={[
-                { label: 'Home', href: '#/' },
+                { label: 'Home', onClick: () => navigate('/') },
                 { label: 'Projects' },
                 { label: 'Website' },
               ]}

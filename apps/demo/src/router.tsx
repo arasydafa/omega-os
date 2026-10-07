@@ -1,5 +1,5 @@
 import { lazy, useEffect } from 'react';
-import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
 import { Button } from '@omega-os/ui';
 import { Home } from 'lucide-react';
 import { DocsLayout } from './layout.js';
@@ -96,8 +96,9 @@ function NotFound() {
 }
 
 export function DemoRouter() {
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
   return (
-    <HashRouter>
+    <BrowserRouter basename={basename}>
       <ScrollToTop />
       <Routes>
         <Route element={<DocsLayout />}>
@@ -166,6 +167,6 @@ export function DemoRouter() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }

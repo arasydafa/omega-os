@@ -7,6 +7,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Demo home is now a marketing landing with hero, stats, features,
+  live taste, quickstart, and explore sections.
+- Demo uses `BrowserRouter` with clean URLs plus a `404.html` fallback,
+  so refresh and deep links work on GitHub Pages.
 - Demo docs pages gained Guidelines (Do versus Avoid) on key components
   and Accessibility notes (keyboard plus screen-reader behavior) on
   interactive components.
@@ -24,6 +28,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   punctuation (no project names, no em dashes).
 - Docs props drift check (`npm run check:docs`, wired into CI) fails the
   build when a library prop is missing from its docs API table.
+- Preview drift check (`npm run check:preview`, wired into CI) keeps the
+  static preview icon set and section anchors in sync with the library.
+
+### Changed
+
+- Fonts ship latin subset only, cutting bundled font files.
 
 ### Changed
 
