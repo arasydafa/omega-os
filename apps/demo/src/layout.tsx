@@ -85,23 +85,20 @@ export function DocsLayout() {
     navigate(to);
   };
 
-  const sidebarItems: SidebarItemDef[] = useMemo(
+  const navStart: SidebarItemDef[] = useMemo(
     () => [
-      { id: 'home', label: 'Home', icon: routeIcon('home'), active: path === '/', onClick: () => go('/') },
-      {
-        id: 'components',
-        label: 'Components',
-        icon: routeIcon('components'),
-        active: path.startsWith('/components'),
-        onClick: () => go('/components'),
-        children: [
-          { id: 'all', label: 'All components', active: path === '/components', onClick: () => go('/components') },
-          { id: 'button', label: 'Button', active: path === '/components/button', onClick: () => go('/components/button') },
-          { id: 'table', label: 'Table', active: path === '/components/table', onClick: () => go('/components/table') },
-          { id: 'modal', label: 'Modal', active: path === '/components/modal', onClick: () => go('/components/modal') },
-        ],
-      },
+      { id: 'home', label: 'Home', icon: <Home size={16} />, active: path === '/', onClick: () => go('/') },
       { id: 'showcase', label: 'Showcase', icon: routeIcon('showcase'), active: path === '/showcase', onClick: () => go('/showcase') },
+    ],
+    [path],
+  );
+
+  const navComponents: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'all', label: 'All components', active: path === '/components', onClick: () => go('/components') },
+      { id: 'button', label: 'Button', active: path === '/components/button', onClick: () => go('/components/button') },
+      { id: 'table', label: 'Table', active: path === '/components/table', onClick: () => go('/components/table') },
+      { id: 'modal', label: 'Modal', active: path === '/components/modal', onClick: () => go('/components/modal') },
     ],
     [path],
   );
@@ -144,7 +141,7 @@ export function DocsLayout() {
                   <Badge tone="grey">v{uiPkg.version}</Badge>
                 </span>
                 <span className="hidden truncate text-xs text-ot-muted sm:block">
-                  Design system docs — navy/maroon, light + dark, lucide only
+                  Design system docs. Navy and maroon, light and dark, lucide only
                 </span>
               </span>
             </Link>
@@ -215,7 +212,10 @@ export function DocsLayout() {
               >
                 {docsCollapsed ? 'Expand nav' : 'Collapse nav'}
               </Button>
-              <Sidebar collapsed={docsCollapsed} items={sidebarItems} label="Docs pages" />
+              <p className="px-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Start</p>
+              <Sidebar collapsed={docsCollapsed} items={navStart} label="Start pages" />
+              <p className="px-1 pt-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Components</p>
+              <Sidebar collapsed={docsCollapsed} items={navComponents} label="Component pages" />
             </div>
           </aside>
 
@@ -230,7 +230,7 @@ export function DocsLayout() {
               <Crown size={16} />
             </span>
             <span>
-              <b className="text-ot-text">OmegaOS UI</b> v{uiPkg.version} — MIT. Tokens + Tailwind preset + lucide
+              <b className="text-ot-text">OmegaOS UI</b> v{uiPkg.version} · MIT. Tokens, Tailwind preset, lucide
               only.
             </span>
             <span className="ml-auto flex flex-wrap gap-2">
@@ -265,7 +265,10 @@ export function DocsLayout() {
                   Close
                 </Button>
               </div>
-              <Sidebar items={sidebarItems} label="Docs pages" />
+              <p className="px-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Start</p>
+              <Sidebar items={navStart} label="Start pages" />
+              <p className="px-1 pt-2 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Components</p>
+              <Sidebar items={navComponents} label="Component pages" />
             </div>
           </div>
         ) : null}

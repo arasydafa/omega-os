@@ -18,10 +18,10 @@ interface SortItem {
 }
 
 const INITIAL: SortItem[] = [
-  { id: 'vstack', label: 'VStack' },
-  { id: 'cicd-lab', label: 'CI-CD Lab' },
-  { id: 'portfolio', label: 'Portfolio' },
-  { id: 'omega-docs', label: 'Omega Docs' },
+  { id: 'website-redesign', label: 'Website Redesign' },
+  { id: 'mobile-app', label: 'Mobile App' },
+  { id: 'design-system', label: 'Design System' },
+  { id: 'marketing-site', label: 'Marketing Site' },
 ];
 
 function Row({ item, overlay = false }: { item: SortItem; overlay?: boolean }) {

@@ -74,7 +74,7 @@ export function Home() {
             className="rounded-ot-md border border-ot-border bg-navy-bg p-4 transition-colors"
           >
             <p className="text-sm font-bold text-navy-text">Component pages</p>
-            <p className="mt-0.5 text-[13px] text-navy-text">Button · Table · Modal — preview, usage, API.</p>
+            <p className="mt-0.5 text-[13px] text-navy-text">Button, Table, Modal. Preview, usage, API.</p>
           </Link>
         </div>
       </section>

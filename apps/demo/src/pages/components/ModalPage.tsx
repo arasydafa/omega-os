@@ -82,7 +82,7 @@ const [open, setOpen] = useState(false);
 >
   This action is permanent and cannot be undone.
 </Modal>`,
-          demo: <span className="text-sm text-ot-muted">Cancel left, Delete right — as in the preview above.</span>,
+          demo: <span className="text-sm text-ot-muted">Cancel left, Delete right, as in the preview above.</span>,
         },
         {
           id: 'vs-popup',
@@ -94,12 +94,12 @@ const [open, setOpen] = useState(false);
         },
       ]}
       propsRows={[
-        { name: 'open', type: 'boolean', defaultValue: '—', desc: 'Controls visibility (exit animation plays on close).' },
-        { name: 'onClose', type: '() => void', defaultValue: '—', desc: 'Fired on ESC, overlay click, and the close button.' },
-        { name: 'title', type: 'ReactNode', defaultValue: '—', desc: 'Dialog title, announced to assistive tech.' },
-        { name: 'children', type: 'ReactNode', defaultValue: '—', desc: 'Body copy (muted 14px recommended).' },
-        { name: 'footer', type: 'ReactNode', defaultValue: '—', desc: 'Right-aligned action row.' },
-        { name: 'icon', type: 'ReactNode', defaultValue: '—', desc: 'Leading title icon, e.g. trash-2 for destructive confirms.' },
+        { name: 'open', type: 'boolean', defaultValue: '-', desc: 'Controls visibility (exit animation plays on close).' },
+        { name: 'onClose', type: '() => void', defaultValue: '-', desc: 'Fired on ESC, overlay click, and the close button.' },
+        { name: 'title', type: 'ReactNode', defaultValue: '-', desc: 'Dialog title, announced to assistive tech.' },
+        { name: 'children', type: 'ReactNode', defaultValue: '-', desc: 'Body copy (muted 14px recommended).' },
+        { name: 'footer', type: 'ReactNode', defaultValue: '-', desc: 'Right-aligned action row.' },
+        { name: 'icon', type: 'ReactNode', defaultValue: '-', desc: 'Leading title icon, e.g. trash-2 for destructive confirms.' },
         { name: 'size', type: "'sm' | 'md' | 'lg' | 'xl'", defaultValue: "'md'", desc: 'Panel width: 380 / 420 / 640 / 896px.' },
       ]}
       rules={[

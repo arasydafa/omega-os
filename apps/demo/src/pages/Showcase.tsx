@@ -104,13 +104,14 @@ export function Showcase() {
         <h2 className="mb-1 text-lg font-bold">Fields</h2>
         <p className="mb-4 text-sm text-ot-muted">40px tall, 12px radius, navy focus ring.</p>
         <div className="grid gap-3.5">
-          <Input label="Tool name" placeholder="e.g. vstack" helper="Lowercase, no spaces." />
+          <Input label="Project name" placeholder="e.g. riverside-cafe" helper="Lowercase, no spaces." />
           <Input label="Required field" error="This field is required." />
           <UploadDemo />
           <Select label="Category">
-            <option>Security tools</option>
-            <option>Portfolio</option>
-            <option>Opensource</option>
+            <option>Website</option>
+            <option>Mobile app</option>
+            <option>Design system</option>
+            <option>Docs</option>
           </Select>
           <Textarea label="Description" placeholder="Short description…" />
         </div>

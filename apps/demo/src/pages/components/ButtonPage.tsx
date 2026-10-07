@@ -6,7 +6,7 @@ export function ButtonPage() {
   return (
     <ComponentPage
       title="Button"
-      desc="Trigger for actions. Navy primary, maroon destructive-only, every button carries a lucide icon — never emoji."
+      desc="Trigger for actions. Navy primary, maroon destructive-only, every button carries a lucide icon. Never emoji."
       badges={
         <>
           <Badge tone="navy">primary</Badge>
@@ -57,7 +57,7 @@ import { Plus } from 'lucide-react';
         {
           id: 'danger',
           title: 'Danger',
-          desc: 'Destructive actions only — always paired with the trash-2 icon and maroon fill.',
+          desc: 'Destructive actions only. Always paired with the trash-2 icon and maroon fill.',
           code: `<Button variant="danger" icon={<Trash2 size={16} />}>
   Delete
 </Button>`,
@@ -92,7 +92,7 @@ import { Plus } from 'lucide-react';
         {
           id: 'badge-proof',
           title: 'With status',
-          desc: 'Buttons often sit next to status badges — one tone per meaning.',
+          desc: 'Buttons often sit next to status badges. One tone per meaning.',
           code: `<Badge tone="success" icon={<Check size={12} />}>Active</Badge>`,
           demo: (
             <Badge tone="success" icon={<Check size={12} />}>
@@ -104,15 +104,15 @@ import { Plus } from 'lucide-react';
       propsRows={[
         { name: 'variant', type: "'primary' | 'secondary' | 'solid' | 'danger' | 'ghost'", defaultValue: "'primary'", desc: 'Visual weight. Danger is destructive-only.' },
         { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", desc: 'Height, padding, and text size.' },
-        { name: 'icon', type: 'ReactNode', defaultValue: '—', desc: 'Leading 16px icon. Use lucide-react, never emoji.' },
+        { name: 'icon', type: 'ReactNode', defaultValue: '-', desc: 'Leading 16px icon. Use lucide-react, never emoji.' },
         { name: 'loading', type: 'boolean', defaultValue: 'false', desc: 'Shows a spinner and disables the button.' },
         { name: 'disabled', type: 'boolean', defaultValue: 'false', desc: 'Native disabled state (also set while loading).' },
-        { name: 'children', type: 'ReactNode', defaultValue: '—', desc: 'Button label.' },
-        { name: 'onClick', type: '(e) => void', defaultValue: '—', desc: 'Native button attributes pass through.' },
+        { name: 'children', type: 'ReactNode', defaultValue: '-', desc: 'Button label.' },
+        { name: 'onClick', type: '(e) => void', defaultValue: '-', desc: 'Native button attributes pass through.' },
       ]}
-      propsNote="ButtonProps extends native button attributes — type, onClick, aria-*, and form props all pass through."
+      propsNote="ButtonProps extends native button attributes. Type, onClick, aria, and form props all pass through."
       rules={[
-        'Every button carries a lucide icon — no emoji, no icon-less buttons.',
+        'Every button carries a lucide icon. No emoji, no icon-less buttons.',
         'Maroon + trash-2 are destructive-only; never use them for neutral actions.',
         'One primary per view; secondary actions use secondary, solid, or ghost.',
         'Rounded 12px (sm uses 8px); never rounded-none.',

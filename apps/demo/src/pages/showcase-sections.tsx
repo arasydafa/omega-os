@@ -179,22 +179,22 @@ export interface DemoTool {
 }
 
 export const DEMO_TOOLS: DemoTool[] = [
-  { id: 'vstack', name: 'VStack', status: 'Active' },
-  { id: 'cicd-lab', name: 'CI-CD Lab', status: 'Active' },
-  { id: 'portfolio', name: 'Portfolio', status: 'Draft' },
-  { id: 'omega-docs', name: 'Omega Docs', status: 'Draft' },
-  { id: 'scanner', name: 'Scanner', status: 'Archived' },
-  { id: 'playground', name: 'Playground', status: 'Draft' },
-  { id: 'monitor', name: 'Monitor', status: 'Active' },
-  { id: 'deployer', name: 'Deployer', status: 'Draft' },
-  { id: 'vault', name: 'Vault', status: 'Archived' },
-  { id: 'linter', name: 'Linter', status: 'Active' },
-  { id: 'backup', name: 'Backup', status: 'Draft' },
-  { id: 'proxy', name: 'Proxy', status: 'Archived' },
-  { id: 'gateway', name: 'Gateway', status: 'Disabled' },
-  { id: 'notifier', name: 'Notifier', status: 'Info' },
-  { id: 'updater', name: 'Updater', status: 'Warning' },
-  { id: 'crasher', name: 'Crasher', status: 'Error' },
+  { id: 'website-redesign', name: 'Website Redesign', status: 'Active' },
+  { id: 'mobile-app', name: 'Mobile App', status: 'Active' },
+  { id: 'design-system', name: 'Design System', status: 'Draft' },
+  { id: 'marketing-site', name: 'Marketing Site', status: 'Draft' },
+  { id: 'old-blog', name: 'Old Blog', status: 'Archived' },
+  { id: 'style-guide', name: 'Style Guide', status: 'Draft' },
+  { id: 'analytics', name: 'Analytics', status: 'Active' },
+  { id: 'help-center', name: 'Help Center', status: 'Draft' },
+  { id: 'landing-v1', name: 'Landing v1', status: 'Archived' },
+  { id: 'reports', name: 'Reports', status: 'Active' },
+  { id: 'changelog', name: 'Changelog', status: 'Draft' },
+  { id: 'prototype', name: 'Prototype', status: 'Archived' },
+  { id: 'legacy-api', name: 'Legacy API', status: 'Disabled' },
+  { id: 'status-page', name: 'Status Page', status: 'Info' },
+  { id: 'billing', name: 'Billing', status: 'Warning' },
+  { id: 'uptime-monitor', name: 'Uptime Monitor', status: 'Error' },
 ];
 
 const PAGE_SIZE = 5;
@@ -313,8 +313,8 @@ export function ComplementsDemo() {
       <div className="grid gap-4">
         <Card padding="lg">
           <div className="flex items-center gap-3">
-            <Avatar name="Omega Throne" />
-            <Avatar name="Vstack" size="sm" />
+            <Avatar name="Alex Morgan" />
+            <Avatar name="Sam Rivera" size="sm" />
             <Spinner />
             <span className="text-sm text-ot-muted">Card wraps any content.</span>
           </div>
@@ -336,7 +336,7 @@ export function IconsDemo() {
     <section className="rounded-ot-lg border border-ot-border bg-ot-surface p-5">
       <h2 className="mb-1 text-lg font-bold">Icons</h2>
       <p className="mb-4 text-sm text-ot-muted">
-        {OMEGA_ICONS.length} approved lucide icons — same list as preview and docs. No emoji.
+        {OMEGA_ICONS.length} approved lucide icons. Same list as preview and docs. No emoji.
       </p>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-2">
         {OMEGA_ICONS.map((name) => {
@@ -380,14 +380,14 @@ export function PrimitivesDemo() {
             label="Assignee"
             placeholder="Search members…"
             options={[
-              { value: 'omega', label: 'Omega Throne' },
-              { value: 'vstack', label: 'VStack Maintainer' },
+              { value: 'alex', label: 'Alex Morgan' },
+              { value: 'sam', label: 'Sam Rivera' },
             ]}
           />
           <Accordion
             items={[
-              { id: 'a', title: 'What is OmegaOS?', content: 'A design system for every Omega Throne web.' },
-              { id: 'b', title: 'Dark mode?', content: 'Toggle the header button — the wipe starts from your click.' },
+              { id: 'a', title: 'What is OmegaOS?', content: 'A design system for Omega web projects.' },
+              { id: 'b', title: 'Dark mode?', content: 'Toggle the header button. The wipe starts from your click.' },
             ]}
           />
           <div>
@@ -408,7 +408,7 @@ export function PrimitivesDemo() {
           </Button>
         }
       >
-        Side panel with focus trap, ESC, and overlay click — same contract as Modal.
+        Side panel with focus trap, ESC, and overlay click. Same contract as Modal.
       </Drawer>
     </>
   );
@@ -428,7 +428,7 @@ export function CommandDemo({ onOpenPalette }: { onOpenPalette: () => void }) {
           Open palette
         </Button>
         <AvatarGroup
-          avatars={[{ name: 'Omega Throne' }, { name: 'Vstack' }, { name: 'Docs' }, { name: 'Lab' }, { name: 'Extra' }]}
+          avatars={[{ name: 'Alex Morgan' }, { name: 'Sam Rivera' }, { name: 'Jo Lee' }, { name: 'Maria Santos' }, { name: 'Tom Baker' }]}
           max={3}
         />
       </div>
@@ -443,25 +443,25 @@ export function CommandDemo({ onOpenPalette }: { onOpenPalette: () => void }) {
           ]}
         />
         <Markdown
-          source={`## Release notes
+          source={`## Project notes
 
-Ship with **confidence**: run \`npm test\` and read the [changelog](https://example.com).
+Update the **checklist** and read the [guide](https://example.com).
 
 | Version | Status |
 |---|---|
-| 0.15.0 | Shipped |
-| 0.16.0 | Next |
+| 1.0.0 | Shipped |
+| 1.1.0 | Next |
 `}
         />
         <div className="flex flex-wrap gap-2.5">
-          <Button variant="secondary" size="sm" onClick={act('VStack')}>
-            VStack
+          <Button variant="secondary" size="sm" onClick={act('Overview')}>
+            Overview
           </Button>
-          <Button variant="secondary" size="sm" onClick={act('CI-CD Lab')}>
-            CI-CD Lab
+          <Button variant="secondary" size="sm" onClick={act('Reports')}>
+            Reports
           </Button>
-          <Button variant="secondary" size="sm" onClick={act('Docs')}>
-            Docs
+          <Button variant="secondary" size="sm" onClick={act('Settings')}>
+            Settings
           </Button>
         </div>
       </div>
@@ -536,7 +536,7 @@ export function ViewersDemo() {
       <p className="mb-4 text-sm text-ot-muted">Photo avatars with fallback, images, and code files.</p>
       <div className="grid gap-4">
         <div className="flex items-center gap-3">
-          <Avatar name="Omega Throne" src={DEMO_PHOTO} />
+          <Avatar name="Alex Morgan" src={DEMO_PHOTO} />
           <Avatar name="Broken Link" src="https://example.com/missing.png" />
           <span className="text-sm text-ot-muted">Photo, then broken-photo fallback.</span>
         </div>
@@ -666,30 +666,30 @@ export function ChartsDemo() {
           />
           <Scatter
             points={[
-              { x: 1, y: 2, label: 'Gadget A' },
-              { x: 2, y: 5, label: 'Gadget B' },
-              { x: 3, y: 3, label: 'Gadget C' },
-              { x: 4, y: 8, label: 'Gadget D' },
-              { x: 5, y: 6, label: 'Gadget E' },
+              { x: 1, y: 2, label: 'Item A' },
+              { x: 2, y: 5, label: 'Item B' },
+              { x: 3, y: 3, label: 'Item C' },
+              { x: 4, y: 8, label: 'Item D' },
+              { x: 5, y: 6, label: 'Item E' },
             ]}
           />
           <Scatter
             series={[
               {
-                id: 'rop',
-                label: 'ROP',
+                id: 'alpha',
+                label: 'Alpha',
                 points: [
-                  { x: 1, y: 2, label: 'Gadget A' },
-                  { x: 2, y: 5, label: 'Gadget B' },
+                  { x: 1, y: 2, label: 'Alpha 1' },
+                  { x: 2, y: 5, label: 'Alpha 2' },
                 ],
               },
               {
-                id: 'heap',
-                label: 'Heap',
+                id: 'beta',
+                label: 'Beta',
                 color: 'var(--ot-maroon)',
                 points: [
-                  { x: 3, y: 3, label: 'Chunk A' },
-                  { x: 4, y: 8, label: 'Chunk B' },
+                  { x: 3, y: 3, label: 'Beta 1' },
+                  { x: 4, y: 8, label: 'Beta 2' },
                 ],
               },
             ]}
@@ -700,7 +700,7 @@ export function ChartsDemo() {
       <section id="graph-demo-inner" className="mt-4 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Graph</h2>
         <p className="mb-4 text-sm text-ot-muted">
-          Drag to pan, scroll to zoom, click a node{selectedNode ? ` — selected: ${selectedNode}` : ''}.
+          Drag to pan, scroll to zoom, click a node{selectedNode ? ` (selected: ${selectedNode})` : ''}.
         </p>
         <GraphViewer
           selectedId={selectedNode}
@@ -767,7 +767,7 @@ export function NavigationDemo() {
         <div className="max-w-sm">
           <SearchBar shortcut="Ctrl K" onClear={() => toast.show('info', 'Search cleared.')} />
         </div>
-        <Breadcrumbs items={[{ label: 'Home', icon: <Home size={14} /> }, { label: 'Tools' }, { label: 'VStack' }]} />
+        <Breadcrumbs items={[{ label: 'Home', icon: <Home size={14} /> }, { label: 'Projects' }, { label: 'Website' }]} />
         <div className="flex flex-wrap items-start gap-4">
           <div className="grid gap-2">
             <Button size="sm" variant="secondary" icon={<PanelLeft size={16} />} onClick={() => setCollapsed((v) => !v)}>
@@ -782,8 +782,8 @@ export function NavigationDemo() {
                   label: 'Tools',
                   icon: <Wrench size={16} />,
                   children: [
-                    { id: 'vstack', label: 'VStack' },
-                    { id: 'lab', label: 'CI-CD lab' },
+                    { id: 'website', label: 'Website' },
+                    { id: 'mobile-app', label: 'Mobile app' },
                   ],
                 },
                 { id: 'projects', label: 'Projects', icon: <Folder size={16} /> },
@@ -836,17 +836,17 @@ export function FoundationsDemo() {
         <div className="divide-y divide-dashed divide-ot-border">
           {typeRow(
             <span className="text-3xl font-extrabold tracking-tight">Heading 30 / ExtraBold</span>,
-            'VStack visualizes your ROP chain before you run it.',
+            'Track orders, invoices, and shipments from one dashboard.',
             'page titles, hero numbers',
           )}
           {typeRow(
             <span className="text-2xl font-bold">Heading 24 / Bold</span>,
-            'CI-CD Lab walks through pipelines step by step.',
+            'Weekly reports walk through sales step by step.',
             'section titles, card titles',
           )}
           {typeRow(
             <span className="text-lg font-semibold">Heading 18 / Semibold</span>,
-            'Every tool ships with a guided workspace.',
+            'Every workspace ships with a short guide.',
             'subsections, modal titles',
           )}
           {typeRow(
@@ -860,7 +860,7 @@ export function FoundationsDemo() {
             'descriptions, helper text, table headers',
           )}
           {typeRow(
-            <span className="font-mono text-sm">mono 14 — const theme = &quot;light&quot; | &quot;dark&quot;;</span>,
+            <span className="font-mono text-sm">mono 14: const theme = &quot;light&quot; | &quot;dark&quot;;</span>,
             'Code, addresses, and log output always use the mono face.',
             'code blocks, addresses, logs, badges with IDs',
           )}
@@ -909,7 +909,7 @@ export function FoundationsDemo() {
 
       <section id="radius" className="mt-4 scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Radius</h2>
-        <p className="mb-4 text-sm text-ot-muted">No sharp corners — each size has one job.</p>
+        <p className="mb-4 text-sm text-ot-muted">No sharp corners. Each size has one job.</p>
         <div className="flex flex-wrap gap-3">
           <span className="grid h-[72px] w-[120px] place-items-center bg-navy text-xs font-bold text-white" style={{ borderRadius: 8 }}>
             8 · inputs, badges

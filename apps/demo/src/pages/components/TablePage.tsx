@@ -51,11 +51,11 @@ export function TablePage() {
         },
       ]}
       propsRows={[
-        { name: 'columns', type: 'TableColumn<T>[]', defaultValue: '—', desc: 'Column defs: key, header, render, align, sortable, sortValue, filterValue, skeleton.' },
-        { name: 'rows', type: 'T[]', defaultValue: '—', desc: 'Row data for the current page/slice.' },
-        { name: 'keyOf', type: '(row, index) => string | number', defaultValue: '—', desc: 'Stable key per row.' },
-        { name: 'selectedKey', type: 'string | number | null', defaultValue: '—', desc: 'Highlights one row; pair with onRowClick.' },
-        { name: 'onRowClick', type: '(row) => void', defaultValue: '—', desc: 'Row selection handler.' },
+        { name: 'columns', type: 'TableColumn<T>[]', defaultValue: '-', desc: 'Column defs: key, header, render, align, sortable, sortValue, filterValue, skeleton.' },
+        { name: 'rows', type: 'T[]', defaultValue: '-', desc: 'Row data for the current page/slice.' },
+        { name: 'keyOf', type: '(row, index) => string | number', defaultValue: '-', desc: 'Stable key per row.' },
+        { name: 'selectedKey', type: 'string | number | null', defaultValue: '-', desc: 'Highlights one row; pair with onRowClick.' },
+        { name: 'onRowClick', type: '(row) => void', defaultValue: '-', desc: 'Row selection handler.' },
         { name: 'loading', type: 'boolean', defaultValue: 'false', desc: 'Swaps rows for skeletons.' },
         { name: 'loadingRows', type: 'number', defaultValue: '3', desc: 'Number of skeleton rows.' },
         { name: 'filterable', type: 'boolean', defaultValue: 'false', desc: 'Renders the filter box.' },

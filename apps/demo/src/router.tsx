@@ -22,7 +22,7 @@ function NotFound() {
   return (
     <div className="mx-auto grid w-full max-w-2xl place-items-center gap-3 rounded-ot-lg border border-ot-border bg-ot-surface p-10 text-center">
       <p className="text-4xl font-extrabold tracking-tight">404</p>
-      <p className="text-sm text-ot-muted">This docs page does not exist yet — pilot covers Button, Table, and Modal.</p>
+      <p className="text-sm text-ot-muted">This docs page does not exist yet. Pilot covers Button, Table, and Modal.</p>
       <div className="flex flex-wrap justify-center gap-2.5">
         <Link to="/">
           <Button variant="secondary" icon={<Home size={16} />}>

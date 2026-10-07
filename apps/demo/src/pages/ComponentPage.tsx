@@ -86,7 +86,7 @@ export function ComponentPage(props: ComponentPageProps) {
 
       <section id="doc-preview" className="mt-4 scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Preview</h2>
-        <p className="mb-4 text-sm text-ot-muted">Live interactive demo. {previewNote ?? 'Try it — same component shipped by the library.'}</p>
+        <p className="mb-4 text-sm text-ot-muted">Live interactive demo. {previewNote ?? 'Try it. This is the same component shipped by the library.'}</p>
         {preview}
       </section>
 
@@ -98,7 +98,7 @@ export function ComponentPage(props: ComponentPageProps) {
 
       <section id="doc-variants" className="mt-4 scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Variants</h2>
-        <p className="mb-4 text-sm text-ot-muted">Each variant with its snippet — copy and adapt.</p>
+        <p className="mb-4 text-sm text-ot-muted">Each variant with its snippet. Copy and adapt it.</p>
         <div className="grid gap-4">
           {variants.map((v) => (
             <div key={v.id} id={`variant-${v.id}`} className="grid gap-2.5 rounded-ot-md border border-ot-border bg-ot-bg p-4">
