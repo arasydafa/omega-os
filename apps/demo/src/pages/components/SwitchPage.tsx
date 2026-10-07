@@ -48,6 +48,11 @@ const [notify, setNotify] = useState(false);
         'Label the setting, not the action. Say Dark mode, not Turn on dark mode.',
         'Navy means on. Never use maroon for a switch.',
       ]}
+      a11y={[
+        'Role switch with checked state.',
+        'Applies instantly. Announce the result.',
+        'Label names the setting, not the action.',
+      ]}
       prev={{ to: '/components/radio', label: 'Radio' }}
       next={{ to: '/components/carousel', label: 'Carousel' }}
     />

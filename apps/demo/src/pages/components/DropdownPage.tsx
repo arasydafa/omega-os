@@ -75,6 +75,17 @@ export function DropdownPage() {
         'Danger rows use maroon text and sit last.',
         'Three nesting levels max. Deeper trees hurt usability.',
       ]}
+      doDont={{
+        doTitle: 'Reversible menus.',
+        doBody: 'Rename, duplicate, and view actions live in Dropdown.',
+        dontTitle: 'Blocking confirms.',
+        dontBody: 'Irreversible deletes belong in a Modal confirm.',
+      }}
+      a11y={[
+        'Menu items respond to Enter and Space.',
+        'Hover opens flyouts. Touch uses tap.',
+        'Danger rows read as text plus maroon, not color alone.',
+      ]}
       prev={{ to: '/components/drawer', label: 'Drawer' }}
       next={{ to: '/components/empty-state', label: 'EmptyState' }}
     />

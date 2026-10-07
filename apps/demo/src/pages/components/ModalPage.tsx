@@ -107,6 +107,17 @@ const [open, setOpen] = useState(false);
         'Modal blocks with an overlay (radius 16); popups near a trigger are Dropdown (radius 12).',
         'Focus trap + ESC + overlay click follow the same contract as Drawer.',
       ]}
+      doDont={{
+        doTitle: 'Destructive confirms.',
+        doBody: 'Use Modal for irreversible actions with Cancel beside Delete.',
+        dontTitle: 'Menus inside modals.',
+        dontBody: 'Small reversible menus near a trigger belong in Dropdown.',
+      }}
+      a11y={[
+        'Focus moves inside on open and returns on close.',
+        'Tab cycles within the dialog. ESC and overlay click close.',
+        'Title is announced through aria-labelledby.',
+      ]}
       prev={{ to: '/components/markdown', label: 'Markdown' }}
       next={{ to: '/components/navbar', label: 'Navbar' }}
     />

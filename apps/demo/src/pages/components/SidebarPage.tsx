@@ -80,6 +80,11 @@ export function SidebarPage() {
         'Icons are 16px and constant across expanded and rail modes.',
         'Submenu children stay 13px and muted until active.',
       ]}
+      a11y={[
+        'Nav landmark with expanded state on parents.',
+        'Collapsed rail keeps titles on hover.',
+        'One active row max.',
+      ]}
       prev={{ to: '/components/search-bar', label: 'SearchBar' }}
       next={{ to: '/components/breadcrumbs', label: 'Breadcrumbs' }}
     />

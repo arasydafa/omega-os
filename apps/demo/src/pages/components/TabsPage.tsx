@@ -71,6 +71,17 @@ const [tab, setTab] = useState('overview');
         'Arrow keys move between enabled tabs.',
         'Labels stay short. Content below swaps, the tab row never moves.',
       ]}
+      doDont={{
+        doTitle: 'Same-page views.',
+        doBody: 'Overview, reports, and settings of one page switch through Tabs.',
+        dontTitle: 'Page jumps.',
+        dontBody: 'Cross-page moves belong in Navbar or Sidebar.',
+      }}
+      a11y={[
+        'Arrow keys move between enabled tabs.',
+        'Active tab exposes selected state.',
+        'Disabled tabs dim but keep layout steady.',
+      ]}
       prev={{ to: '/components/table', label: 'Table' }}
       next={{ to: '/components/timeline', label: 'Timeline' }}
     />

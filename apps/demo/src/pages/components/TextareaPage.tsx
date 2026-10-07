@@ -49,6 +49,17 @@ export function TextareaPage() {
         'Placeholders show an example, never the instruction.',
         'Resize stays vertical so layouts never break sideways.',
       ]}
+      doDont={{
+        doTitle: 'Multi-line input here.',
+        doBody: 'Bios, notes, and descriptions belong in Textarea.',
+        dontTitle: 'Single-line text here.',
+        dontBody: 'Names, slugs, and search queries belong in Input.',
+      }}
+      a11y={[
+        'Label links to the control through htmlFor.',
+        'Errors use role alert with maroon border plus text.',
+        'Resize stays vertical so layouts never break sideways.',
+      ]}
       prev={{ to: '/components/select', label: 'Select' }}
       next={{ to: '/components/kbd', label: 'Kbd' }}
     />

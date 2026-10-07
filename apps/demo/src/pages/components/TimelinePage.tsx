@@ -59,6 +59,11 @@ export function TimelinePage() {
         'Timestamps stay mono and muted.',
         'Empty feeds render nothing. Pair with EmptyState when the void needs words.',
       ]}
+      a11y={[
+        'List of events in reading order.',
+        'Timestamps stay muted mono.',
+        'Tones pair with text titles, not color alone.',
+      ]}
       prev={{ to: '/components/tabs', label: 'Tabs' }}
       next={{ to: '/components/timing-bar', label: 'TimingBar' }}
     />

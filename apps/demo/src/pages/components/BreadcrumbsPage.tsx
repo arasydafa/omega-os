@@ -69,6 +69,11 @@ import { Home } from 'lucide-react';
         'The last crumb is plain text with aria-current. It never links.',
         'Root crumb carries the home icon. The rest carry text only.',
       ]}
+      a11y={[
+        'Nav landmark labeled Breadcrumb.',
+        'Last crumb uses aria-current page and never links.',
+        'Root carries the home icon plus text.',
+      ]}
       prev={{ to: '/components/sidebar', label: 'Sidebar' }}
       next={{ to: '/components/skeleton', label: 'Skeleton' }}
     />

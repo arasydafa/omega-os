@@ -72,6 +72,11 @@ export function DatePickerPage() {
         'Bounds disable days instead of hiding them.',
         'Drill-down goes day to month to year and back.',
       ]}
+      a11y={[
+        'Calendar grid with full keyboard model.',
+        'Bounds disable days instead of hiding them.',
+        'Value travels as ISO text for readers.',
+      ]}
       prev={{ to: '/components/copy-button', label: 'CopyButton' }}
       next={{ to: '/components/drawer', label: 'Drawer' }}
     />

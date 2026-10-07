@@ -69,6 +69,11 @@ export function NavbarPage() {
         'Brand slot holds a 32px navy logo and the product name.',
         'Actions stay right. Search before New.',
       ]}
+      a11y={[
+        'Primary nav landmark with one active link.',
+        'Active link uses aria-current.',
+        'Dropdown links open menus with keyboard support.',
+      ]}
       prev={{ to: '/components/modal', label: 'Modal' }}
       next={{ to: '/components/pagination', label: 'Pagination' }}
     />

@@ -71,6 +71,11 @@ export function LogViewerPage() {
         'Success lines are green. Errors are maroon with plain wording.',
         'Filter matches text and level names.',
       ]}
+      a11y={[
+        'Filter matches text and level names.',
+        'Follow mode tracks newest lines.',
+        'Levels use color plus text names.',
+      ]}
       prev={{ to: '/components/kbd', label: 'Kbd' }}
       next={{ to: '/components/markdown', label: 'Markdown' }}
     />

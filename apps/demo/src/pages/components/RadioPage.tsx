@@ -61,6 +61,11 @@ export function RadioPage() {
         'Options in one question share one name.',
         'Never use a lone radio. Two options minimum.',
       ]}
+      a11y={[
+        'Native radios grouped by name. One wins.',
+        'Arrow keys move within the group natively.',
+        'Never a lone radio. Two options minimum.',
+      ]}
       prev={{ to: '/components/checkbox', label: 'Checkbox' }}
       next={{ to: '/components/switch', label: 'Switch' }}
     />

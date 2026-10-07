@@ -66,6 +66,12 @@ import { Check } from 'lucide-react';
         'Tone matches Alert for the same meaning.',
         'Icons are 12px and optional. Text never wraps.',
       ]}
+      doDont={{
+        doTitle: 'Short labels.',
+        doBody: 'Counts and states in one or two words.',
+        dontTitle: 'Sentences in pills.',
+        dontBody: 'Long text wraps and breaks the pill rhythm.',
+      }}
       prev={{ to: '/components/avatar-group', label: 'AvatarGroup' }}
       next={{ to: '/components/button', label: 'Button' }}
     />

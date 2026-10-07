@@ -77,6 +77,11 @@ export function TreeViewPage() {
         'Selected nodes tint navy-bg. Expanded chevrons rotate.',
         'Arrow keys walk the tree. Right opens, Left closes.',
       ]}
+      a11y={[
+        'Tree roles with expanded and selected states.',
+        'Arrow keys walk and toggle nodes.',
+        'Labels name files plainly.',
+      ]}
       prev={{ to: '/components/tooltip', label: 'Tooltip' }}
       next={{ to: '/showcase', label: 'Showcase' }}
     />
