@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>OmegaOS UI — Preview</title>
+<title>OmegaOS UI Preview</title>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -216,9 +216,9 @@ footer.site a{color:inherit}
     <div class="type-row" style="font-size:30px;font-weight:800;letter-spacing:-.02em">Heading 30 / ExtraBold</div>
     <div class="type-row" style="font-size:24px;font-weight:700">Heading 24 / Bold</div>
     <div class="type-row" style="font-size:18px;font-weight:600">Heading 18 / Semibold</div>
-    <div class="type-row" style="font-size:16px">Body 16 / Regular — for tools, portfolio, and docs.</div>
-    <div class="type-row" style="font-size:14px;color:var(--ot-muted)">Muted 14 — descriptions and helper text.</div>
-    <div class="type-row mono" style="font-size:14px">mono 14 — const theme = "light" | "dark";</div>
+    <div class="type-row" style="font-size:16px">Body 16 / Regular. For projects, reports, and docs.</div>
+    <div class="type-row" style="font-size:14px;color:var(--ot-muted)">Muted 14. Descriptions and helper text.</div>
+    <div class="type-row mono" style="font-size:14px">mono 14: const theme = "light" | "dark";</div>
   </section>
 
   <div class="grid2" id="colors">
@@ -245,7 +245,7 @@ footer.site a{color:inherit}
   </div>
 
   <section class="card" id="surfaces">
-    <h2><i data-lucide="layers"></i>Surfaces — follow the theme</h2>
+    <h2><i data-lucide="layers"></i>Surfaces that follow the theme</h2>
     <p class="desc">Toggle Dark in the header. Light: white/grey. Dark: black/dark-grey.</p>
     <div class="swatches">
       <div class="swatch"><div class="c" style="background:var(--ot-bg);border-bottom:1px solid var(--ot-border)"></div><div class="t"><b>bg</b><span>page</span></div></div>
@@ -259,7 +259,7 @@ footer.site a{color:inherit}
 
   <section class="card" id="radius">
     <h2><i data-lucide="squircle"></i>Radius</h2>
-    <p class="desc">No sharp corners — each size has one job. Same scale as the React demo.</p>
+    <p class="desc">No sharp corners. Each size has one job. Same scale as the React demo.</p>
     <div class="radius-demo">
       <span class="rbox" style="border-radius:8px">8 · inputs</span>
       <span class="rbox" style="border-radius:12px">12 · buttons</span>
@@ -289,11 +289,11 @@ footer.site a{color:inherit}
     <div class="card" id="fields">
       <h2><i data-lucide="text-cursor-input"></i>Text field, dropdown, radio</h2>
       <p class="desc">Fields are 40px tall, 12px radius, navy focus ring.</p>
-      <label class="f-label">Tool name</label>
-      <input class="input" id="toolName" placeholder="e.g. vstack" />
+      <label class="f-label">Project name</label>
+      <input class="input" id="toolName" placeholder="e.g. riverside-cafe" />
       <label class="f-label" style="margin-top:14px">Category</label>
       <div style="position:relative">
-        <select class="input" id="category" style="appearance:none;padding-right:36px"><option>Security tools</option><option>Portfolio</option><option>Opensource</option><option>Docs</option></select>
+        <select class="input" id="category" style="appearance:none;padding-right:36px"><option>Website</option><option>Mobile app</option><option>Design system</option><option>Docs</option></select>
         <i data-lucide="chevron-down" style="position:absolute;right:12px;top:12px;width:16px;height:16px;color:var(--ot-muted);pointer-events:none"></i>
       </div>
       <label class="f-label" style="margin-top:14px">Description</label>
@@ -334,11 +334,11 @@ footer.site a{color:inherit}
           <div class="mi" data-demo="All tools clicked"><i data-lucide="layout-grid" style="width:14px;height:14px"></i>All tools</div>
           <div class="mi flyout" id="secFly"><i data-lucide="shield" style="width:14px;height:14px"></i>Security<i data-lucide="chevron-right" style="width:14px;height:14px;margin-left:auto"></i>
             <div class="nav-menu" id="secMenu" style="display:none">
-              <div class="mi" data-demo="VStack clicked"><i data-lucide="layers" style="width:14px;height:14px"></i>VStack</div>
-              <div class="mi" data-demo="CI-CD lab clicked"><i data-lucide="terminal" style="width:14px;height:14px"></i>CI-CD lab</div>
+              <div class="mi" data-demo="Website clicked"><i data-lucide="layers" style="width:14px;height:14px"></i>Website</div>
+              <div class="mi" data-demo="Mobile app clicked"><i data-lucide="terminal" style="width:14px;height:14px"></i>Mobile app</div>
             </div>
           </div>
-          <div class="mi" data-demo="Portfolio clicked"><i data-lucide="user" style="width:14px;height:14px"></i>Portfolio</div>
+          <div class="mi" data-demo="Design system clicked"><i data-lucide="user" style="width:14px;height:14px"></i>Design system</div>
         </div>
       </div>
     </div>
@@ -353,9 +353,9 @@ footer.site a{color:inherit}
         <div class="nav-item" style="background:var(--ot-navy-bg);color:var(--ot-navy-text);font-weight:600"><i data-lucide="layout-dashboard" style="width:16px;height:16px;color:var(--ot-navy-text)"></i><span class="nav-label">Dashboard</span></div>
         <div class="nav-item" id="sideToolsBtn" style="color:var(--ot-muted)"><i data-lucide="wrench" style="width:16px;height:16px"></i><span class="nav-label">Tools</span><i data-lucide="chevron-down" class="nav-chevron" style="width:14px;height:14px;margin-left:auto"></i></div>
         <div class="submenu" id="sideToolsSub">
-          <div class="sub-item" data-demo="VStack clicked">VStack</div>
-          <div class="sub-item" data-demo="CI-CD lab clicked">CI-CD lab</div>
-          <div class="sub-item" data-demo="Portfolio clicked">Portfolio</div>
+          <div class="sub-item" data-demo="Website clicked">Website</div>
+          <div class="sub-item" data-demo="Mobile app clicked">Mobile app</div>
+          <div class="sub-item" data-demo="Design system clicked">Design system</div>
         </div>
         <div class="nav-item" style="color:var(--ot-muted)"><i data-lucide="folder" style="width:16px;height:16px"></i><span class="nav-label">Projects</span></div>
         <div class="nav-item" style="color:var(--ot-muted)"><i data-lucide="book-open" style="width:16px;height:16px"></i><span class="nav-label">Docs</span></div>
@@ -416,7 +416,7 @@ footer.site a{color:inherit}
   <aside class="toc" aria-label="On this page"><p>On this page</p><div id="tocLinks"></div></aside>
 </div>
 
-<footer class="site"><div class="inner"><b style="color:var(--ot-text)">OmegaOS UI</b><span>Static preview — MIT. Tokens + lucide only, no emoji.</span><span style="margin-left:auto;display:flex;gap:12px"><a href="#typography">Foundations</a><a href="https://github.com/arasydafa/omega-os" target="_blank" rel="noreferrer">GitHub</a></span></div></footer>
+<footer class="site"><div class="inner"><b style="color:var(--ot-text)">OmegaOS UI</b><span>Static preview · MIT. Tokens, lucide only, no emoji.</span><span style="margin-left:auto;display:flex;gap:12px"><a href="#typography">Foundations</a><a href="https://github.com/arasydafa/omega-os" target="_blank" rel="noreferrer">GitHub</a></span></div></footer>
 
 <div id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgb(0 0 0/.55);z-index:40;align-items:center;justify-content:center;padding:20px">
   <div style="background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:16px;max-width:420px;width:100%;overflow:hidden">
@@ -435,7 +435,7 @@ function refreshIcons() {
   } catch (_) {}
 }
 refreshIcons();
-// Theme toggle — circular reveal flowing from the clicked toggle button.
+// Theme toggle. Circular reveal flowing from the clicked toggle button.
 // Bound independently of the icon CDN so theming never breaks.
 // Canonical Circular Reveal (mirrors toggleThemeReveal in src/theme.ts).
 // Falls back to an instant toggle with identical end state.
@@ -597,9 +597,9 @@ document.getElementById('saveDemo').onclick = () => {
 };
 // Table + pagination (demo data, 3 pages)
 const PAGES = {
-  1: [{ n: 'vstack', s: 'Active' }, { n: 'ci-cd-lab', s: 'Draft' }],
-  2: [{ n: 'portfolio', s: 'Active' }, { n: 'omega-docs', s: 'Draft' }],
-  3: [{ n: 'scanner', s: 'Archived' }, { n: 'playground', s: 'Draft' }],
+  1: [{ n: 'website-redesign', s: 'Active' }, { n: 'mobile-app', s: 'Draft' }],
+  2: [{ n: 'design-system', s: 'Active' }, { n: 'marketing-site', s: 'Draft' }],
+  3: [{ n: 'old-blog', s: 'Archived' }, { n: 'style-guide', s: 'Draft' }],
 };
 let page = 1;
 function badgeFor(s) {
@@ -626,7 +626,7 @@ function render() {
     const active = Number(b.getAttribute('data-page')) === page;
     b.classList.toggle('active', active);
   });
-  document.getElementById('pageInfo').textContent = 'Page ' + page + ' of 3 — 2 rows per page (demo).';
+  document.getElementById('pageInfo').textContent = 'Page ' + page + ' of 3. 2 rows per page (demo).';
   document.getElementById('prevPage').disabled = page === 1;
   document.getElementById('nextPage').disabled = page === 3;
   refreshIcons();
