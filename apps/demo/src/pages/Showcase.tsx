@@ -13,6 +13,7 @@ import {
   PrimitivesDemo,
   ViewersDemo,
 } from './showcase-sections.js';
+import { Link } from 'react-router-dom';
 import { DndDemo } from '../DndDemo.js';
 import { DOC_GROUPS, scrollToId } from '../docs.js';
 import { IconsDemo } from './IconsDemo.js';
@@ -53,7 +54,7 @@ export function Showcase() {
       <section id="buttons" className="scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Buttons</h2>
         <p className="mb-4 text-sm text-ot-muted">
-          All rounded 12px, lucide icon required. Full page: <a href="#/components/button" className="text-info underline">Button</a>.
+          All rounded 12px, lucide icon required. Full page: <Link to="/components/button" className="text-info underline">Button</Link>.
         </p>
         <div className="flex flex-wrap gap-2.5">
           <Button icon={<Plus size={16} />}>Primary</Button>

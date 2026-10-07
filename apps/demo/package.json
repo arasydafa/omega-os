@@ -9,7 +9,7 @@
     "prebuild": "npm --prefix ../.. run build",
     "build": "tsc --noEmit && vite build",
     "prebuild:pages": "npm --prefix ../.. run build",
-    "build:pages": "tsc --noEmit && vite build --base=/omega-os/",
+    "build:pages": "tsc --noEmit && vite build --base=/omega-os/ && node ../../scripts/copy-404.cjs",
     "preview": "vite preview"
   },
   "dependencies": {
