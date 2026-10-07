@@ -60,7 +60,12 @@ export function TablePage() {
         { name: 'loadingRows', type: 'number', defaultValue: '3', desc: 'Number of skeleton rows.' },
         { name: 'filterable', type: 'boolean', defaultValue: 'false', desc: 'Renders the filter box.' },
         { name: 'sortKey / sortDir / onSort', type: 'string | null, SortDir | null, fn', defaultValue: 'uncontrolled', desc: 'Controlled sorting. Omit for uncontrolled.' },
-        { name: 'emptyTitle', type: 'ReactNode', defaultValue: "'No data'", desc: 'Empty-state title, description, and action supported.' },
+        { name: 'filter', type: 'string', defaultValue: '-', desc: 'Controlled filter text. Omit for uncontrolled.' },
+        { name: 'onFilter', type: '(query) => void', defaultValue: '-', desc: 'Fires with filter text.' },
+        { name: 'filterPlaceholder', type: 'string', defaultValue: "'Filter rows…'", desc: 'Filter box hint.' },
+        { name: 'emptyTitle', type: 'ReactNode', defaultValue: "'No data'", desc: 'Empty-state title.' },
+        { name: 'emptyDescription', type: 'ReactNode', defaultValue: '-', desc: 'Empty-state helper line.' },
+        { name: 'emptyAction', type: 'ReactNode', defaultValue: '-', desc: 'Empty-state button.' },
         { name: 'className', type: 'string', defaultValue: "''", desc: 'Extra classes on the table wrapper.' },
       ]}
       rules={[

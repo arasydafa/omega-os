@@ -7,6 +7,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Demo docs pages gained Guidelines (Do versus Avoid) on key components
+  and Accessibility notes (keyboard plus screen-reader behavior) on
+  interactive components.
 - Demo docs: route-based code splitting. Every docs page loads on demand
   (initial bundle down from 1.4 MB to about 340 KB) with a loading state.
 - Demo docs search now matches page content. The `Ctrl+K` index covers
@@ -19,6 +22,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Every library component now has its own page.
 - Demo and static preview copy use neutral sample names with plain
   punctuation (no project names, no em dashes).
+- Docs props drift check (`npm run check:docs`, wired into CI) fails the
+  build when a library prop is missing from its docs API table.
 
 ### Changed
 
