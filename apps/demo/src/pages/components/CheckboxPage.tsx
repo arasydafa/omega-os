@@ -51,6 +51,11 @@ export function CheckboxPage() {
         'Use Checkbox for zero or more choices. Use Radio for exactly one.',
         'Descriptions explain consequences in one line.',
       ]}
+      a11y={[
+        'Native checkbox with label toggle.',
+        'Descriptions read after the label.',
+        'Disabled dims but stays readable.',
+      ]}
       prev={{ to: '/components/card', label: 'Card' }}
       next={{ to: '/components/radio', label: 'Radio' }}
     />

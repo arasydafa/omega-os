@@ -67,6 +67,11 @@ export function AvatarPage() {
         'Avatars are always round. Never square them.',
         'Groups of people use AvatarGroup, not a row of Avatars.',
       ]}
+      a11y={[
+        'Role img with the person name.',
+        'Initials derive from the real name.',
+        'Groups announce member counts.',
+      ]}
       prev={{ to: '/components/alert', label: 'Alert' }}
       next={{ to: '/components/avatar-group', label: 'AvatarGroup' }}
     />

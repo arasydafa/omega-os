@@ -117,6 +117,17 @@ import { Plus } from 'lucide-react';
         'One primary per view; secondary actions use secondary, solid, or ghost.',
         'Rounded 12px (sm uses 8px); never rounded-none.',
       ]}
+      doDont={{
+        doTitle: 'One primary per view.',
+        doBody: 'Give the main action the primary variant. Supporting actions use secondary or ghost.',
+        dontTitle: 'Maroon for neutral actions.',
+        dontBody: 'Reserve danger plus trash-2 for destructive confirms only.',
+      }}
+      a11y={[
+        'Native button element with focus ring and disabled state.',
+        'Loading sets disabled so double submits never happen.',
+        'Icon plus text label. Icon-only buttons need an aria-label.',
+      ]}
       prev={{ to: '/components/badge', label: 'Badge' }}
       next={{ to: '/components/card', label: 'Card' }}
     />

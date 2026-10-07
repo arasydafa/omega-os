@@ -72,6 +72,11 @@ const [open, setOpen] = useState(false);
         'Same contract as Modal. Focus trap, ESC, overlay click.',
         'One drawer at a time. Never stack drawers.',
       ]}
+      a11y={[
+        'Same contract as Modal. Focus trap, ESC, overlay click.',
+        'One drawer at a time. Never stack drawers.',
+        'Title announces the panel purpose.',
+      ]}
       prev={{ to: '/components/date-picker', label: 'DatePicker' }}
       next={{ to: '/components/dropdown', label: 'Dropdown' }}
     />

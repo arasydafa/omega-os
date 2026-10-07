@@ -74,6 +74,17 @@ export function AlertPage() {
         'Title is one bold word with a period. Body is one short sentence.',
         'Block-level errors use danger. Inline hints use muted text instead.',
       ]}
+      doDont={{
+        doTitle: 'Match tone to meaning.',
+        doBody: 'Info for updates, warning for caution, success for done, danger for errors.',
+        dontTitle: 'Swapped icons.',
+        dontBody: 'Never put triangle-alert on errors or octagon-x on warnings.',
+      }}
+      a11y={[
+        'Role alert announces the message on render.',
+        'Dismiss button carries a Dismiss label.',
+        'Icons never replace text. Meaning stays in words.',
+      ]}
       prev={{ to: '/components/accordion', label: 'Accordion' }}
       next={{ to: '/components/avatar', label: 'Avatar' }}
     />

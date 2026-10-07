@@ -62,6 +62,17 @@ export function SelectPage() {
         'Under seven fixed options takes Select. Searchable takes Combobox.',
         'Focus ring is navy. Error ring is maroon.',
       ]}
+      doDont={{
+        doTitle: 'Fixed short lists.',
+        doBody: 'Under seven fixed options takes Select.',
+        dontTitle: 'Searchable long lists.',
+        dontBody: 'Searchable or long lists belong in Combobox.',
+      }}
+      a11y={[
+        'Native select semantics with label and error states.',
+        'Error uses role alert so readers hear it at once.',
+        'Options read as nouns in parallel wording.',
+      ]}
       prev={{ to: '/components/input', label: 'Input' }}
       next={{ to: '/components/textarea', label: 'Textarea' }}
     />

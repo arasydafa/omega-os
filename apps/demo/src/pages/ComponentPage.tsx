@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CircleCheck, OctagonX } from 'lucide-react';
 import { Breadcrumbs, Button, CodeBlock, Table } from '@omega-os/ui';
 import { scrollToId } from '../docs.js';
 
@@ -19,6 +19,13 @@ export interface VariantDef {
   demo: ReactNode;
 }
 
+export interface DoDont {
+  doTitle: string;
+  doBody: string;
+  dontTitle: string;
+  dontBody: string;
+}
+
 export interface ComponentPageProps {
   title: string;
   desc: string;
@@ -29,6 +36,8 @@ export interface ComponentPageProps {
   variants: VariantDef[];
   propsRows: PropRow[];
   propsNote?: string;
+  doDont?: DoDont;
+  a11y?: string[];
   rules: string[];
   prev?: { to: string; label: string };
   next?: { to: string; label: string };
@@ -38,7 +47,9 @@ const PAGE_SECTIONS = [
   { id: 'preview', label: 'Preview' },
   { id: 'usage', label: 'Usage' },
   { id: 'variants', label: 'Variants' },
+  { id: 'guidelines', label: 'Guidelines', optional: true },
   { id: 'api', label: 'API' },
+  { id: 'access', label: 'Accessibility', optional: true },
   { id: 'rules', label: 'Rules' },
 ];
 
@@ -53,11 +64,14 @@ export function ComponentPage(props: ComponentPageProps) {
     variants,
     propsRows,
     propsNote,
+    doDont,
+    a11y,
     rules,
     prev,
     next,
   } = props;
   const navigate = useNavigate();
+  const pills = PAGE_SECTIONS.filter((s) => !s.optional || (s.id === 'guidelines' && doDont) || (s.id === 'access' && a11y?.length));
   return (
     <div className="mx-auto w-full max-w-4xl">
       <Breadcrumbs
@@ -72,7 +86,7 @@ export function ComponentPage(props: ComponentPageProps) {
       {badges ? <div className="mt-3 flex flex-wrap gap-2">{badges}</div> : null}
 
       <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-        {PAGE_SECTIONS.map((s) => (
+        {pills.map((s) => (
           <button
             key={s.id}
             type="button"
@@ -127,6 +141,39 @@ export function ComponentPage(props: ComponentPageProps) {
           keyOf={(r) => r.name}
         />
       </section>
+
+      {doDont ? (
+        <section id="doc-guidelines" className="mt-4 scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Guidelines</h2>
+          <p className="mb-4 text-sm text-ot-muted">One correct pattern and one to avoid.</p>
+          <div className="grid gap-2.5 md:grid-cols-2">
+            <div className="grid content-start gap-1.5 rounded-ot-md border border-success bg-success-bg p-4">
+              <p className="flex items-center gap-2 text-sm font-bold text-success">
+                <CircleCheck size={15} /> Do. {doDont.doTitle}
+              </p>
+              <p className="text-sm text-ot-text">{doDont.doBody}</p>
+            </div>
+            <div className="grid content-start gap-1.5 rounded-ot-md border border-danger bg-danger-bg p-4">
+              <p className="flex items-center gap-2 text-sm font-bold text-danger">
+                <OctagonX size={15} /> Avoid. {doDont.dontTitle}
+              </p>
+              <p className="text-sm text-ot-text">{doDont.dontBody}</p>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {a11y?.length ? (
+        <section id="doc-access" className="mt-4 scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
+          <h2 className="mb-1 text-lg font-bold">Accessibility</h2>
+          <p className="mb-4 text-sm text-ot-muted">Keyboard and screen-reader behavior.</p>
+          <ul className="grid list-disc gap-1.5 pl-5 text-sm text-ot-muted">
+            {a11y.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section id="doc-rules" className="mt-4 scroll-mt-36 rounded-ot-lg border border-ot-border bg-ot-surface p-5">
         <h2 className="mb-1 text-lg font-bold">Rules</h2>

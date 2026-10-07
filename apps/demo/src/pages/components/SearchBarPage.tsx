@@ -66,6 +66,11 @@ export function SearchBarPage() {
         'Shortcut hints match the real shortcut exactly.',
         'Filtering lists debounce input. The field itself stays instant.',
       ]}
+      a11y={[
+        'Escape clears the field.',
+        'Clear button labeled for readers.',
+        'Shortcut hint matches the real shortcut.',
+      ]}
       prev={{ to: '/components/progress', label: 'Progress' }}
       next={{ to: '/components/sidebar', label: 'Sidebar' }}
     />

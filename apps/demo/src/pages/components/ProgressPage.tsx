@@ -59,6 +59,11 @@ export function ProgressPage() {
         'Unknown waits use indeterminate, never a fake 99 percent.',
         'Stacked breakdowns use TimingBar instead.',
       ]}
+      a11y={[
+        'Progressbar role with min, max, and now values.',
+        'Labels name the task for readers.',
+        'Indeterminate drops the value so readers hear ongoing.',
+      ]}
       prev={{ to: '/components/pagination', label: 'Pagination' }}
       next={{ to: '/components/search-bar', label: 'SearchBar' }}
     />

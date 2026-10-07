@@ -70,6 +70,11 @@ export function GraphViewerPage() {
         'Groups color nodes consistently with the legend.',
         'Zoom controls stay visible. Never hide the reset.',
       ]}
+      a11y={[
+        'Nodes expose labels plus sub lines.',
+        'Selection pairs with highlight, not color alone.',
+        'Zoom controls stay reachable by keyboard.',
+      ]}
       prev={{ to: '/components/file-viewer', label: 'FileViewer' }}
       next={{ to: '/components/heatmap', label: 'Heatmap' }}
     />

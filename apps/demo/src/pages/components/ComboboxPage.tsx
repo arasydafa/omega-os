@@ -65,6 +65,17 @@ export function ComboboxPage() {
         'Filtering matches substrings case-insensitively.',
         'Native Select fits tiny fixed lists. Combobox fits searchable ones.',
       ]}
+      doDont={{
+        doTitle: 'Searchable lists.',
+        doBody: 'Member pickers and long option lists belong in Combobox.',
+        dontTitle: 'Tiny fixed lists.',
+        dontBody: 'Under seven fixed options takes a native Select.',
+      }}
+      a11y={[
+        'Type to filter. Arrows move, Enter picks, Escape closes.',
+        'Label links to the field.',
+        'Error swaps helper so one message reads.',
+      ]}
       prev={{ to: '/components/code-block', label: 'CodeBlock' }}
       next={{ to: '/components/command-palette', label: 'CommandPalette' }}
     />

@@ -63,6 +63,17 @@ export function InputPage() {
         'Helpers show format first. Errors replace helpers, never stack with them.',
         'Focus ring is navy. Error ring is maroon.',
       ]}
+      doDont={{
+        doTitle: 'Label every field.',
+        doBody: 'Visible labels stay above the control.',
+        dontTitle: 'Placeholder as label.',
+        dontBody: 'Placeholders vanish on type. Never use them as the only label.',
+      }}
+      a11y={[
+        'Label links to the control through htmlFor.',
+        'Errors use role alert with maroon border plus text, not color alone.',
+        'Helper hides when error shows so readers hear one message.',
+      ]}
       prev={{ to: '/components/image', label: 'Image' }}
       next={{ to: '/components/select', label: 'Select' }}
     />

@@ -53,6 +53,11 @@ export function CopyButtonPage() {
         'The check confirm lasts 1.5 seconds, then resets.',
         'Pair with a toast only when the copy matters for the next step.',
       ]}
+      a11y={[
+        'Plain button with a clear name.',
+        'Confirm state pairs icon plus text.',
+        'Callback toasts confirm only when the copy matters.',
+      ]}
       prev={{ to: '/components/command-palette', label: 'CommandPalette' }}
       next={{ to: '/components/date-picker', label: 'DatePicker' }}
     />

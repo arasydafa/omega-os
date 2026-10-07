@@ -64,6 +64,11 @@ const [volume, setVolume] = useState(30);
         'Steps match the domain. Prices step by whole units, zoom by tens.',
         'Disabled sliders dim but keep their position visible.',
       ]}
+      a11y={[
+        'Native range input with label.',
+        'Live value readout in mono.',
+        'min, max, and step shape keyboard steps.',
+      ]}
       prev={{ to: '/components/skeleton', label: 'Skeleton' }}
       next={{ to: '/components/spinner', label: 'Spinner' }}
     />

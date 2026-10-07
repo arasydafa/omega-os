@@ -18,6 +18,7 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run check
       - run: npm run lint
+      - run: npm run check:docs
       - run: npm test
       - run: npm run build
       - run: npm run verify

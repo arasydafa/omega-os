@@ -63,6 +63,11 @@ const [step, setStep] = useState('b');
         'Done steps check. Current step highlights. Upcoming steps dim.',
         'Clickable steppers guard invalid jumps in onStep.',
       ]}
+      a11y={[
+        'Ordered list with current step state.',
+        'Clickable only when onStep exists.',
+        'Descriptions stay short for readers.',
+      ]}
       prev={{ to: '/components/spinner', label: 'Spinner' }}
       next={{ to: '/components/submenu-bar', label: 'SubmenuBar' }}
     />

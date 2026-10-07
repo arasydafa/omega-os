@@ -68,6 +68,11 @@ export function TooltipPage() {
         'One idea per hint. Two lines max.',
         'Touch users never see hovers. Keep triggers self-evident.',
       ]}
+      a11y={[
+        'Hints explain on hover after a short delay.',
+        'Touch users never see hovers. Keep triggers self-evident.',
+        'Critical info lives in copy, not tooltips.',
+      ]}
       prev={{ to: '/components/toast', label: 'Toast' }}
       next={{ to: '/components/tree-view', label: 'TreeView' }}
     />

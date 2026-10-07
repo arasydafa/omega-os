@@ -87,6 +87,17 @@ function SaveButton() {
         'Kinds match Alert exactly. Same icon, same color, same words.',
         'Four visible max. Bursts queue instead of flooding.',
       ]}
+      doDont={{
+        doTitle: 'Confirm results.',
+        doBody: 'Saved, sent, and deployed moments deserve a toast.',
+        dontTitle: 'Replace inline errors.',
+        dontBody: 'Field problems stay beside the field where users fix them.',
+      }}
+      a11y={[
+        'Toasts reuse Alert role so readers hear them.',
+        'Auto-dismiss runs four seconds. Sticky content takes longer duration.',
+        'Every toast carries a close button.',
+      ]}
       prev={{ to: '/components/timing-bar', label: 'TimingBar' }}
       next={{ to: '/components/tooltip', label: 'Tooltip' }}
     />

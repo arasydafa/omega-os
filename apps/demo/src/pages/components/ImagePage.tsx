@@ -77,6 +77,11 @@ export function ImagePage() {
         'Frames lock aspect so loading never shifts the layout.',
         'Failures show a label. Never a broken image icon.',
       ]}
+      a11y={[
+        'Alt text stays required and meaningful.',
+        'Aspect lock stops layout shift while loading.',
+        'Failures announce the fallback label.',
+      ]}
       prev={{ to: '/components/heatmap', label: 'Heatmap' }}
       next={{ to: '/components/input', label: 'Input' }}
     />

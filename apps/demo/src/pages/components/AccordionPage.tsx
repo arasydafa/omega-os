@@ -60,6 +60,11 @@ export function AccordionPage() {
         'Content uses muted 14px so titles stay dominant.',
         'FAQs use single mode. Settings groups may use multiple.',
       ]}
+      a11y={[
+        'Headers are buttons with expanded state.',
+        'Arrow keys move between headers.',
+        'Regions label through their headers.',
+      ]}
       prev={{ to: '/foundations/icons', label: 'Icons' }}
       next={{ to: '/components/alert', label: 'Alert' }}
     />

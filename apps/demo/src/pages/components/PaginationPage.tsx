@@ -53,6 +53,11 @@ const [page, setPage] = useState(1);
         'Tables pair with Pagination and a row-count note.',
         'Page state lives in the parent. The pager only reports.',
       ]}
+      a11y={[
+        'Nav landmark with labeled buttons.',
+        'Disabled ends expose disabled state.',
+        'Page state lives in the parent. Announce changes.',
+      ]}
       prev={{ to: '/components/navbar', label: 'Navbar' }}
       next={{ to: '/components/progress', label: 'Progress' }}
     />

@@ -63,6 +63,11 @@ export function SubmenuBarPage() {
         'Counts show open work. Zero counts hide the pill.',
         'The sliding indicator tracks the active link on resize.',
       ]}
+      a11y={[
+        'Active link uses aria-current page.',
+        'Indicator tracks on resize.',
+        'Counts read as plain numbers.',
+      ]}
       prev={{ to: '/components/stepper', label: 'Stepper' }}
       next={{ to: '/components/table', label: 'Table' }}
     />

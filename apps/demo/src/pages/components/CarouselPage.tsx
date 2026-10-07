@@ -59,6 +59,11 @@ export function CarouselPage() {
         'Autoplay is decoration-safe only. Reduced motion always wins.',
         'Dots show position. Arrows move one slide at a time.',
       ]}
+      a11y={[
+        'Region labeled with slide positions.',
+        'Autoplay pauses on hover and focus. Reduced motion disables it.',
+        'Dots and arrows both drive.',
+      ]}
       prev={{ to: '/components/switch', label: 'Switch' }}
       next={{ to: '/components/charts/bar', label: 'Bar' }}
     />

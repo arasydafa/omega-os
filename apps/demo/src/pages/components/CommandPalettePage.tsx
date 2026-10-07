@@ -77,6 +77,11 @@ const [open, setOpen] = useState(false);
         'Filtering is fuzzy with a contiguity bonus. Keywords widen matching.',
         'Running a command always closes the palette first.',
       ]}
+      a11y={[
+        'Dialog with combobox input and listbox results.',
+        'Arrows move, Enter runs, Escape closes.',
+        'Empty query shows everything. No match shows an empty state.',
+      ]}
       prev={{ to: '/components/combobox', label: 'Combobox' }}
       next={{ to: '/components/copy-button', label: 'CopyButton' }}
     />

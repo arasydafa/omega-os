@@ -61,6 +61,11 @@ export function FileUploadPage() {
         'Rejected files explain why in plain words.',
         'Picked files stay removable until upload starts.',
       ]}
+      a11y={[
+        'Native file input with label and hints.',
+        'Rejected files explain why in plain words.',
+        'Picked files stay removable by keyboard.',
+      ]}
       prev={{ to: '/components/empty-state', label: 'EmptyState' }}
       next={{ to: '/components/file-viewer', label: 'FileViewer' }}
     />
