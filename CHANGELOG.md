@@ -36,12 +36,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - Fonts ship latin subset only, cutting bundled font files.
-
-### Changed
-
 - Demo app is now a full docs shell: sticky header with `Ctrl+K` search,
-  collapsible section sidebar with scrollspy, `On this page` TOC, hero +
-  footer, and mobile drawer — same live examples, grouped by anchors.
+  collapsible section sidebar with scrollspy, `On this page` TOC, hero plus
+  footer, and mobile drawer. Same live examples, grouped by anchors.
 - Static `preview.html` uses the same docs layout (hero, section sidebar,
   TOC, scrollspy, icon filter, radius section) and fixes icon rendering via
   `lucide.createIcons()`.
