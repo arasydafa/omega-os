@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Demo docs pilot: `HashRouter` multi-page docs (`/` Home, `/components`
+  index, `/components/button`, `/components/table`, `/components/modal`,
+  `/showcase` full examples, 404) with route sidebar, `Ctrl+K` page search,
+  breadcrumbs, and per-page Preview/Usage/Variants/API/Rules + Prev/Next.
+
 ### Changed
 
 - Demo app is now a full docs shell: sticky header with `Ctrl+K` search,
