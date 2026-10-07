@@ -137,9 +137,9 @@ export function DocsNav({ onNavigate }: { onNavigate?: () => void }) {
     navigate(to);
   };
   return (
-    <nav aria-label="Docs pages" className="grid content-start gap-4 font-sans text-sm">
-      {NAV_GROUPS.map((group) => (
-        <div key={group.label}>
+    <nav aria-label="Docs pages" className="grid content-start gap-1 font-sans text-sm">
+      {NAV_GROUPS.map((group, i) => (
+        <div key={group.label} className={i === 0 ? '' : 'border-t border-ot-border pt-3'}>
           <p className="mb-1 px-3 text-[11px] font-bold uppercase tracking-wide text-ot-muted">{group.label}</p>
           <div className="grid gap-0.5">
             {group.items.map((item) => {
