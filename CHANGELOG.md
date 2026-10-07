@@ -5,6 +5,30 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Demo docs: route-based code splitting. Every docs page loads on demand
+  (initial bundle down from 1.4 MB to about 340 KB) with a loading state.
+- Demo docs search now matches page content. The `Ctrl+K` index covers
+  variants, props, and rules, so queries like maroon or sortable land
+  on the right page.
+- Demo docs: `HashRouter` multi-page docs (`/` Home, `/components`
+  index, `/foundations/*`, `/components/*` per component, `/showcase`
+  full examples, 404) with grouped left sidebar, `Ctrl+K` page search,
+  breadcrumbs, and per-page Preview/Usage/Variants/API/Rules + Prev/Next.
+  Every library component now has its own page.
+- Demo and static preview copy use neutral sample names with plain
+  punctuation (no project names, no em dashes).
+
+### Changed
+
+- Demo app is now a full docs shell: sticky header with `Ctrl+K` search,
+  collapsible section sidebar with scrollspy, `On this page` TOC, hero +
+  footer, and mobile drawer — same live examples, grouped by anchors.
+- Static `preview.html` uses the same docs layout (hero, section sidebar,
+  TOC, scrollspy, icon filter, radius section) and fixes icon rendering via
+  `lucide.createIcons()`.
+
 ## [1.1.0] — LogViewer success, Modal sizes, TimingBar
 
 ### Added
