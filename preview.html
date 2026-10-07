@@ -29,16 +29,53 @@
   --ot-danger:#FCA5A5; --ot-danger-bg:#471016;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;font-family:var(--ot-font-sans);background:var(--ot-bg);color:var(--ot-text);transition:background .25s,color .25s}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px 64px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 64px}
 header.top{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--ot-bg) 85%,transparent);border-bottom:1px solid var(--ot-border)}
-header.top .inner{max-width:1120px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:40px;height:40px;border-radius:12px;background:var(--ot-navy);color:#fff;display:grid;place-items:center}
+header.top .inner{max-width:1280px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--ot-navy);color:#fff;display:grid;place-items:center;flex-shrink:0}
 .logo svg{width:22px;height:22px}
-h1{font-size:20px;margin:0;font-weight:800;letter-spacing:-.02em}
-.sub{font-size:12px;color:var(--ot-muted);margin:2px 0 0}
-.btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:background .15s;font-family:inherit}
+h1{font-size:18px;margin:0;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.sub{font-size:12px;color:var(--ot-muted);margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vbadge{display:inline-flex;align-items:center;border:1px solid var(--ot-border);background:var(--ot-surface);color:var(--ot-muted);border-radius:9999px;padding:3px 10px;font-size:11px;font-weight:700}
+.search-btn{display:none;align-items:center;gap:8px;border:1px solid var(--ot-border);background:var(--ot-bg);color:var(--ot-muted);border-radius:12px;padding:0 12px;height:40px;font-family:inherit;font-size:13px;cursor:pointer;min-width:0;flex:1;max-width:320px}
+.search-btn svg{width:15px;height:15px;flex-shrink:0}
+.search-btn kbd{margin-left:auto;border:1px solid var(--ot-border);background:var(--ot-surface);border-radius:6px;padding:1px 6px;font-family:var(--ot-font-mono);font-size:11px}
+@media(min-width:900px){.search-btn{display:inline-flex}}
+.gh-btn{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;border:1px solid var(--ot-border);background:var(--ot-surface);color:var(--ot-muted);text-decoration:none}
+.gh-btn svg{width:17px;height:17px}
+.gh-btn:hover{color:var(--ot-text)}
+.mobile-groups{display:flex;gap:8px;overflow-x:auto;padding:10px 20px;border-top:1px solid var(--ot-border);max-width:1280px;margin:0 auto}
+.mobile-groups a{flex-shrink:0;border:1px solid var(--ot-border);border-radius:9999px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--ot-muted);text-decoration:none}
+.mobile-groups a.active{background:var(--ot-navy);color:#fff;border-color:transparent}
+@media(min-width:1024px){.mobile-groups{display:none}}
+.hero{margin-top:24px;background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:20px;padding:28px}
+.hero-eyebrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;font-weight:700;color:var(--ot-muted)}
+.hero h2{margin:12px 0 8px;font-size:32px;line-height:1.1;letter-spacing:-.02em;font-weight:800;max-width:640px}
+.hero p{margin:0;max-width:640px;color:var(--ot-muted);font-size:15px}
+.hero-actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.hero-stats{margin-top:16px;display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ot-muted)}
+.hero-stats b{color:var(--ot-text)}
+.layout{max-width:1280px;margin:24px auto 0;padding:0 20px 64px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
+@media(min-width:1280px){.layout{grid-template-columns:240px minmax(0,1fr) 200px}}
+.sidenav{position:sticky;top:132px;max-height:calc(100vh - 150px);overflow-y:auto;border:1px solid var(--ot-border);border-radius:16px;background:var(--ot-surface);padding:14px;display:grid;gap:14px;align-content:start}
+@media(max-width:1023px){.sidenav{display:none}}
+.nav-group{display:grid;gap:4px}
+.nav-group > p{margin:0 0 2px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ot-muted)}
+.nav-link{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-size:13px;color:var(--ot-muted);text-decoration:none}
+.nav-link:hover{background:var(--ot-surface-2);color:var(--ot-text)}
+.nav-link.active{background:var(--ot-navy-bg);color:var(--ot-navy-text);font-weight:700}
+.toc{display:none;position:sticky;top:132px;max-height:calc(100vh - 150px);overflow-y:auto;border:1px solid var(--ot-border);border-radius:16px;background:var(--ot-surface);padding:14px}
+@media(min-width:1280px){.toc{display:block}}
+.toc p{margin:0 0 4px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ot-muted)}
+.toc a{display:block;padding:6px 8px;border-radius:8px;font-size:13px;color:var(--ot-muted);text-decoration:none}
+.toc a:hover{background:var(--ot-surface-2);color:var(--ot-text)}
+.toc a.active{background:var(--ot-navy-bg);color:var(--ot-navy-text);font-weight:700}
+.content{min-width:0;display:grid;gap:16px;align-content:start}
+.content section[id]{scroll-margin-top:150px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:background .15s;font-family:inherit;text-decoration:none}
 .btn svg{width:16px;height:16px}
 .btn-primary{background:var(--ot-navy);color:#fff;padding:0 16px;height:40px}
 .btn-primary:hover{background:var(--ot-navy-hover)}
@@ -49,14 +86,15 @@ h1{font-size:20px;margin:0;font-weight:800;letter-spacing:-.02em}
 .btn-sm{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
 .btn-lg{height:48px;padding:0 24px;font-size:16px}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-section{margin-top:32px}
-.card{background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:16px;padding:20px}
+section.card, .card{background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:16px;padding:20px}
 .card h2{margin:0 0 4px;font-size:18px;display:flex;align-items:center;gap:8px}
 .card h2 svg{width:18px;height:18px;color:var(--ot-navy)}
 .dark .card h2 svg{color:#9AB8DD}
 .desc{margin:0 0 16px;color:var(--ot-muted);font-size:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}}
 .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .swatch{border:1px solid var(--ot-border);border-radius:12px;overflow:hidden;background:var(--ot-bg)}
 .swatch .c{height:56px}
@@ -126,6 +164,9 @@ table.demo tbody tr:hover{background:var(--ot-surface)}
 .flyout > .nav-menu{left:100%;top:-6px}
 #toastStack{position:fixed;right:16px;bottom:16px;display:grid;gap:10px;z-index:50;max-width:360px}
 label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
+footer.site{border-top:1px solid var(--ot-border)}
+footer.site .inner{max-width:1280px;margin:0 auto;padding:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--ot-muted)}
+footer.site a{color:inherit}
 </style>
 </head>
 <body>
@@ -133,14 +174,43 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
   <div class="inner">
     <div class="brand">
       <div class="logo"><i data-lucide="crown"></i></div>
-      <div><h1>OmegaOS UI</h1><p class="sub">Static tokens preview (see the demo app for React components)</p></div>
+      <div style="min-width:0"><h1>OmegaOS UI</h1><p class="sub">Static tokens preview (see the demo app for React components)</p></div>
+      <span class="vbadge">Static</span>
     </div>
-    <button class="toggle" id="themeBtn"><i data-lucide="moon"></i><span>Dark</span></button>
+    <button class="search-btn" id="searchBtn" type="button"><i data-lucide="search"></i><span>Search icons…</span><kbd>/</kbd></button>
+    <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+      <a class="gh-btn" href="https://github.com/arasydafa/omega-os" target="_blank" rel="noreferrer" aria-label="Open GitHub repository"><i data-lucide="github"></i></a>
+      <button class="toggle" id="themeBtn"><i data-lucide="moon"></i><span>Dark</span></button>
+    </span>
   </div>
+  <nav class="mobile-groups" id="mobileGroups" aria-label="Docs groups"></nav>
 </header>
-<div class="wrap">
 
-  <section class="card">
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-eyebrow"><span class="badge b-navy">Docs</span><span class="badge b-grey">Static preview</span><span class="badge b-success">Light + dark</span></div>
+    <h2>Tokens and core patterns without React.</h2>
+    <p>Single-file preview of type, color, surfaces, and interactive patterns. For the full component showcase, open the React demo app.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="browseBtn"><i data-lucide="book-open"></i>Browse foundations</button>
+      <button class="btn btn-secondary" id="iconsBtn"><i data-lucide="search"></i>Search icons</button>
+    </div>
+    <div class="hero-stats"><span><b>90</b> icons</span><span><b>2</b> themes</span><span><b>0</b> emoji</span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidenav" aria-label="Docs sections">
+    <div class="nav-group"><p>Foundations</p><a class="nav-link" href="#typography">Typography</a><a class="nav-link" href="#colors">Colors</a><a class="nav-link" href="#surfaces">Surfaces</a><a class="nav-link" href="#radius">Radius</a></div>
+    <div class="nav-group"><p>Components</p><a class="nav-link" href="#buttons">Buttons</a><a class="nav-link" href="#fields">Fields</a><a class="nav-link" href="#alerts">Alerts</a></div>
+    <div class="nav-group"><p>Navigation</p><a class="nav-link" href="#navbar">Navbar</a><a class="nav-link" href="#sidebar">Sidebar</a></div>
+    <div class="nav-group"><p>Data</p><a class="nav-link" href="#table">Table + pagination</a></div>
+    <div class="nav-group"><p>Overlays</p><a class="nav-link" href="#toasts">Toasts</a><a class="nav-link" href="#modal">Modal vs popup</a></div>
+    <div class="nav-group"><p>Icons</p><a class="nav-link" href="#icons">Icon set</a></div>
+  </aside>
+
+  <main class="content">
+  <section class="card" id="typography">
     <h2><i data-lucide="type"></i>Typography</h2>
     <p class="desc">Plus Jakarta Sans for UI, JetBrains Mono for code.</p>
     <div class="type-row" style="font-size:30px;font-weight:800;letter-spacing:-.02em">Heading 30 / ExtraBold</div>
@@ -151,7 +221,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
     <div class="type-row mono" style="font-size:14px">mono 14 — const theme = "light" | "dark";</div>
   </section>
 
-  <section class="grid2">
+  <div class="grid2" id="colors">
     <div class="card">
       <h2><i data-lucide="palette"></i>Brand colors</h2>
       <p class="desc">Navy = primary. Maroon = danger only.</p>
@@ -172,9 +242,9 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
         <div class="swatch"><div class="c" style="background:var(--ot-danger)"></div><div class="t"><b>Danger maroon</b><span>#7B1E26</span></div></div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="card">
+  <section class="card" id="surfaces">
     <h2><i data-lucide="layers"></i>Surfaces — follow the theme</h2>
     <p class="desc">Toggle Dark in the header. Light: white/grey. Dark: black/dark-grey.</p>
     <div class="swatches">
@@ -187,7 +257,19 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
     </div>
   </section>
 
-  <section class="card">
+  <section class="card" id="radius">
+    <h2><i data-lucide="squircle"></i>Radius</h2>
+    <p class="desc">No sharp corners — each size has one job. Same scale as the React demo.</p>
+    <div class="radius-demo">
+      <span class="rbox" style="border-radius:8px">8 · inputs</span>
+      <span class="rbox" style="border-radius:12px">12 · buttons</span>
+      <span class="rbox" style="border-radius:16px">16 · cards</span>
+      <span class="rbox" style="border-radius:20px">20 · panels</span>
+      <span class="rbox" style="border-radius:9999px">full · pills</span>
+    </div>
+  </section>
+
+  <section class="card" id="buttons">
     <h2><i data-lucide="mouse-pointer-click"></i>Buttons</h2>
     <p class="desc">All rounded 12px, icon required, no emoji.</p>
     <div class="row">
@@ -203,8 +285,8 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
     </div>
   </section>
 
-  <section class="grid2">
-    <div class="card">
+  <div class="grid2">
+    <div class="card" id="fields">
       <h2><i data-lucide="text-cursor-input"></i>Text field, dropdown, radio</h2>
       <p class="desc">Fields are 40px tall, 12px radius, navy focus ring.</p>
       <label class="f-label">Tool name</label>
@@ -223,7 +305,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
       </div>
       <div class="row" style="margin-top:14px"><button class="btn btn-primary btn-sm" id="saveDemo"><i data-lucide="save"></i>Save demo</button></div>
     </div>
-    <div class="card">
+    <div class="card" id="alerts">
       <h2><i data-lucide="siren"></i>Alerts</h2>
       <p class="desc">Info = blue, warning = yellow, success = green, danger = maroon.</p>
       <div style="display:grid;gap:10px">
@@ -233,9 +315,9 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
         <div class="alert a-danger"><i data-lucide="octagon-x"></i><span><b>Error.</b> Build failed: tokens not found.</span></div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="card">
+  <section class="card" id="navbar">
     <h2><i data-lucide="panel-top"></i>Navbar + breadcrumbs</h2>
     <p class="desc">Navbar: 40px logo radius 12 navy, active link navy-bg. Breadcrumb: 13px muted with chevron separators.</p>
     <div style="border:1px solid var(--ot-border);border-radius:12px;background:var(--ot-bg);padding:10px 14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
@@ -248,7 +330,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
     <div class="row" style="font-size:14px">
       <div class="nav-drop">
         <button class="btn btn-secondary btn-sm" id="navToolsBtn"><i data-lucide="wrench"></i>Tools<i data-lucide="chevron-down" style="width:14px;height:14px"></i></button>
-        <div class="nav-menu" id="navToolsMenu">
+        <div class="nav-menu" id="navToolsMenu" style="display:none">
           <div class="mi" data-demo="All tools clicked"><i data-lucide="layout-grid" style="width:14px;height:14px"></i>All tools</div>
           <div class="mi flyout" id="secFly"><i data-lucide="shield" style="width:14px;height:14px"></i>Security<i data-lucide="chevron-right" style="width:14px;height:14px;margin-left:auto"></i>
             <div class="nav-menu" id="secMenu" style="display:none">
@@ -262,8 +344,8 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
     </div>
   </section>
 
-  <section class="grid2">
-    <div class="card">
+  <div class="grid2">
+    <div class="card" id="sidebar">
       <h2><i data-lucide="panel-left"></i>Sidebar</h2>
       <p class="desc">240px wide, items 40px tall radius 12, active navy-bg. Collapse shrinks to 64px icon rail. Submenu expands inline with 13px children.</p>
       <div class="row" style="margin-bottom:10px"><button class="btn btn-secondary btn-sm" id="collapseBtn"><i data-lucide="panel-left"></i>Collapse</button></div>
@@ -280,7 +362,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
         <div class="nav-item" style="color:var(--ot-muted)"><i data-lucide="settings" style="width:16px;height:16px"></i><span class="nav-label">Settings</span></div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="table">
       <h2><i data-lucide="table"></i>Table + pagination (clickable)</h2>
       <p class="desc">Click a row to select it. Action buttons have 12px gaps and 32px hit areas.</p>
       <div style="border:1px solid var(--ot-border);border-radius:16px;overflow:hidden">
@@ -298,10 +380,10 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
       </div>
       <p class="desc" id="pageInfo" style="margin:10px 0 0"></p>
     </div>
-  </section>
+  </div>
 
-  <section class="grid2">
-    <div class="card">
+  <div class="grid2">
+    <div class="card" id="toasts">
       <h2><i data-lucide="bell"></i>Toast notifications</h2>
       <p class="desc">Bottom-right, radius 16, icon + title + close. Click a button to fire a live toast.</p>
       <div class="row">
@@ -311,7 +393,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
         <button class="btn btn-secondary btn-sm" data-toast="danger"><i data-lucide="octagon-x"></i>Error</button>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="modal">
       <h2><i data-lucide="message-square"></i>Modal vs popup</h2>
       <p class="desc">Modal blocks the screen with overlay (radius 16). Popup is a small menu near the trigger (radius 12).</p>
       <div class="row"><button class="btn btn-danger btn-sm" id="openModal"><i data-lucide="trash-2"></i>Open modal</button></div>
@@ -321,15 +403,20 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
         <div style="padding:8px 10px;border-radius:8px;display:flex;gap:8px;align-items:center;color:var(--ot-danger);cursor:pointer"><i data-lucide="trash-2" style="width:14px;height:14px"></i>Delete</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="card">
+  <section class="card" id="icons">
     <h2><i data-lucide="layout-grid"></i>Approved icon set (lucide only)</h2>
-    <p class="desc">Full list lives in <span class="mono">docs/ICONS.md</span>. One icon = one meaning. No emoji.</p>
+    <p class="desc">Full list lives in <span class="mono">docs/ICONS.md</span>. One icon = one meaning. No emoji. Type to filter.</p>
+    <div class="row" style="margin-bottom:12px"><input class="input" id="iconSearch" placeholder="Filter icons… e.g. shield" style="max-width:320px" /></div>
     <div class="icons-grid" id="iconGrid"></div>
   </section>
+  </main>
 
+  <aside class="toc" aria-label="On this page"><p>On this page</p><div id="tocLinks"></div></aside>
 </div>
+
+<footer class="site"><div class="inner"><b style="color:var(--ot-text)">OmegaOS UI</b><span>Static preview — MIT. Tokens + lucide only, no emoji.</span><span style="margin-left:auto;display:flex;gap:12px"><a href="#typography">Foundations</a><a href="https://github.com/arasydafa/omega-os" target="_blank" rel="noreferrer">GitHub</a></span></div></footer>
 
 <div id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgb(0 0 0/.55);z-index:40;align-items:center;justify-content:center;padding:20px">
   <div style="background:var(--ot-surface);border:1px solid var(--ot-border);border-radius:16px;max-width:420px;width:100%;overflow:hidden">
@@ -344,7 +431,7 @@ label.f-label{font-size:13px;font-weight:600;display:block;margin-bottom:6px}
 <script>
 function refreshIcons() {
   try {
-    if (window.lucide) refreshIcons();
+    if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
   } catch (_) {}
 }
 refreshIcons();
@@ -390,6 +477,79 @@ themeBtn.onclick = (e) => {
     refreshIcons();
   });
 };
+// Hero shortcuts
+document.getElementById('browseBtn').onclick = () => {
+  document.getElementById('typography').scrollIntoView({ behavior: 'smooth' });
+};
+function focusIconSearch() {
+  const target = document.getElementById('icons');
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+  const input = document.getElementById('iconSearch');
+  if (input) setTimeout(() => input.focus({ preventScroll: true }), 450);
+}
+document.getElementById('iconsBtn').onclick = focusIconSearch;
+document.getElementById('searchBtn').onclick = focusIconSearch;
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    focusIconSearch();
+  }
+});
+// Docs nav: mobile pills + TOC + scrollspy
+const DOC_SECTIONS = [
+  ['typography', 'Typography'], ['colors', 'Colors'], ['surfaces', 'Surfaces'], ['radius', 'Radius'],
+  ['buttons', 'Buttons'], ['fields', 'Fields'], ['alerts', 'Alerts'],
+  ['navbar', 'Navbar'], ['sidebar', 'Sidebar'], ['table', 'Table'],
+  ['toasts', 'Toasts'], ['modal', 'Modal'], ['icons', 'Icons'],
+];
+const GROUPS = [
+  ['Foundations', ['typography', 'colors', 'surfaces', 'radius']],
+  ['Components', ['buttons', 'fields', 'alerts']],
+  ['Navigation', ['navbar', 'sidebar']],
+  ['Data', ['table']],
+  ['Overlays', ['toasts', 'modal']],
+  ['Icons', ['icons']],
+];
+const labelOf = {};
+DOC_SECTIONS.forEach(([id, label]) => { labelOf[id] = label; });
+const mobileGroups = document.getElementById('mobileGroups');
+GROUPS.forEach(([group, ids]) => {
+  const a = document.createElement('a');
+  a.href = '#' + ids[0];
+  a.textContent = group;
+  a.dataset.group = group;
+  mobileGroups.appendChild(a);
+});
+const tocLinks = document.getElementById('tocLinks');
+DOC_SECTIONS.forEach(([id, label]) => {
+  const a = document.createElement('a');
+  a.href = '#' + id;
+  a.textContent = label;
+  a.dataset.section = id;
+  tocLinks.appendChild(a);
+});
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id;
+    document.querySelectorAll('.sidenav .nav-link').forEach((a) => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+    document.querySelectorAll('#tocLinks a').forEach((a) => {
+      a.classList.toggle('active', a.dataset.section === id);
+    });
+    const group = GROUPS.find(([, ids]) => ids.includes(id));
+    if (group) {
+      document.querySelectorAll('#mobileGroups a').forEach((a) => {
+        a.classList.toggle('active', a.dataset.group === group[0]);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+DOC_SECTIONS.forEach(([id]) => {
+  const el = document.getElementById(id);
+  if (el) spy.observe(el);
+});
 // Collapse menu + submenus (navbar dropdown, sidebar inline)
 const sideDemo = document.getElementById('sideDemo');
 document.getElementById('collapseBtn').onclick = function () {
@@ -486,12 +646,23 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.styl
 // Icon gallery
 const ICONS = ['crown','layout-dashboard','home','folder','layers','terminal','command','globe','book-open','plus','minus','x','check','pencil','trash-2','copy','download','upload','save','search','filter','settings','more-horizontal','external-link','arrow-right','arrow-left','chevron-down','chevron-up','chevron-left','chevron-right','refresh-cw','rotate-ccw','play','eye','eye-off','user','users','user-plus','mail','lock','key','fingerprint','tag','calendar','clock','history','info','triangle-alert','octagon-x','shield','shield-check','shield-alert','circle-check','loader-2','bell','ban','log-out','power','sun','moon','file','file-text','files','code','image','link','bookmark','github','git-branch','monitor','cpu','activity','database','server','cloud','wifi','siren','wrench','hammer','package','rocket','send','inbox','archive','star','pin','share-2','sliders-horizontal','list','squircle','table','panel-top','panel-left'];
 const grid = document.getElementById('iconGrid');
-ICONS.forEach(n => {
-  const d = document.createElement('div');
-  d.className = 'icon-cell';
-  d.innerHTML = '<i data-lucide="' + n + '"></i><code>' + n + '</code>';
-  grid.appendChild(d);
-});
+const iconSearch = document.getElementById('iconSearch');
+function renderIcons(filter) {
+  const q = (filter || '').trim().toLowerCase();
+  grid.innerHTML = '';
+  ICONS.filter(n => !q || n.includes(q)).forEach(n => {
+    const d = document.createElement('div');
+    d.className = 'icon-cell';
+    d.innerHTML = '<i data-lucide="' + n + '"></i><code>' + n + '</code>';
+    grid.appendChild(d);
+  });
+  if (!grid.children.length) {
+    grid.innerHTML = '<p class="desc" style="margin:0">No icons match "' + filter + '".</p>';
+  }
+  refreshIcons();
+}
+iconSearch.addEventListener('input', (e) => renderIcons(e.target.value));
+renderIcons('');
 refreshIcons();
 </script>
 </body>

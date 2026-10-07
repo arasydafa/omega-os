@@ -5,6 +5,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Demo app is now a full docs shell: sticky header with `Ctrl+K` search,
+  collapsible section sidebar with scrollspy, `On this page` TOC, hero +
+  footer, and mobile drawer — same live examples, grouped by anchors.
+- Static `preview.html` uses the same docs layout (hero, section sidebar,
+  TOC, scrollspy, icon filter, radius section) and fixes icon rendering via
+  `lucide.createIcons()`.
+
 ## [1.1.0] — LogViewer success, Modal sizes, TimingBar
 
 ### Added
