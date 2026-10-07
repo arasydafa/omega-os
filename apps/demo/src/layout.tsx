@@ -93,24 +93,158 @@ export function DocsLayout() {
     [path],
   );
 
-  const navComponents: SidebarItemDef[] = useMemo(
+  const navFoundations: SidebarItemDef[] = useMemo(
     () => [
-      { id: 'all', label: 'All components', active: path === '/components', onClick: () => go('/components') },
-      { id: 'button', label: 'Button', active: path === '/components/button', onClick: () => go('/components/button') },
-      { id: 'table', label: 'Table', active: path === '/components/table', onClick: () => go('/components/table') },
-      { id: 'modal', label: 'Modal', active: path === '/components/modal', onClick: () => go('/components/modal') },
+      { id: 'typography', label: 'Typography', active: path === '/foundations/typography', onClick: () => go('/foundations/typography') },
+      { id: 'colors', label: 'Colors', active: path === '/foundations/colors', onClick: () => go('/foundations/colors') },
+      { id: 'radius', label: 'Radius', active: path === '/foundations/radius', onClick: () => go('/foundations/radius') },
+      { id: 'icons', label: 'Icons', active: path === '/foundations/icons', onClick: () => go('/foundations/icons') },
     ],
     [path],
   );
 
+  const navActions: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'all', label: 'All components', active: path === '/components', onClick: () => go('/components') },
+      { id: 'button', label: 'Button', active: path === '/components/button', onClick: () => go('/components/button') },
+      { id: 'badge', label: 'Badge', active: path === '/components/badge', onClick: () => go('/components/badge') },
+      { id: 'copy-button', label: 'CopyButton', active: path === '/components/copy-button', onClick: () => go('/components/copy-button') },
+    ],
+    [path],
+  );
+
+  const navData: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'table', label: 'Table', active: path === '/components/table', onClick: () => go('/components/table') },
+      { id: 'pagination', label: 'Pagination', active: path === '/components/pagination', onClick: () => go('/components/pagination') },
+      { id: 'empty-state', label: 'EmptyState', active: path === '/components/empty-state', onClick: () => go('/components/empty-state') },
+      { id: 'skeleton', label: 'Skeleton', active: path === '/components/skeleton', onClick: () => go('/components/skeleton') },
+    ],
+    [path],
+  );
+
+  const navOverlays: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'modal', label: 'Modal', active: path === '/components/modal', onClick: () => go('/components/modal') },
+      { id: 'toast', label: 'Toast', active: path === '/components/toast', onClick: () => go('/components/toast') },
+      { id: 'dropdown', label: 'Dropdown', active: path === '/components/dropdown', onClick: () => go('/components/dropdown') },
+      { id: 'tooltip', label: 'Tooltip', active: path === '/components/tooltip', onClick: () => go('/components/tooltip') },
+      { id: 'drawer', label: 'Drawer', active: path === '/components/drawer', onClick: () => go('/components/drawer') },
+      { id: 'command-palette', label: 'CommandPalette', active: path === '/components/command-palette', onClick: () => go('/components/command-palette') },
+    ],
+    [path],
+  );
+
+  const navForms: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'input', label: 'Input', active: path === '/components/input', onClick: () => go('/components/input') },
+      { id: 'select', label: 'Select', active: path === '/components/select', onClick: () => go('/components/select') },
+      { id: 'textarea', label: 'Textarea', active: path === '/components/textarea', onClick: () => go('/components/textarea') },
+      { id: 'checkbox', label: 'Checkbox', active: path === '/components/checkbox', onClick: () => go('/components/checkbox') },
+      { id: 'radio', label: 'Radio', active: path === '/components/radio', onClick: () => go('/components/radio') },
+      { id: 'switch', label: 'Switch', active: path === '/components/switch', onClick: () => go('/components/switch') },
+      { id: 'combobox', label: 'Combobox', active: path === '/components/combobox', onClick: () => go('/components/combobox') },
+      { id: 'slider', label: 'Slider', active: path === '/components/slider', onClick: () => go('/components/slider') },
+      { id: 'date-picker', label: 'DatePicker', active: path === '/components/date-picker', onClick: () => go('/components/date-picker') },
+      { id: 'file-upload', label: 'FileUpload', active: path === '/components/file-upload', onClick: () => go('/components/file-upload') },
+    ],
+    [path],
+  );
+
+  const navNavigation: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'navbar', label: 'Navbar', active: path === '/components/navbar', onClick: () => go('/components/navbar') },
+      { id: 'sidebar', label: 'Sidebar', active: path === '/components/sidebar', onClick: () => go('/components/sidebar') },
+      { id: 'breadcrumbs', label: 'Breadcrumbs', active: path === '/components/breadcrumbs', onClick: () => go('/components/breadcrumbs') },
+      { id: 'tabs', label: 'Tabs', active: path === '/components/tabs', onClick: () => go('/components/tabs') },
+      { id: 'search-bar', label: 'SearchBar', active: path === '/components/search-bar', onClick: () => go('/components/search-bar') },
+      { id: 'submenu-bar', label: 'SubmenuBar', active: path === '/components/submenu-bar', onClick: () => go('/components/submenu-bar') },
+      { id: 'stepper', label: 'Stepper', active: path === '/components/stepper', onClick: () => go('/components/stepper') },
+    ],
+    [path],
+  );
+
+  const navContent: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'card', label: 'Card', active: path === '/components/card', onClick: () => go('/components/card') },
+      { id: 'accordion', label: 'Accordion', active: path === '/components/accordion', onClick: () => go('/components/accordion') },
+      { id: 'alert', label: 'Alert', active: path === '/components/alert', onClick: () => go('/components/alert') },
+      { id: 'kbd', label: 'Kbd', active: path === '/components/kbd', onClick: () => go('/components/kbd') },
+      { id: 'carousel', label: 'Carousel', active: path === '/components/carousel', onClick: () => go('/components/carousel') },
+      { id: 'timeline', label: 'Timeline', active: path === '/components/timeline', onClick: () => go('/components/timeline') },
+      { id: 'tree-view', label: 'TreeView', active: path === '/components/tree-view', onClick: () => go('/components/tree-view') },
+      { id: 'markdown', label: 'Markdown', active: path === '/components/markdown', onClick: () => go('/components/markdown') },
+      { id: 'log-viewer', label: 'LogViewer', active: path === '/components/log-viewer', onClick: () => go('/components/log-viewer') },
+    ],
+    [path],
+  );
+
+  const navViewers: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'file-viewer', label: 'FileViewer', active: path === '/components/file-viewer', onClick: () => go('/components/file-viewer') },
+      { id: 'code-block', label: 'CodeBlock', active: path === '/components/code-block', onClick: () => go('/components/code-block') },
+      { id: 'image', label: 'Image', active: path === '/components/image', onClick: () => go('/components/image') },
+      { id: 'avatar', label: 'Avatar', active: path === '/components/avatar', onClick: () => go('/components/avatar') },
+      { id: 'avatar-group', label: 'AvatarGroup', active: path === '/components/avatar-group', onClick: () => go('/components/avatar-group') },
+    ],
+    [path],
+  );
+
+  const navCharts: SidebarItemDef[] = useMemo(
+    () => [
+      { id: 'bar', label: 'Bar', active: path === '/components/charts/bar', onClick: () => go('/components/charts/bar') },
+      { id: 'line', label: 'Line', active: path === '/components/charts/line', onClick: () => go('/components/charts/line') },
+      { id: 'pie', label: 'Pie', active: path === '/components/charts/pie', onClick: () => go('/components/charts/pie') },
+      { id: 'scatter', label: 'Scatter', active: path === '/components/charts/scatter', onClick: () => go('/components/charts/scatter') },
+      { id: 'heatmap', label: 'Heatmap', active: path === '/components/heatmap', onClick: () => go('/components/heatmap') },
+      { id: 'treemap', label: 'Treemap', active: path === '/components/charts/treemap', onClick: () => go('/components/charts/treemap') },
+      { id: 'wordcloud', label: 'WordCloud', active: path === '/components/charts/wordcloud', onClick: () => go('/components/charts/wordcloud') },
+      { id: 'graph-viewer', label: 'GraphViewer', active: path === '/components/graph-viewer', onClick: () => go('/components/graph-viewer') },
+      { id: 'progress', label: 'Progress', active: path === '/components/progress', onClick: () => go('/components/progress') },
+      { id: 'timing-bar', label: 'TimingBar', active: path === '/components/timing-bar', onClick: () => go('/components/timing-bar') },
+      { id: 'spinner', label: 'Spinner', active: path === '/components/spinner', onClick: () => go('/components/spinner') },
+    ],
+    [path],
+  );
+
+  const navGroups: Array<{ label: string; items: SidebarItemDef[] }> = useMemo(
+    () => [
+      { label: 'Start', items: navStart },
+      { label: 'Foundations', items: navFoundations },
+      { label: 'Actions', items: navActions },
+      { label: 'Data', items: navData },
+      { label: 'Overlays', items: navOverlays },
+      { label: 'Forms', items: navForms },
+      { label: 'Navigation', items: navNavigation },
+      { label: 'Content', items: navContent },
+      { label: 'Viewers', items: navViewers },
+      { label: 'Charts', items: navCharts },
+    ],
+    [navStart, navFoundations, navActions, navData, navOverlays, navForms, navNavigation, navContent, navViewers, navCharts],
+  );
+
   const paletteItems = useMemo(
     () => [
-      { id: 'home', label: 'Home', group: 'Pages', keywords: 'home landing start', onSelect: () => go('/') },
+      { id: 'home', label: 'Home', group: 'Pages', keywords: 'home start', onSelect: () => go('/') },
       { id: 'components', label: 'All components', group: 'Pages', keywords: 'components index directory', onSelect: () => go('/components') },
-      { id: 'button', label: 'Button', group: 'Components', keywords: 'button primary danger loading', onSelect: () => go('/components/button') },
-      { id: 'table', label: 'Table', group: 'Components', keywords: 'table sort filter pagination data', onSelect: () => go('/components/table') },
-      { id: 'modal', label: 'Modal', group: 'Components', keywords: 'modal dialog confirm overlay', onSelect: () => go('/components/modal') },
       { id: 'showcase', label: 'Showcase', group: 'Pages', keywords: 'showcase all examples anchors', onSelect: () => go('/showcase') },
+      ...navGroups.flatMap((g) =>
+        g.items
+          .filter((item) => item.id !== 'home' && item.id !== 'showcase' && item.id !== 'all')
+          .map((item) => ({
+            id: `page-${item.id}`,
+            label: String(item.label),
+            group: g.label,
+            keywords: `${String(item.label)} ${g.label}`,
+            onSelect: () => go(
+              g.label === 'Foundations'
+                ? `/foundations/${item.id}`
+                : item.id === 'bar' || item.id === 'line' || item.id === 'pie' || item.id === 'scatter' || item.id === 'treemap' || item.id === 'wordcloud'
+                  ? `/components/charts/${item.id}`
+                  : `/components/${item.id}`,
+            ),
+          })),
+      ),
     ],
     [],
   );
@@ -212,10 +346,14 @@ export function DocsLayout() {
               >
                 {docsCollapsed ? 'Expand nav' : 'Collapse nav'}
               </Button>
-              <p className="px-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Start</p>
-              <Sidebar collapsed={docsCollapsed} items={navStart} label="Start pages" />
-              <p className="px-1 pt-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Components</p>
-              <Sidebar collapsed={docsCollapsed} items={navComponents} label="Component pages" />
+              {navGroups.map((group) => (
+                <div key={group.label} className="grid content-start gap-1.5">
+                  <p className="px-1 pt-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">
+                    {group.label}
+                  </p>
+                  <Sidebar collapsed={docsCollapsed} items={group.items} label={`${group.label} pages`} />
+                </div>
+              ))}
             </div>
           </aside>
 
@@ -265,10 +403,16 @@ export function DocsLayout() {
                   Close
                 </Button>
               </div>
-              <p className="px-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Start</p>
-              <Sidebar items={navStart} label="Start pages" />
-              <p className="px-1 pt-2 text-[11px] font-bold uppercase tracking-wide text-ot-muted">Components</p>
-              <Sidebar items={navComponents} label="Component pages" />
+              <div className="grid content-start gap-3">
+                {navGroups.map((group) => (
+                  <div key={group.label} className="grid content-start gap-1.5">
+                    <p className="px-1 text-[11px] font-bold uppercase tracking-wide text-ot-muted">
+                      {group.label}
+                    </p>
+                    <Sidebar items={group.items} label={`${group.label} pages`} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ) : null}

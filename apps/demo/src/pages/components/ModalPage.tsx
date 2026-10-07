@@ -107,8 +107,8 @@ const [open, setOpen] = useState(false);
         'Modal blocks with an overlay (radius 16); popups near a trigger are Dropdown (radius 12).',
         'Focus trap + ESC + overlay click follow the same contract as Drawer.',
       ]}
-      prev={{ to: '/components/table', label: 'Table' }}
-      next={{ to: '/showcase', label: 'Showcase' }}
+      prev={{ to: '/components/markdown', label: 'Markdown' }}
+      next={{ to: '/components/navbar', label: 'Navbar' }}
     />
   );
 }

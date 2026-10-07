@@ -7,10 +7,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Demo docs pilot: `HashRouter` multi-page docs (`/` Home, `/components`
-  index, `/components/button`, `/components/table`, `/components/modal`,
-  `/showcase` full examples, 404) with route sidebar, `Ctrl+K` page search,
+- Demo docs: `HashRouter` multi-page docs (`/` Home, `/components`
+  index, `/foundations/*`, `/components/*` per component, `/showcase`
+  full examples, 404) with grouped left sidebar, `Ctrl+K` page search,
   breadcrumbs, and per-page Preview/Usage/Variants/API/Rules + Prev/Next.
+  Every library component now has its own page.
 - Demo and static preview copy use neutral sample names with plain
   punctuation (no project names, no em dashes).
 

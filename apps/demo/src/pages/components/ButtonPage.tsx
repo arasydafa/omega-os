@@ -117,8 +117,8 @@ import { Plus } from 'lucide-react';
         'One primary per view; secondary actions use secondary, solid, or ghost.',
         'Rounded 12px (sm uses 8px); never rounded-none.',
       ]}
-      prev={{ to: '/components', label: 'Components' }}
-      next={{ to: '/components/table', label: 'Table' }}
+      prev={{ to: '/components/badge', label: 'Badge' }}
+      next={{ to: '/components/card', label: 'Card' }}
     />
   );
 }

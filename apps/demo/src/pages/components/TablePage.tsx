@@ -68,8 +68,8 @@ export function TablePage() {
         'Row actions are 32px icon buttons with 12px gaps; destructive uses danger hover.',
         'Large sets always pair Table with Pagination and a row-count note.',
       ]}
-      prev={{ to: '/components/button', label: 'Button' }}
-      next={{ to: '/components/modal', label: 'Modal' }}
+      prev={{ to: '/components/submenu-bar', label: 'SubmenuBar' }}
+      next={{ to: '/components/tabs', label: 'Tabs' }}
     />
   );
 }
