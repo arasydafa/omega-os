@@ -5,6 +5,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.1.1] - latin font subset, full docs site
+
 ### Added
 
 - Demo home is now a marketing landing with hero, stats, features,
