@@ -31,7 +31,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Preview drift check (`npm run check:preview`, wired into CI) keeps the
   static preview icon set and section anchors in sync with the library.
 - Demo left nav is now one bordered panel with the scroll inside, so the
-  border never hides behind a scrollbar.
+  border never hides behind a scrollbar. Groups split with dividers.
 
 ### Changed
 
